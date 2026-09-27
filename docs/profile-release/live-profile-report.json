@@ -1,0 +1,43 @@
+{
+  "startedAt": "2026-09-27T05:12:21.545Z",
+  "targets": [
+    {
+      "name": "AYD",
+      "url": "https://wvupsqfevlrmhqfjreyx.supabase.co/functions/v1/hisaab-game"
+    },
+    {
+      "name": "JHK",
+      "url": "https://wvupsqfevlrmhqfjreyx.supabase.co/functions/v1/jhk-game"
+    }
+  ],
+  "checks": [
+    "mandatory email, age attestation and terms on both games",
+    "duplicate unverified email creates isolated private profiles",
+    "wrong and cross-game recovery codes never identify an account",
+    "recovery rotates bearer, code rotation invalidates old code",
+    "five-round private duels and public projections hide email"
+  ],
+  "cleanup": [
+    {
+      "game": "AYD",
+      "deleted": true,
+      "recoveryRevoked": true
+    },
+    {
+      "game": "AYD",
+      "deleted": true,
+      "recoveryRevoked": true
+    },
+    {
+      "game": "JHK",
+      "deleted": true,
+      "recoveryRevoked": true
+    },
+    {
+      "game": "JHK",
+      "deleted": true,
+      "recoveryRevoked": true
+    }
+  ],
+  "finishedAt": "2026-09-27T05:14:14.292Z"
+}

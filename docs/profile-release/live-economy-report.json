@@ -1,0 +1,89 @@
+{
+  "startedAt": "2026-09-27T05:13:08.624Z",
+  "target": "https://wvupsqfevlrmhqfjreyx.supabase.co/functions/v1/hisaab-game",
+  "mode": "live-two-profile-http",
+  "checks": [
+    {
+      "name": "two independent profile credentials and starter balances",
+      "ok": true,
+      "ms": 6471,
+      "evidence": {
+        "clients": 2,
+        "balanceEach": 100
+      }
+    },
+    {
+      "name": "explicit stake confirmation, duplicate ready and pre-start refund",
+      "ok": true,
+      "ms": 5360,
+      "evidence": {
+        "reservedOnce": 20,
+        "refunded": 20
+      }
+    },
+    {
+      "name": "post-ready forfeit pays the pot exactly once and can leave a zero balance",
+      "ok": true,
+      "ms": 13304,
+      "evidence": {
+        "host": 0,
+        "guest": 200,
+        "reward": 0
+      }
+    },
+    {
+      "name": "zero-balance profile completes a zero-stake five-round human duel",
+      "ok": true,
+      "ms": 54983,
+      "evidence": {
+        "rounds": 5,
+        "stake": 0,
+        "completionRewardEach": 10,
+        "privateReceiptSealed": true,
+        "concurrentReadyAndAnswers": true,
+        "duplicateAnswerIdempotent": true
+      }
+    },
+    {
+      "name": "staked x10 media duel settles pot separately from completion rewards",
+      "ok": true,
+      "ms": 42367,
+      "evidence": {
+        "stakeEach": 5,
+        "pot": 10,
+        "completionRewardEach": 100,
+        "balancesBefore": [
+          10,
+          210
+        ],
+        "balancesAfter": [
+          115,
+          305
+        ],
+        "conservedStakeSum": true,
+        "concurrentReadyAndAnswers": true,
+        "duplicateSettlementIdempotent": true
+      }
+    },
+    {
+      "name": "private QA games excluded from daily competitive standings",
+      "ok": true,
+      "ms": 1056,
+      "evidence": {
+        "privateMatchesOnly": true
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "deleted": true
+    },
+    {
+      "deleted": true
+    }
+  ],
+  "limitations": [
+    "Private QA rooms; not a load test or latency-neutrality proof."
+  ],
+  "finishedAt": "2026-09-27T05:15:13.288Z"
+}

@@ -19,7 +19,21 @@ Both expiry cron jobs remain active every minute and their latest inspected runs
 
 ## Publication checks
 
-Live profile/economy checks and public browser review are in progress during candidate publication. Their results will be appended after deployment; a successful build is not treated as live browser evidence. Each public `release.json` identifies its deployed commit.
+Both candidate releases completed GitHub Actions build and deployment successfully. The public HTTPS `release.json` matched these source revisions with `adsEnabled: false`:
+
+| Game | Verified implementation revision | Successful release run |
+| --- | --- | --- |
+| AYD | `274c53771ad574f8efa9582fc7eab85daae83dc2` | [36296603774](https://github.com/occult-kranti/andhbhakt-ya-deshbhakt/actions/runs/36296603774) |
+| JHK | `4beca042389daf42d71cc3586c800091cf071028` | [36296602511](https://github.com/occult-kranti/fact-duel/actions/runs/36296602511) |
+
+A subsequent documentation-only commit records these results; the published manifest identifies the current artifact independently.
+
+- Cross-game live profile suite: **5/5 passed**. Both private five-round matches finished, all four QA profiles were deactivated and all four recovery codes revoked. Required fields, duplicate-email isolation, cross-game refusal, bearer/code rotation, private export and public-field projections passed.
+- AYD live economy suite: **6/6 passed**, including a zero-balance player completing a zero-stake five-round match; positive stakes, ×10 media completion reward separate from the pot, duplicate-ready, cancellation refund and post-ready forfeit. Both QA profiles were deactivated.
+- JHK live suite: **17 checks passed**, including a five-round positive-stake match, concurrent answer retries/XP exactly once, one pot/reward settlement, zero-stake entry, cancellation refund and post-start forfeit. Cleanup of its three QA profiles completed without errors.
+- Both public profile screens rendered in the cloud browser at the available desktop viewport. JHK rejected empty email, focused the email field, expanded personalization, wrapped keyboard focus within the gate and exposed the recovery screen. AYD rejected an incomplete form, gated the direct duel route and gated practice from the public homepage. Public browsing of the homepage remains available; it does not start a game.
+- Both games’ public privacy, terms and contact pages returned HTTP 200 with the new dated policy content.
+- Browser checks did not create an account or accept terms. Complete account/recovery/game behavior is backed by live HTTP and source integration evidence, not represented as a full browser account journey. Mobile device, two-real-phone and broader network matrices remain owner pilot work.
 
 The local browser could not reach the preview (`ERR_BLOCKED_BY_CLIENT`), and no local Chromium executable is installed. The updated browser smoke script has been syntax-checked but not represented as executed.
 
