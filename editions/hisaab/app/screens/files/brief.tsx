@@ -62,6 +62,7 @@ export function FileBrief({
 }: FileBriefProps) {
   const { t } = useLang();
   const headId = useId();
+  const duelFile = route.kind === 'media' ? 'media' : route.kind === 'pre-election' ? 'pre-election' : route.kind === 'distribution' ? 'subsidies' : 'all';
   if (!loaded) return <Skeleton lines={5} label={t('Opening the file', 'फ़ाइल खुल रही है')} className={cx('h-brief', className)} />;
   const state = status.state === 'cleared' ? 'cleared' : status.state === 'progress' ? 'open' : 'sealed';
   const words = !status.running && status.state === 'sealed' && openLabel ? openLabel : openWords(status, t);
@@ -113,8 +114,12 @@ export function FileBrief({
           ))}
         </dl>
       ) : null}
-      <Button variant="primary" block href={href.route(route.id)}>
-        {words}
+      <Button variant="primary" block href={href.online('play', { file: duelFile })}>
+        {duelFile === 'all' ? t('Find a human duel', 'इंसानी मुक़ाबला ढूँढ़ो') : t('Duel this topic', 'इस विषय पर मुक़ाबला')}
+      </Button>
+      <p className="h-meta">{t('Human duel, optional stake. Or learn solo below.', 'इंसानी मुक़ाबला, वैकल्पिक सिक्के। या नीचे अकेले सीखें।')}</p>
+      <Button variant="paper" block href={href.route(route.id)}>
+        {t('Solo learning · ', 'अकेले सीखें · ')}{words}
       </Button>
       {children}
     </section>

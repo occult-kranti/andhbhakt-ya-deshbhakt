@@ -30,6 +30,10 @@ import { certificateName, labelDisplay, monthLabel, statusWithAsOf, type BankIte
 import { absoluteUrl, href } from '../router';
 import { CERT_FOOTER, CERT_SITE } from '../ui/certificate';
 import { otherSideLine, renderCertificateCard, renderReceiptCard } from './card';
+import { activeCompetitionTitle } from '../../engine/labels.mjs';
+import { online } from '../../online/runtime';
+import type { TitleGrant } from '../../online/types';
+import { honourLine } from './certificate-art.mjs';
 
 export type ShareMethod = 'share' | 'clipboard' | 'download' | 'none';
 export type ShareOutcome = Readonly<{
@@ -208,45 +212,63 @@ export type CertificateShareInput = {
   receipts: number | null;
   /** Null when the promotion date is not on record (the stamp says ISSUED, no date). */
   issuedOn: Date | number | null;
+  portrait?: string | null;
+  competitionTitle?: TitleGrant | null;
   /** Unused since the card is drawn from data (kept for callers written against the stub). */
   node?: HTMLElement | null;
 };
 
 /** The certificate's text twin (and the caption of the PNG). */
 export function certificateShareText(input: CertificateShareInput): string {
-  const label = labelDisplay(input.band);
+  const honour = activeCompetitionTitle(input.competitionTitle, online.now());
+  const rung = labelDisplay(input.band);
+  const label = honour ? { ...rung, en: honour.label, line: 'Receipts out. Tears in.' } : rung;
   return [
     input.receipts === null
       ? `${certificateName(input.name)} has been officially labelled ${label.en.toUpperCase()}.`
       : `${certificateName(input.name)} has been officially labelled ${label.en.toUpperCase()} after ${input.receipts} sourced ${input.receipts === 1 ? 'receipt' : 'receipts'}.`,
     `"${label.line}"`,
+    ...(honour ? [honourLine(honour)] : []),
     `${url(href.home())}`,
     CERT_FOOTER,
   ].join('\n');
 }
 
 /** The certificate PNG (1080 × 1350, always the light theme), for a preview or a download. */
-export function certificateBlob(input: CertificateShareInput): Promise<Blob> {
-  return renderCertificateCard({
+export async function certificateBlob(input: CertificateShareInput): Promise<Blob> {
+  // A cached top-ten grant may have been displaced. Re-check at the moment of export.
+  let grant = null;
+  if (input.competitionTitle) {
+    const identity = online.session?.id;
+    const current = await online.request('profile');
+    grant = current.session?.title ?? null;
+    if (!identity || identity !== online.session?.id || !activeCompetitionTitle(grant, online.now())) throw new Error('This honour is no longer active. Choose your earned label.');
+    input.competitionTitle = grant;
+  }
+  const blob = await renderCertificateCard({
     name: input.name,
     band: input.band,
     receipts: input.receipts,
     issuedOn: input.issuedOn,
     site: CERT_SITE,
     footer: CERT_FOOTER,
+    portrait: input.portrait,
+    competitionTitle: grant,
   });
+  if (grant && !activeCompetitionTitle(grant, online.now())) throw new Error('This honour expired while the image was being prepared. Choose your earned label.');
+  return blob;
 }
 
 /** Share the certificate: the PNG with its text twin (download + copy where files can't be shared). */
 export async function shareCertificate(input: CertificateShareInput): Promise<ShareOutcome> {
-  const text = certificateShareText(input);
-  if (!canDraw()) return shareText(text);
+  if (!canDraw()) return input.competitionTitle ? { ok: false, method: 'none', reason: 'unsupported' } : shareText(certificateShareText(input));
   let blob: Blob;
   try {
     blob = await certificateBlob(input);
   } catch {
-    return shareText(text);
+    return input.competitionTitle ? { ok: false, method: 'none', reason: 'failed' } : shareText(certificateShareText(input));
   }
+  const text = certificateShareText(input);
   const slug = labelDisplay(input.band)
     .en.toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')

@@ -107,7 +107,6 @@ export function ModeView({ tag }: { tag: MoneyTag }) {
         <>
           <p className="h-money__tally">
             <span className="h-mono">{routes.length}</span> {routes.length === 1 ? t('file', 'फ़ाइल') : t('files', 'फ़ाइलें')} ·{' '}
-            <span className="h-mono">{formatNumber(pool)}</span> {t('cards on file', 'कार्ड')} ·{' '}
             <span className="h-mono">
               {g.cleared}/{g.total}
             </span>{' '}
@@ -179,7 +178,7 @@ function LeadBrief({
   const poll = tag === 'pre-election' ? pollSummary(route) : null;
   const sectors = route.topics.map((s) => (isHi && SECTOR_NAMES_HI[s] ? SECTOR_NAMES_HI[s] : s));
   const facts: { k: string; v: ReactNode }[] = [
-    { k: t('Cards', 'कार्ड'), v: `${CARDS} ${t('cards', 'कार्ड')} · ${formatNumber(route.poolSize)} ${t('on file', 'फ़ाइल में')}` },
+    { k: t('Cards', 'कार्ड'), v: `${CARDS} ${t('cards', 'कार्ड')}` },
     { k: t('Sectors', 'सेक्टर'), v: <span lang={isHi ? 'hi' : undefined}>{sectors.join(' · ')}</span> },
   ];
   if (status.best) facts.push({ k: t('Best', 'सर्वश्रेष्ठ'), v: <span className="h-mono">{bestText(status.best).replace(/^Best /, '')}</span> });
@@ -242,7 +241,7 @@ function FileGroup({
                 fno={fileNo(r)}
                 titleHi={scopeTitleHi(r)}
                 title={r.scope === 'all' ? t('All years', 'सभी साल') : scopeTitle(r)}
-                meta={`${CARDS} ${t('cards', 'कार्ड')} · ${formatNumber(r.poolSize)} ${t('on file', 'फ़ाइल में')}${s.best ? ` · ${bestText(s.best)}` : ''}`}
+                meta={`${CARDS} ${t('cards', 'कार्ड')}${s.best ? ` · ${bestText(s.best)}` : ''}`}
                 state={state}
                 seed={r.id}
                 href={href.route(r.id)}

@@ -62,3 +62,26 @@ test('abort signals stop poll requests; denied storage still permits current-tab
  await client.connect('Rani');assert.equal(client.session.id,session.id);assert.equal(client.rememberedRoom(),null);client.rememberRoom('room');
  const controller=new AbortController();controller.abort();await assert.rejects(client.request('snapshot',{roomId:'room'},{signal:controller.signal}),e=>e.code==='CANCELLED');
 });
+test('session subscriptions expose stable immutable snapshots and trusted XP only',async()=>{
+ const storage=memory();let emitted=0;let reply={ok:true,serverNow:1,session:{...session,balance:100,savings:100},token};
+ const client=createOnlineClient({url:'https://server.example/game',storage,fetcher:async()=>response(reply)});
+ const stop=client.subscribe(()=>emitted++);
+ await client.connect('Rani');const first=client.session;
+ assert.equal(client.session,first);assert.equal(emitted,1);
+ reply={ok:true,serverNow:2,match:{economy:{balance:60,reserved:40,savings:100},receipt:{xp:9999}}};
+ await client.request('snapshot',{roomId:'room'});assert.notEqual(client.session,first);assert.equal(first.balance,100);assert.equal(client.session.onlineXp,90);assert.equal(client.session.savings,100);assert.equal(emitted,2);
+ const second=client.session;await client.request('snapshot',{roomId:'room'});assert.equal(client.session,second);assert.equal(emitted,2);
+ assert.equal(JSON.parse(storage.getItem(STORAGE.serverSession)).session.onlineXp,90);
+ reply={ok:true,serverNow:3,session:{...session,onlineXp:120,balance:60,savings:100}};
+ await client.request('profile');assert.equal(client.session.onlineXp,120);assert.equal(JSON.parse(storage.getItem(STORAGE.serverSession)).session.onlineXp,120);assert.equal(emitted,3);
+ client.forget();assert.equal(client.session,null);assert.equal(emitted,4);stop();client.forget();assert.equal(emitted,4);
+});
+test('late old-identity profile cannot overwrite a new guest or resurrect forgotten credentials',async()=>{
+ const storage=memory();storage.setItem(STORAGE.serverSession,JSON.stringify({token,session}));let finishOld;
+ const newer={id:'player-two',nickname:'New guest',expiresAt:session.expiresAt,onlineXp:0,balance:100,savings:100};
+ const client=createOnlineClient({url:'https://server.example/game',storage,fetcher:async(_,opts)=>JSON.parse(opts.body).action==='profile'?new Promise(resolve=>{finishOld=resolve;}):response({ok:true,serverNow:2,session:newer,token:'b'.repeat(64)})});
+ const old=client.request('profile');client.forget();await client.connect('New guest');
+ finishOld(response({ok:true,serverNow:1,session:{...session,onlineXp:9999,title:{name:'stale'}}}));
+ await assert.rejects(old,{code:'SESSION_CHANGED'});assert.equal(client.session.id,newer.id);assert.equal(client.session.onlineXp,0);assert.equal(client.session.title,undefined);
+ assert.equal(JSON.parse(storage.getItem(STORAGE.serverSession)).session.id,newer.id);
+});

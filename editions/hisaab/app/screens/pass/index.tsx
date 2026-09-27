@@ -454,7 +454,7 @@ function PassReveal({ game, view, onNext }: { game: PassState; view: View; onNex
                       kind={a?.correct ? 'pass' : 'fail'}
                       seed={`${round.question.id}-${i}`}
                       size="s"
-                      text={a?.correct ? 'SAHI' : 'GALAT'}
+                      text={a?.correct ? 'WAAH WAAH' : 'GALAT'}
                       animate
                     />
                   </span>

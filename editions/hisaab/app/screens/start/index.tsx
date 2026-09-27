@@ -24,7 +24,7 @@ import { cx } from '../../ui/cx';
 import { useLang } from '../../ui/lang';
 import { Page } from '../../ui/page';
 import { Masthead } from '../../ui/masthead';
-import { dailyStatus, receiptStats } from '../home/home-data';
+import { receiptStats } from '../home/home-data';
 import { usePressCue } from '../home/press-cue';
 import { isFreshProfile, markStartShown } from './first-run';
 import { LabelCard } from './label-card';
@@ -40,22 +40,11 @@ export default function StartScreen(_props: ScreenProps) {
   const started = player.loaded && !isFreshProfile(profile);
   const receipts = useMemo(() => receiptStats(profile.journal).count, [profile.journal]);
   const daily = useMemo(() => todaysFive(), []);
-  const today = useMemo(
-    () => dailyStatus(profile.journal, daily.day, daily.cards.length),
-    [profile.journal, daily],
-  );
+
   const xp = player.progression?.xp ?? 0;
   const year = new Date().getFullYear();
 
-  const primary = !today.done
-    ? {
-        to: href.aaj(),
-        label:
-          today.answered > 0
-            ? t("Continue today's file", 'आज की फ़ाइल जारी रखो')
-            : t("Open today's file", 'आज की फ़ाइल खोलो'),
-      }
-    : { to: href.home(), label: t('Go to your desk', 'अपनी डेस्क पर चलो') };
+  const primary = { to: href.online(), label: t('Find a duel', 'मुक़ाबला ढूँढ़ो') };
 
   const lines = [
     t('Every answer comes with a receipt.', 'हर जवाब के साथ रसीद।'),
@@ -127,14 +116,14 @@ export default function StartScreen(_props: ScreenProps) {
             <LabelCard xp={xp} intro headingId="h-start-action" />
           ) : (
             <div className="h-start__pitch">
-              <p className="h-kicker">{t('START WITH TODAY’S EDITION', 'आज की फ़ाइल से शुरू करो')}</p>
+              <p className="h-kicker">{t('HUMAN VS HUMAN', 'इंसान बनाम इंसान')}</p>
               <h2 className="h-start__h2" id="h-start-action" lang={isHi ? 'hi' : undefined}>
-                {t('Five questions. Every answer has a source.', 'पाँच सवाल। हर जवाब का स्रोत।')}
+                {t('Same question. Real opponent.', 'एक सवाल। असली प्रतिद्वंद्वी।')}
               </h2>
               <p className="h-start__sub">
                 {t(
-                  "Today's file: 5 questions, the same for everyone. No sign-up, no name needed.",
-                  'आज की फ़ाइल: 5 सवाल, सबके लिए एक जैसे। न साइन-अप, न नाम।',
+                  "Enter a duel with an optional coin stake, or learn at your own pace in today’s file.",
+                  'वैकल्पिक सिक्कों के साथ मुक़ाबला करो, या आज की फ़ाइल में अपनी गति से सीखो।',
                 )}
               </p>
             </div>
@@ -142,6 +131,7 @@ export default function StartScreen(_props: ScreenProps) {
           <Button variant="primary" block href={primary.to} className="h-start__go">
             {primary.label}
           </Button>
+          <Button variant="paper" block href={href.aaj()}>{t("Practice today’s file", "आज की फ़ाइल का अभ्यास")}</Button>
           <div className="h-start__xp" aria-label={t('XP for correct answers', 'सही जवाब के XP')}>
             <span><strong>30 XP</strong>{t('under 8s', '8 से॰ से कम')}</span>
             <span><strong>20 XP</strong>{t('under 15s', '15 से॰ से कम')}</span>

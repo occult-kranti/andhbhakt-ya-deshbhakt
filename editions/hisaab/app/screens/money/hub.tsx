@@ -6,7 +6,6 @@
 import { useMemo, type ReactNode } from 'react';
 import { CalendarRange, LifeBuoy, ScrollText, Vote, Wallet } from 'lucide-react';
 import { MONEY_MODES, moneyRoutes, YEAR_MODE, yearRoutes, type MoneyTag, type Route } from '../../../edition';
-import { formatNumber } from '../../data';
 import { href } from '../../router';
 import { useScreenTitle } from '../../shell/chrome';
 import { Button } from '../../ui/button';
@@ -80,16 +79,7 @@ export function MoneyHub() {
         {MONEY_MODES.map((m) => {
           const routes = moneyRoutes(m.tag);
           const g = groupStatus(routes, journeys);
-          const pool = tagged(m.tag).length;
-          const meta = routes.length
-            ? t(
-                `${m.gloss}. ${routes.length} ${routes.length === 1 ? 'file' : 'files'} · ${formatNumber(pool)} cards on file`,
-                `${routes.length} फ़ाइलें · ${formatNumber(pool)} कार्ड`,
-              )
-            : t(
-                `${m.gloss}. Being typed · ${pool} ${pool === 1 ? 'card' : 'cards'} so far`,
-                `टाइप हो रही है · अभी ${pool} कार्ड`,
-              );
+          const meta = routes.length ? t(`${m.gloss}. Sourced practice files.`, 'स्रोतों के साथ अभ्यास फ़ाइलें।') : t(`${m.gloss}. This file is being prepared.`, 'यह फ़ाइल तैयार हो रही है।');
           return (
             <li key={m.tag}>
               <FileCover

@@ -23,7 +23,7 @@ import * as p2p from '../../../p2p/index.mjs';
 import { getCircleStore } from '../../../circles/store.mjs';
 import type { Circle } from '../../../circles/types';
 import { useDuel } from '../../use-duel';
-import { ANONYMOUS, BOT_NAME, seatName } from '../../data';
+import { ANONYMOUS, seatName } from '../../data';
 import { absoluteUrl, href, navigate, type AppRoute } from '../../router';
 import { inviteText, shareInvite, shareText, whatsappUrl, type ShareOutcome } from '../../share';
 import { useChrome, useScreenTitle } from '../../shell/chrome';
@@ -424,8 +424,8 @@ export function FriendLobby({ route }: { route: AppRoute }) {
             <Button variant="paper" size="s" href={href.pass()}>
               {t('Pass & Play instead', 'पास एंड प्ले करें')}
             </Button>
-            <Button variant="paper" size="s" href={href.duel({ vs: 'bot' })}>
-              {t(`Duel ${BOT_NAME}`, `${BOT_NAME} से मुक़ाबला`)}
+            <Button variant="paper" size="s" href={href.online()}>
+              {t('Find a human duel', 'किसी खिलाड़ी से मुक़ाबला')}
             </Button>
           </div>
         </div>
@@ -1014,8 +1014,8 @@ function RoomLobby({
                 {t('Pass & Play', 'पास एंड प्ले')}
               </a>{' '}
               ·{' '}
-              <a className="h-link" href={href.duel({ vs: 'bot' })}>
-                {BOT_NAME}
+              <a className="h-link" href={href.online()}>
+                {t('Online duel', 'ऑनलाइन मुक़ाबला')}
               </a>
             </InlineNote>
           ) : null}

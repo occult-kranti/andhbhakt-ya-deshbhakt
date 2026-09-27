@@ -97,8 +97,8 @@ test('the label ladder has one rung per engine band, in the charter’s order', 
   const { LEVEL_TITLES, levelForXp, xpForLevel } = await import('../lib/progression.mjs');
   assert.equal(LABELS.length, LEVEL_TITLES.length);
   assert.equal(labelFor(0).label, 'Andhbhakt');
-  assert.equal(labelFor(8).label, 'Certified Anti-National');
-  assert.equal(labelFor(99).label, 'Certified Anti-National', 'clamped');
+  assert.equal(labelFor(8).label, 'Deshbhakt');
+  assert.equal(labelFor(99).label, 'Deshbhakt', 'clamped');
   assert.equal(labelFor(-1).label, 'Andhbhakt');
   for (let level = 1; level <= 60; level++) {
     const band = levelForXp(xpForLevel(level)).band;
@@ -107,7 +107,7 @@ test('the label ladder has one rung per engine band, in the charter’s order', 
     assert.ok(level >= rung.from && (rung.to === null || level <= rung.to), `level ${level} inside ${rung.label}`);
   }
   assert.equal(labelForLevel(5).label, 'WhatsApp University Fresher');
-  assert.equal(labelForLevel(40).label, 'Certified Anti-National');
+  assert.equal(labelForLevel(40).label, 'Deshbhakt');
 });
 
 test('the daily five: same five for the same local day, five distinct cards, option order seeded too', () => {

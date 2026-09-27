@@ -21,12 +21,19 @@ import { Skeleton } from '../../ui/skeleton';
 import { countReceipts } from '../receipts/lib';
 import { promotionDates, shortDate, usePlayerName, type ProgressionLike } from './lib';
 import { NameField } from './name-field';
+import { PhotoField, usePortrait } from './photo-field';
+import { useCompetitionTitle } from './competition-title';
+import { usePersonalXp } from './personal-xp';
+import { honourLine } from '../../share/certificate-art.mjs';
 import './me.css';
 
 export function CertificateView({ route }: { route: AppRoute }) {
   const player = useAppPlayer();
+  const personalXp = usePersonalXp(player.progression?.xp ?? 0);
   const { t } = useLang();
   const name = usePlayerName();
+  const portrait = usePortrait();
+  const competitionTitle = useCompetitionTitle();
   const [saved, setSaved] = useState<'idle' | 'busy' | 'done' | 'failed'>('idle');
   useScreenTitle(t('Certificate', 'प्रमाण पत्र'));
 
@@ -39,7 +46,7 @@ export function CertificateView({ route }: { route: AppRoute }) {
   }
 
   const prog = player.progression as ProgressionLike;
-  const s = standing(prog?.xp ?? 0);
+  const s = standing(personalXp);
   const asked = Number(route.query.band);
   // Only a rung the player holds can be certified.
   const band = Number.isInteger(asked) && asked >= 0 && asked <= s.band ? asked : s.band;
@@ -49,7 +56,8 @@ export function CertificateView({ route }: { route: AppRoute }) {
   // receipts count only for the rung held now (today's count is not what an earlier rung was earned with).
   const receipts = band === s.band ? countReceipts(player.journal) : null;
   const issuedOn = dates.get(band) ?? null;
-  const input = { name, band, receipts, issuedOn };
+  const honour = route.query.honour === '1' ? competitionTitle : null;
+  const input = { name, band, receipts, issuedOn, portrait, competitionTitle: honour };
 
   const download = async () => {
     setSaved('busy');
@@ -84,7 +92,7 @@ export function CertificateView({ route }: { route: AppRoute }) {
       />
       <div className="h-certview__grid">
         <div className="h-certview__preview">
-          <Certificate name={name} receipts={receipts} band={band} issuedOn={issuedOn} id="h-certificate" />
+          <Certificate {...input} id="h-certificate" />
         </div>
         <div className="h-certview__side">
           {s.band > 0 ? (
@@ -116,7 +124,9 @@ export function CertificateView({ route }: { route: AppRoute }) {
               )}
             </p>
           )}
+          {competitionTitle && <label className="h-certview__honourpick"><input type="checkbox" checked={!!honour} onChange={event => navigate(`${href.certificate()}${queryString({ band: band === s.band ? undefined : band, honour: event.target.checked ? '1' : undefined })}`, { replace: true })} /><span><strong>{competitionTitle.name || 'Certified Anti-National'}</strong><small>{honourLine(competitionTitle)}</small></span></label>}
           <NameField />
+          <PhotoField />
           <ShareButton variant="primary" block run={() => shareCertificate(input)}>
             {t('Share certificate', 'प्रमाण पत्र भेजो')}
           </ShareButton>
@@ -127,7 +137,7 @@ export function CertificateView({ route }: { route: AppRoute }) {
           </Button>
           <p className="h-me__fine">
             {t(
-              'The image is drawn on your phone and never uploaded. A share always says it is satire, and carries your receipts count — nothing else about you.',
+              'Your photo stays on this device. The certificate includes your chosen name, photo and label only when you choose to share it. Every image says it is satire.',
               'तस्वीर आपके फ़ोन पर बनती है, कहीं अपलोड नहीं होती। हर शेयर पर लिखा है कि यह व्यंग्य है।',
             )}
           </p>

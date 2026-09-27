@@ -39,7 +39,7 @@ const TARAZU_PRESETS: { label: string; scores: [number, number]; winner: 0 | 1 |
 const THAPPA_PRESETS: { label: string; text: string; kind: StampKind }[] = [
   { label: 'Issued', text: 'ISSUED · RECEIPT MAANGO', kind: 'noted' },
   { label: 'Filed 4/5', text: 'FILED · 4/5', kind: 'noted' },
-  { label: 'Sahi', text: 'SAHI · APPROVED', kind: 'pass' },
+  { label: 'Waah Waah', text: 'WAAH WAAH', kind: 'pass' },
   { label: 'Galat', text: 'GALAT · OBJECTION', kind: 'fail' },
 ];
 

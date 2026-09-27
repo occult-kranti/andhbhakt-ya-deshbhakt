@@ -1,5 +1,13 @@
 /** Shared validation/transport boundary. Match authority lives in the Postgres RPC. */
 export const SERVER_RULES = Object.freeze({ rounds: 5, roundMs: 30000, countdownMs: 2500, breakMs: 10000, tieMs: 120, sessionDays: 30, minimumMatches: 3, minimumOpponents: 3 });
+export const ECONOMY_RULES = Object.freeze({ startingBalance: 100, maxStake: 10000, completionReward: 10, bonusMultiplier: 10, rewardAnswers: 3, rewardCorrect: 1, rewardsPerFileUtcDay: 1, disconnectGraceMs: 90000 });
+export const DUEL_FILES = Object.freeze([
+ { id: 'all', name: 'Any file', rewardMultiplier: 1 },
+ { id: 'today', name: 'Today’s file', rewardMultiplier: 1 },
+ { id: 'subsidies', name: 'Subsidies', rewardMultiplier: 10 },
+ { id: 'pre-election', name: 'Pre-election', rewardMultiplier: 10 },
+ { id: 'media', name: 'Who owns media?', rewardMultiplier: 10 },
+].map(Object.freeze));
 export const ACTIONS = new Set(['session', 'deleteSession', 'profile', 'create', 'join', 'queue', 'snapshot', 'ready', 'answer', 'next', 'leave', 'leaderboards', 'leaderboard', 'tournaments', 'circles']);
 export class GameError extends Error { constructor(code, message, status = 400) { super(message); this.code = code; this.status = status; } }
 export function cleanNickname(value) {
@@ -12,12 +20,17 @@ export function validateInput(body) {
   if (!body || typeof body !== 'object' || Array.isArray(body) || !ACTIONS.has(body.action)) throw new GameError('BAD_ACTION', 'Unknown game action.');
   const payload = { ...body }; delete payload.action;
   // Never accept identity, timing, scores or answers supplied as assertions.
-  for (const key of ['sessionId','playerId','elapsedMs','correct','score','xp','correctIndex','serverNow','tokenHash']) delete payload[key];
+  for (const key of ['sessionId','playerId','elapsedMs','correct','score','xp','correctIndex','serverNow','tokenHash','balance','savings','reward','rewardMultiplier','payout','winnerId']) delete payload[key];
   if (body.action === 'session' || (body.action === 'profile' && payload.nickname != null)) payload.nickname = cleanNickname(payload.nickname);
   if (payload.nickname != null) payload.nickname = cleanNickname(payload.nickname);
   if (payload.roomId != null && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(payload.roomId)) throw new GameError('BAD_ROOM', 'Invalid room.');
   if (['snapshot','ready','answer','next','leave'].includes(body.action) && !payload.roomId) throw new GameError('BAD_ROOM','A room is required.');
   if (body.action === 'answer' && (!Number.isInteger(payload.choice) || payload.choice < 0 || payload.choice > 3 || !Number.isInteger(payload.round) || payload.round < 1 || payload.round > 5 || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(payload.requestId || ''))) throw new GameError('BAD_ANSWER', 'Choose one answer for the current round.');
+  if (payload.stake != null && (!Number.isSafeInteger(payload.stake) || payload.stake < 0 || payload.stake > ECONOMY_RULES.maxStake)) throw new GameError('BAD_STAKE', 'Choose whole units from 0 to 10,000.');
+  if (['create', 'queue'].includes(body.action)) {
+    payload.stake = payload.stake ?? 0; payload.file = payload.file ?? 'all';
+    if (!DUEL_FILES.some(file => file.id === payload.file)) throw new GameError('BAD_FILE', 'Choose an available file.');
+  }
   if (payload.code != null) { payload.code = String(payload.code).trim().toUpperCase(); if (!/^[A-F0-9]{8,16}$/.test(payload.code)) throw new GameError('BAD_CODE','Check the invite code.'); }
   return { action: body.action === 'leaderboard' ? 'leaderboards' : body.action, payload };
 }

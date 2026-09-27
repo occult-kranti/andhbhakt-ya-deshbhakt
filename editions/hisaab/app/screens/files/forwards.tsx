@@ -111,7 +111,7 @@ export function ForwardsView(_: { route: AppRoute }) {
                 ) : null
               }
               facts={[
-                { k: t('Cases', 'मामले'), v: `${CARDS} ${t('cards', 'कार्ड')} · ${court.poolSize} ${t('on file', 'फ़ाइल में')}` },
+                { k: t('Cases', 'मामले'), v: `${CARDS} ${t('cards', 'कार्ड')}` },
                 { k: t('Sources', 'स्रोत'), v: checkers.join(' · ') },
                 ...(status.best ? [{ k: t('Best', 'सर्वश्रेष्ठ'), v: <span className="h-mono">{bestText(status.best).replace(/^Best /, '')}</span> }] : []),
               ]}

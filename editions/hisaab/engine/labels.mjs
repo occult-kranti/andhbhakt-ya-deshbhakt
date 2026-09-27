@@ -3,7 +3,7 @@
  *
  * The engine's levels and title bands are unchanged (lib/progression.mjs: band = floor(level / 5),
  * nine bands, Rookie … Legend). This edition shows a label in place of the band title: you start as
- * an Andhbhakt and earn your way, receipt by receipt, to Certified Anti-National. The satire is aimed
+ * an Andhbhakt and earn your way, receipt by receipt, to Deshbhakt. The satire is aimed
  * at labelling and at blind devotion, never at a group. Order is fixed by the charter; the one-liners
  * are drafts the design lane may polish.
  */
@@ -17,7 +17,7 @@ export const LABELS = Object.freeze(
     { band: 5, from: 25, to: 29, label: 'RTI Warrior', line: 'Files questions. Waits 30 days.' },
     { band: 6, from: 30, to: 34, label: 'Urban Naxal (as per the forwards)', line: 'Reads CAG reports on the metro.' },
     { band: 7, from: 35, to: 39, label: 'Tukde-Tukde Gang', line: 'Counts crores in tukdas.' },
-    { band: 8, from: 40, to: null, label: 'Certified Anti-National', line: 'Knows where the money went. Asks anyway.' },
+    { band: 8, from: 40, to: null, label: 'Deshbhakt', line: 'Knows where the money went. Asks anyway.' },
   ].map((rung) => Object.freeze({ ...rung, ordinal: rung.band === 8 ? 10 : rung.band + 1 })),
 );
 
@@ -30,12 +30,12 @@ export const LABELS = Object.freeze(
 export function activeCompetitionTitle(grant, now = Date.now()) {
   if (!grant || typeof grant !== 'object' || !Number.isFinite(now)) return null;
   const { title, source, rank, competitionId, awardedAt, expiresAt } = grant;
-  if (title !== 'desh-bhakt' || !['leaderboard', 'tournament'].includes(source)) return null;
-  if (!Number.isInteger(rank) || rank < 1 || rank > 10) return null;
+  if (title !== 'certified-antinational' || !['leaderboard', 'tournament', 'savings'].includes(source)) return null;
+  if (!Number.isInteger(rank) || rank < 1 || rank > (source === 'savings' ? 1 : 10)) return null;
   if (typeof competitionId !== 'string' || !competitionId.trim() || competitionId.length > 128) return null;
   if (!Number.isFinite(awardedAt) || !Number.isFinite(expiresAt) || awardedAt > now || expiresAt <= now || expiresAt <= awardedAt) return null;
   return Object.freeze({
-    id: title, ordinal: 9, label: 'Desh Bhakt', labelHi: 'देश भक्त',
+    id: title, ordinal: 9, label: 'Certified Anti-National', labelHi: 'सर्टिफ़ाइड एंटी-नेशनल',
     source, rank, competitionId, awardedAt, expiresAt,
   });
 }

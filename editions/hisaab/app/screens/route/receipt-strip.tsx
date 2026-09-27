@@ -75,7 +75,7 @@ export function ReceiptStrip({
                   kind={right ? 'pass' : 'fail'}
                   seed={card.factId}
                   size="s"
-                  text={right ? 'SAHI' : 'GALAT'}
+                  text={right ? 'WAAH WAAH' : 'GALAT'}
                   label={right ? t('Correct', 'सही') : t('Wrong', 'ग़लत')}
                 />
               )}

@@ -1,5 +1,8 @@
 # HISAAB DO — Design Bible: "LAL FEETA"
 
+> **Latest duel-first amendment — 27 September 2026:** The owner’s current request supersedes older bot, label, art and advertising rules in this document. Competitive play is human-only, with separate clearly labelled learning practice. The permanent ladder ends in **Deshbhakt**; **Certified Anti-National** is the hidden temporary honour. Optional server-accounted **UPI tax savings** stakes default to zero; qualifying featured files earn ×10 completion rewards, never a multiplied pot. Profile-photo certificates use an original satirical Modi-inspired cartoon. Approved interstitials are requested only after completed receipts, between games. Bank inventory counts are not shown. Implement and push `feat/hisaab-human-duels-certificates` without merging or changing production. See `editions/hisaab/PRODUCT.md` and `docs/hisaab/review/DUEL-FIRST-PANEL.md` for the current contract. Historical sections below remain a record, not the current instruction where they conflict.
+
+
 *हिसाब दो — Show us the accounts.* Owner: design lane (roadmap 1.11). Status: decided, September 2026.
 Binding inputs: `CHARTER.md` (wins on conflict), the gamification-advisor gates N1–N14, the juice rules,
 `lib/progression.mjs`. Working card for engineers: `.claude/skills/hisaab-design/SKILL.md`.

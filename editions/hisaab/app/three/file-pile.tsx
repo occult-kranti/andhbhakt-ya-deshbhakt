@@ -35,7 +35,7 @@ export type FilePileProps = {
   className?: string;
 };
 
-const WORD: Record<FileResult, string> = { pass: 'SAHI', fail: 'GALAT', wait: 'PENDING' };
+const WORD: Record<FileResult, string> = { pass: 'WAAH WAAH', fail: 'GALAT', wait: 'PENDING' };
 const ICON = { pass: Check, fail: X, wait: Hourglass } as const;
 
 /** A signed score with a true minus sign (U+2212), never an ASCII hyphen: −4. */

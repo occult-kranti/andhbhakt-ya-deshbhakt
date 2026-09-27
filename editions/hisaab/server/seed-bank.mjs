@@ -4,10 +4,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BANK } from '../bank/index.mjs';
+// Existing reviewed ownership items only; no new editorial assertions are introduced.
+const ownershipIds = new Set(['hmd001','hmd002','hmd003','hmd004','hmd005','hmd006','hmd007','hmd008','hmd009','hmd010','hmd011','hmd012','hmd021','hmd034','hmd035','hmd036','hmd037','hmd038','hmd039','hmd040']);
 const rows = BANK.filter(q => q.options?.length === 4 && Number.isInteger(q.correctIndex)).map(q => ({
   id:q.id,prompt:{en:q.question,hi:q.questionHi || q.question},
   options:q.options.map((text,i) => ({en:text,hi:q.optionsHi?.[i] || text})),
   category:q.topic || q.kind,correctIndex:q.correctIndex,
+  files:[...(q.topic === 'Welfare & Subsidies' || q.tags?.includes('distribution') ? ['subsidies'] : []), ...(q.tags?.includes('pre-election') ? ['pre-election'] : []), ...(ownershipIds.has(q.id) ? ['media'] : [])],
   explanation:{en:q.explanation,hi:q.explanationHi || q.explanation},sourceUrl:q.sourceUrl,
 }));
 const output = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../supabase/hisaab/seed-bank.sql');

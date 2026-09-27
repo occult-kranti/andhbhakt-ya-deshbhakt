@@ -16,7 +16,6 @@ import { href, Link } from '../../router';
 import { Chip, LegalStatus, SourceChip } from '../../ui/chip';
 import { cx } from '../../ui/cx';
 import { useLang } from '../../ui/lang';
-import { Meter } from '../../ui/meter';
 import './register.css';
 
 export type RegisterEntry = {
@@ -85,16 +84,10 @@ export function Register({
           <span className="h-reg__titleen">{title}</span>
         </h2>
         <p className="h-reg__count h-mono">
-          {open.length}/{entries.length} {t('open', 'खुले')}
+          {open.length} {t('receipts collected', 'रसीदें मिलीं')}
         </p>
       </header>
       <p className="h-reg__lead">{lead}</p>
-      <Meter
-        value={open.length}
-        max={Math.max(1, entries.length)}
-        label={t(`${title}: entries open`, `${title}: खुली प्रविष्टियाँ`)}
-        valueText={`${open.length} of ${entries.length} open`}
-      />
       {open.length ? (
         <ul className="h-reg__list">
           {open.map((e) => (
@@ -110,7 +103,7 @@ export function Register({
         <div className="h-reg__sealed">
           <p className="h-reg__sealedhead">
             <Lock size={16} strokeWidth={2.4} aria-hidden="true" />
-            <span>{t(`Sealed · ${sealed.length}`, `सील · ${sealed.length}`)}</span>
+            <span>{t('More to discover', 'और भी जानें')}</span>
             <span className="h-reg__sealednote">{t('Answer the card to open its entry.', 'कार्ड का जवाब दो, प्रविष्टि खुलेगी।')}</span>
           </p>
           <ul className={cx('h-reg__seals', sealedStyle === 'bubble' && 'h-reg__seals--bubbles')} id={listId}>
@@ -122,7 +115,7 @@ export function Register({
           </ul>
           {hidden > 0 || all ? (
             <button type="button" className="h-reg__more" aria-expanded={all} aria-controls={listId} onClick={() => setAll((v) => !v)}>
-              {all ? t('Show fewer', 'कम दिखाओ') : t(`Show all ${sealed.length} sealed`, `सभी ${sealed.length} सील दिखाओ`)}
+              {all ? t('Show fewer', 'कम दिखाओ') : t('Show more sealed entries', 'और सील प्रविष्टियाँ दिखाओ')}
             </button>
           ) : null}
         </div>

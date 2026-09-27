@@ -26,6 +26,9 @@ import { Ladder } from './ladder';
 import { babuRankView, duelPerformance, filesCleared, promotionDates, shortDate, stampRegister, useMediaQuery, usePlayerName, type ProgressionLike, type RegisterEntry } from './lib';
 import { CertThumb } from './cert-thumb';
 import { NameField } from './name-field';
+import { PhotoField, usePortrait } from './photo-field';
+import { useCompetitionTitle } from './competition-title';
+import { usePersonalXp } from './personal-xp';
 import './me.css';
 
 function Stat({ icon, k, v, sub, to }: { icon: React.ReactNode; k: string; v: React.ReactNode; sub?: React.ReactNode; to?: string }) {
@@ -57,9 +60,12 @@ const timeOf = (at: number) => {
 
 export function Profile() {
   const player = useAppPlayer();
+  const personalXp = usePersonalXp(player.progression?.xp ?? 0);
   const { t, isHi } = useLang();
   const wide = useMediaQuery('(min-width: 900px)');
   const name = usePlayerName();
+  const portrait = usePortrait();
+  const competitionTitle = useCompetitionTitle();
   const activity = useActivity();
   useScreenTitle(t('Me', 'मैं'));
 
@@ -72,7 +78,7 @@ export function Profile() {
   }
 
   const prog = player.progression as ProgressionLike;
-  const xp = prog?.xp ?? 0;
+  const xp = personalXp;
   const s = standing(xp);
   const label = labelDisplay(s.band);
   const dates = promotionDates(prog);
@@ -116,7 +122,7 @@ export function Profile() {
     <ShareButton
       variant="primary"
       block
-      run={() => shareCertificate({ name, band: s.band, receipts, issuedOn })}
+      run={() => shareCertificate({ name, band: s.band, receipts, issuedOn, portrait })}
     >
       {t('Share certificate', 'प्रमाण पत्र भेजो')}
     </ShareButton>
@@ -138,7 +144,7 @@ export function Profile() {
       {!wide ? (
         <>
           <Link to={href.certificate()} className="h-me__thumbrow" aria-label={t('Open your certificate', 'अपना प्रमाण पत्र खोलो')}>
-            <CertThumb width={112} name={name} receipts={receipts} band={s.band} issuedOn={issuedOn} />
+            <CertThumb width={112} portrait={portrait} name={name} receipts={receipts} band={s.band} issuedOn={issuedOn} />
             <span className="h-me__thumbtext">
               <strong>{t('Your certificate', 'आपका प्रमाण पत्र')}</strong>
               <span>{t('Satire. Not a government document.', 'व्यंग्य है, सरकारी काग़ज़ नहीं।')}</span>
@@ -148,6 +154,7 @@ export function Profile() {
             </span>
           </Link>
           <NameField compact />
+          <PhotoField />
           {share}
         </>
       ) : null}
@@ -170,10 +177,11 @@ export function Profile() {
         }
       />
 
+      {competitionTitle && <p className="h-me__fine"><Link to={`${href.certificate()}?honour=1`}>{t("Your competition honour is ready to share", "आपका प्रतियोगिता सम्मान शेयर करने के लिए तैयार है")}</Link></p>}
       <div className="h-me__grid">
         <section className="h-me__ladder" aria-labelledby="h-me-ladder">
           <h2 className="h-me__h2" id="h-me-ladder">
-            {t('The ladder', 'सीढ़ी')} <span className="h-me__h2sub">{t('Andhbhakt to Certified Anti-National', 'अंधभक्त से सर्टिफ़ाइड एंटी-नेशनल तक')}</span>
+            {t('The ladder', 'सीढ़ी')} <span className="h-me__h2sub">{t('Andhbhakt to Deshbhakt', 'अंधभक्त से देशभक्त तक')}</span>
           </h2>
           <Ladder band={s.band} dates={dates} current={currentBody} />
           <p className="h-me__fine">
@@ -190,10 +198,11 @@ export function Profile() {
             </h2>
             <div className="h-me__certbody">
               <Link to={href.certificate()} className="h-me__certlink" aria-label={t('Open your certificate', 'अपना प्रमाण पत्र खोलो')}>
-                <Certificate name={name} receipts={receipts} band={s.band} issuedOn={issuedOn} />
+                <Certificate portrait={portrait} name={name} receipts={receipts} band={s.band} issuedOn={issuedOn} />
               </Link>
               <div className="h-me__certctl">
                 <NameField />
+                <PhotoField />
                 {share}
                 <Button variant="ghost" href={href.certificate()} trailing={<ArrowRight size={18} />}>
                   {t('Every rung you hold', 'आपकी हर सीढ़ी')}

@@ -76,7 +76,7 @@ function ReceiptMini({ row, selected, onSelect }: { row: ReceiptRow; selected: b
               kind={row.lastCorrect ? 'pass' : 'fail'}
               seed={row.id}
               size="s"
-              text={row.lastCorrect ? 'SAHI' : 'GALAT'}
+              text={row.lastCorrect ? 'WAAH WAAH' : 'GALAT'}
               label={row.lastCorrect ? t('Last answer right', 'पिछला जवाब सही') : t('Last answer missed', 'पिछला जवाब ग़लत')}
               className="h-vrow__stamp"
             />
@@ -213,8 +213,8 @@ export default function ReceiptsScreen({ route }: ScreenProps) {
               {t(`Re-check ${queue.length} due`, `${queue.length} दोबारा जाँचो`)}
             </Button>
           ) : todayFiled ? (
-            <Button variant="primary" href={href.duel({ vs: 'bot' })}>
-              {t('Duel Babu-Bot', 'Babu-Bot से मुक़ाबला')}
+            <Button variant="primary" href={href.online()}>
+              {t('Find a human duel', 'किसी खिलाड़ी से मुक़ाबला')}
             </Button>
           ) : (
             <Button variant="primary" href={href.aaj()}>

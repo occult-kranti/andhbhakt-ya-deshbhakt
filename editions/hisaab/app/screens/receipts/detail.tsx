@@ -117,7 +117,7 @@ export function ReceiptDetail({ row, headingLevel = 3 }: { row: ReceiptRow; head
     row.lastCorrect === null
       ? null
       : row.lastCorrect
-        ? { kind: 'pass' as const, text: 'SAHI · APPROVED' }
+        ? { kind: 'pass' as const, text: 'WAAH WAAH' }
         : { kind: 'fail' as const, text: 'GALAT · OBJECTION' };
   return (
     <article className="h-rdetail" aria-label={t('Receipt', 'रसीद')}>

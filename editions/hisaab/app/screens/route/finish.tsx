@@ -20,6 +20,7 @@ import { href } from '../../router';
 import { FilePile, filePileStamp, type FileResult } from '../../three';
 import { Button } from '../../ui/button';
 import { Chip } from '../../ui/chip';
+import { CompletionAdBreak } from '../../ads/completion-ad-break';
 import { useLang } from '../../ui/lang';
 import { Page, ScreenHeader } from '../../ui/page';
 import { ReceiptStrip, type MiniEntry } from './receipt-strip';
@@ -112,6 +113,7 @@ export function RouteFinish({ route, record, run, journeys, journal, progression
 
   return (
     <Page screen="route-finish" className="h-finish">
+      <CompletionAdBreak completionId={`file:${run.id}`} kind="practice" />
       <ScreenHeader
         kicker={`${fileNo(route)} · ${t('CLEARED', 'क्लियर')}`}
         titleHi={titleHi}

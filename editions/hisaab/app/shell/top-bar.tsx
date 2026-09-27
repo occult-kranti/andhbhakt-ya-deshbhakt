@@ -16,6 +16,7 @@ import { IconButton } from '../ui/button';
 import { BrandName } from '../ui/brand';
 import { useLang } from '../ui/lang';
 import { useAppPlayer } from './player';
+import { usePersonalXp } from '../screens/me/personal-xp';
 
 type JournalLike = {
   facts?: Readonly<Record<string, unknown>> | null;
@@ -33,7 +34,7 @@ export function TopBar({ inert }: { inert?: boolean }) {
   const { t, isHi } = useLang();
   const player = useAppPlayer();
   const prefs = useSyncExternalStore(subscribePrefs, getPrefs, getPrefs);
-  const s = standing(player.progression?.xp ?? 0);
+  const s = standing(usePersonalXp(player.progression?.xp ?? 0));
   const label = labelDisplay(s.band);
   const named = player.loaded && holdsReceipt(player.journal as JournalLike);
   const muted = !prefs.sound;

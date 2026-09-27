@@ -1,7 +1,7 @@
 /**
  * ui/stamp.tsx — `h-stamp` (bible §5): a verdict word + icon in a rotated double-border stamp.
  *
- *   <Stamp kind="pass" seed={item.id} />                 SAHI · APPROVED ✓
+ *   <Stamp kind="pass" seed={item.id} />                 WAAH WAAH ✓
  *   <Stamp kind="fail" seed={item.id} animate />         GALAT · OBJECTION ✕ (slams once)
  *   <Stamp kind="noted" seed="cert" text="ISSUED · 25 SEP 2026" size="l" />
  *
@@ -17,7 +17,7 @@ export type StampKind = 'pass' | 'fail' | 'wait' | 'noted';
 
 /** The default words (bible §2.1). */
 export const STAMP_WORDS: Readonly<Record<StampKind, string>> = Object.freeze({
-  pass: 'SAHI · APPROVED',
+  pass: 'WAAH WAAH',
   fail: 'GALAT · OBJECTION',
   wait: 'PENDING',
   noted: 'NOTED',

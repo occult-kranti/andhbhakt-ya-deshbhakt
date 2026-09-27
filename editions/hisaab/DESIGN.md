@@ -6,6 +6,15 @@ Game, lobby, settings and competition surfaces are **Operate**: obvious next act
 
 Light remains the approved default paper palette; Night is the improved charcoal-violet palette; Classic restores the preceding olive-charcoal palette. Resolve preferences before paint and keep rotation fixed during a visit. The typography must support English and Hindi without clipping.
 
-Online screens distinguish looking for an opponent, waiting for readiness, countdown, answering, locked personal receipt, shared round result and finished match. Display the actual connection state. Never show a fabricated opponent or population. A server failure offers retry and the existing casual modes.
+Online screens distinguish looking for an opponent, waiting for readiness, countdown, answering, locked personal receipt, shared round result and finished match. Display the actual connection state. Never show a fabricated opponent or population. A server failure offers retry, human friend/shared-device play and explicitly labelled learning practice. Never fall back to a bot.
 
-Use the existing controls, focus states, settings modal and shared brand component. Respect reduced motion. Keep ads out of play, results and circles. Do not advertise the hidden honour to ineligible players; after it is earned, show its source and expiry alongside its name.
+Use the existing controls, focus states, settings modal and shared brand component. Respect reduced motion. Keep ads out of live play, lobbies and circles. An approved interstitial may follow the completed result receipt, between games; no-fill must leave play usable. Do not advertise the hidden honour to ineligible players; after it is earned, show its source and expiry alongside its name.
+
+
+## Certificate and arrival amendment
+
+Home is a duel desk with one primary human-duel action and a prominent dated Today’s file. It never forces onboarding or queue entry. The optional remembered arrival preference can open the daily learning file.
+
+Certificates carry a warm paper field, bold player name, large earned label, source/expiry when currently verified online, and visible satire wording. Use the original six-pose mascot sprite as a consistent character across the nine ranks. Image-area allocation moves monotonically from 30:70 player/cartoon to 90:10; intermediate labels have distinct captions and medal marks. Do not place factual allegations in decorative art. Use a neutral initials portrait if no photo is supplied. Photo controls, preview and PNG actions must work on narrow screens and with reduced motion.
+
+Correct feedback reads “Waah Waah”. End-of-game celebrations are a brief flourish; the receipt stays readable. Loss copy acknowledges effort without pretending a loss is a victory. Public screens never promise the hidden title before it is earned and never expose bank inventory counts.

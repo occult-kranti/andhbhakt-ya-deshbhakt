@@ -17,10 +17,11 @@ import { dayKey } from '@/lib/journal.mjs';
 import { dailyQuests } from '@/lib/progression.mjs';
 import { ROUTES, standing, todaysFive } from '../../../edition';
 import { PENDING_LABEL, useActivity, useBudget } from '../../budget';
-import { babuRank, BOT_LINE, BOT_LINE_HI, BOT_NAME, formatNumber, labelDisplay, labelLine, SECTOR_NAMES_HI, stateNameHi } from '../../data';
-import { href, navigate, type ScreenProps } from '../../router';
+import { formatNumber, labelDisplay, labelLine, SECTOR_NAMES_HI, stateNameHi } from '../../data';
+import { href, type ScreenProps } from '../../router';
 import { shareDailyGrid } from '../../share';
 import { useAppPlayer } from '../../shell/player';
+import { usePersonalXp } from '../me/personal-xp';
 import { sceneCapability, Tijori, TijoriArt, tijoriLabel } from '../../three';
 import { Button } from '../../ui/button';
 import { Chip } from '../../ui/chip';
@@ -32,7 +33,7 @@ import { Masthead } from '../../ui/masthead';
 import { AdSlot, PublicationLinks } from '../../ads/ad-slot';
 import { InlineNote, Page } from '../../ui/page';
 import { Skeleton } from '../../ui/skeleton';
-import { isFreshProfile, startShown } from '../start/first-run';
+import { LandingPreference } from './landing-preference';
 import { LabelCard } from '../start/label-card';
 import { FileEntries } from './file-entries';
 import {
@@ -47,7 +48,6 @@ import {
 import { usePressCue } from './press-cue';
 import './home.css';
 
-type Primary = 'today' | 'resume' | 'duel';
 
 // ---- small shared hooks ---------------------------------------------------------------------------
 
@@ -150,12 +150,6 @@ export default function HomeScreen(_props: ScreenProps) {
   const today = useToday();
   const onPointerDown = usePressCue();
   const profile = player.profile;
-  const fresh = player.loaded && isFreshProfile(profile);
-
-  // A brand-new player sees the first-run poster first (once per page session).
-  useEffect(() => {
-    if (fresh && !startShown()) navigate(href.start(), { replace: true });
-  }, [fresh]);
 
   const daily = useMemo(() => todaysFive(), [today]); // eslint-disable-line react-hooks/exhaustive-deps
   const status = useMemo(
@@ -164,7 +158,7 @@ export default function HomeScreen(_props: ScreenProps) {
   );
   const receipts = useMemo(() => receiptStats(profile.journal), [profile.journal, today]); // eslint-disable-line react-hooks/exhaustive-deps
   const resume = useMemo(() => resumeRun(profile.journeys, ROUTES), [profile.journeys]);
-  const xp = player.progression?.xp ?? 0;
+  const xp = usePersonalXp(player.progression?.xp ?? 0);
   const s = standing(xp);
   const streak = liveStreak(player.progression?.streak as Streak | undefined, today);
   usePendingLabel(player.loaded, s.band);
@@ -175,7 +169,7 @@ export default function HomeScreen(_props: ScreenProps) {
     return (dailyQuests(profile.epoch ?? 'initial', today) as { items: QuestItem[] }).items;
   }, [player.progression?.quests, profile.epoch, today]);
 
-  if (!player.loaded || (fresh && !startShown())) {
+  if (!player.loaded) {
     return (
       <Page screen="home">
         <h1 className="h-sr">{t('Home', 'होम')}</h1>
@@ -184,7 +178,6 @@ export default function HomeScreen(_props: ScreenProps) {
     );
   }
 
-  const primary: Primary = !status.done ? 'today' : resume ? 'resume' : 'duel';
 
   return (
     <Page screen="home" className={cx('h-home', !resume && 'h-home--noresume')}>
@@ -205,11 +198,13 @@ export default function HomeScreen(_props: ScreenProps) {
         </div>
       ) : null}
       <div className="h-home__root" onPointerDown={onPointerDown}>
+        <section className="h-home__duel" aria-labelledby="h-home-duel"><DuelStrip /></section>
         <section className="h-home__today" aria-label={t("Today's file", 'आज की फ़ाइल')}>
-          <p className="h-home__sectionline"><span>{t('01 / THE DAILY FILE', '01 / आज की फ़ाइल')}</span><span>{t('5 QUESTIONS', '5 सवाल')}</span></p>
-          <h2 className="h-home__headline">{t('Read between the headlines.', 'सुर्खियों के पीछे का हिसाब।')}</h2>
+          <p className="h-home__sectionline"><span>{t('TODAY’S FILE', 'आज की फ़ाइल')}</span><span>{t('NEW EACH DAY', 'हर दिन नई')}</span></p>
+          <h2 className="h-home__headline">{t('A fresh file. Every day.', 'हर दिन। नया हिसाब।')}</h2>
           <p className="h-home__standfirst">{t('Public money. Big claims. Five questions with the sources to back them up.', 'जनता का पैसा। बड़े दावे। पाँच सवाल — हर जवाब के साथ उसका स्रोत।')}</p>
-          <TodayCard day={daily.day} status={status} primary={primary === 'today'} band={s.band} />
+          <TodayCard day={daily.day} status={status} primary={false} band={s.band} />
+          <LandingPreference />
         </section>
 
         <section className="h-home__who" aria-labelledby="h-home-label">
@@ -234,7 +229,7 @@ export default function HomeScreen(_props: ScreenProps) {
 
         {resume ? (
           <section className="h-home__resume" aria-label={t('Continue where you left', 'जहाँ छोड़ा था')}>
-            <ResumeCard run={resume} primary={primary === 'resume'} />
+            <ResumeCard run={resume} primary={false} />
           </section>
         ) : null}
 
@@ -250,9 +245,6 @@ export default function HomeScreen(_props: ScreenProps) {
           <FileEntries journeys={profile.journeys} />
         </section>
 
-        <section className="h-home__duel" aria-labelledby="h-home-duel">
-          <DuelStrip primary={primary === 'duel'} tier={player.progression?.rank?.tier} />
-        </section>
       </div>
       <AdSlot placement="home-footer" screen="home" />
       <PublicationLinks />
@@ -317,8 +309,8 @@ function TodayCard({
   const state = status.done ? 'cleared' : status.answered > 0 ? 'open' : 'sealed';
   const label = !status.done
     ? status.answered > 0
-      ? t("Continue today's file", 'आज की फ़ाइल जारी रखो')
-      : t("Open today's file", 'आज की फ़ाइल खोलो')
+      ? t("Continue daily practice", 'आज का अभ्यास जारी रखो')
+      : t("Practice today’s file", 'आज की फ़ाइल का अभ्यास')
     : t("See today's file", 'आज की फ़ाइल देखो');
 
   const share = async () => {
@@ -383,6 +375,7 @@ function TodayCard({
         <span className="h-home__ready">{t('Correct answers: under 8s · 30 XP / under 15s · 20 XP / 15s+ · 10 XP', 'सही जवाब: 8 सेकंड से कम · 30 XP / 15 से कम · 20 XP / 15 या ज़्यादा · 10 XP')}</span>
       )}
       <span className="h-home__actions">
+        <Button variant="paper" block href={href.online('play', { file: 'today' })}>{t('Duel today’s file', 'आज की फ़ाइल पर मुक़ाबला')}</Button>
         {status.done ? (
           <>
             <Button variant="paper" size="s" icon={<Share2 size={18} />} onClick={share} aria-live="polite">
@@ -575,47 +568,23 @@ function Quests({ items }: { items: QuestItem[] }) {
 
 // ---- Muqabla strip ---------------------------------------------------------------------------------
 
-function DuelStrip({ primary, tier }: { primary: boolean; tier?: string }) {
+function DuelStrip() {
   const { t } = useLang();
-  return (
-    <div className="h-home__panel h-home__duelstrip">
-      <div className="h-home__duelcopy">
-        <h2 className="h-home__h2" id="h-home-duel">
-          <span className="h-home__h2hi" lang="hi">
-            मुक़ाबला
-          </span>
-          <span className="h-home__h2en">Muqabla</span>
-        </h2>
-        <p className="h-home__duelline">
-          {t(
-            'Muqabla karo. Babu-Bot bina padhe stamp lagata hai.',
-            'मुक़ाबला करो। Babu-Bot बिना पढ़े ठप्पा लगाता है।',
-          )}
-        </p>
-        <p className="h-home__bot">
-          <Scale aria-hidden="true" size={18} strokeWidth={2.2} />
-          <span>
-            <strong>{BOT_NAME}</strong> — {t(BOT_LINE, BOT_LINE_HI)}
-          </span>
-        </p>
-        <p className="h-meta">
-          {t('Babu rank', 'बाबू रैंक')}: <strong>{babuRank(tier)}</strong> ·{' '}
-          {t('on this device', 'इस डिवाइस पर')}
-        </p>
-      </div>
-      <div className="h-home__duelacts">
-        <Button variant={primary ? 'primary' : 'paper'} block href={href.duel({ vs: 'bot' })}>
-          {t('Duel Babu-Bot', 'Babu-Bot से मुक़ाबला')}
-        </Button>
-        <div className="h-home__row">
-          <Button variant="paper" size="s" href={href.friend()}>
-            {t('Duel a friend', 'दोस्त से मुक़ाबला')}
-          </Button>
-          <Button variant="ghost" size="s" href={href.pass()}>
-            {t('Pass & Play', 'पास एंड प्ले')}
-          </Button>
-        </div>
-      </div>
+  return <div className="h-home__panel h-home__duelstrip">
+    <div className="h-home__duelcopy">
+      <p className="h-kicker">{t('THE PUBLIC TABLE · HUMAN VS HUMAN', 'सार्वजनिक बैठक · इंसान बनाम इंसान')}</p>
+      <h2 className="h-home__headline" id="h-home-duel">{t('Big claims.\nBring receipts.', 'दावे बड़े?\nरसीद लाओ।')}</h2>
+      <p className="h-home__standfirst">{t('Same question. Real opponent. Let the facts do the talking.', 'एक सवाल। असली प्रतिद्वंद्वी। अब तथ्य बोलेंगे।')}</p>
+      <p className="h-meta">{t('Optional coin stake. Zero coins? Your seat is still open.', 'सिक्के लगाना आपकी मर्ज़ी। शून्य सिक्के? खेलना फिर भी जारी।')}</p>
     </div>
-  );
+    <div className="h-home__duelacts">
+      <Button variant="primary" block href={href.online()} icon={<Scale size={19} />}>{t('Find a duel', 'मुक़ाबला ढूँढ़ो')}</Button>
+      <div className="h-home__row">
+        <Button variant="paper" size="s" href={href.friend()}>{t('Invite a friend', 'दोस्त को बुलाओ')}</Button>
+        <Button variant="ghost" size="s" href={href.pass()}>{t('Two people · one phone', 'दो खिलाड़ी · एक फ़ोन')}</Button>
+      </div>
+      <a className="h-link" href={href.online('standings', { period: 'savings' })}>{t('UPI tax savings · leaderboard', 'UPI टैक्स बचत · रैंकिंग')} ↗</a>
+      <p className="h-meta">{t('Simulated coins. No UPI payment, cash value or withdrawal.', 'खेल के सिक्के। UPI भुगतान, नक़द मूल्य या निकासी नहीं।')}</p>
+    </div>
+  </div>;
 }

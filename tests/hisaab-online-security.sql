@@ -104,7 +104,7 @@ BEGIN
  response:=public.hisaab_game(host_hash,'answer',jsonb_build_object('roomId',rid,'round',1,'choice',0,'requestId',req));
  PERFORM pg_temp.check_it((SELECT count(*) FROM hisaab_private.answers WHERE room_id=rid)=first_count,'final answer retry does not add rewards');
  room:=pg_temp.command(host_hash,'leave',jsonb_build_object('roomId',rid))->'match';
- PERFORM pg_temp.check_it(room->>'phase'='cancelled' AND room->>'reason'='player-left','quit ends the active room');
+ PERFORM pg_temp.check_it(room->>'phase'='cancelled' AND room->>'reason'='player-left-forfeit','quit ends the active room');
 
  -- Actual SQL XP branches are exercised with server-side receipt timestamps.
  FOR band IN SELECT * FROM (VALUES (7900,30),(8000,20),(14900,20),(15000,10),(29000,10)) v(ms,xp) LOOP

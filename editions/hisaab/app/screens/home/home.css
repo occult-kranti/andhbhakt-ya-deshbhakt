@@ -822,3 +822,24 @@
   .h-mini-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .h-home__who .h-labelcard::before { display: none; }
+
+/* Duel first, with the daily edition beside it. The table remains usable at zero balance. */
+.h-home__duel .h-home__panel { padding: 0; border: 0; background: transparent; }
+.h-home__duel .h-home__headline { font-size: clamp(2.7rem,5.5vw,4.8rem); white-space: pre-line; }
+.h-home__duel .h-home__duelstrip { flex-direction: column; align-items: stretch; }
+.h-home__duel .h-home__duelacts { flex: auto; max-width: 36rem; }
+.h-home__today .h-home__headline { font-size: clamp(1.8rem,3vw,2.8rem); }
+.h-home__today .h-file { margin-top: var(--h-s-8); }
+.h-home__landing { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+.h-home__landing label { font-weight: 600; }
+.h-home__landing select { width: 100%; min-height: 48px; font: inherit; font-size: 1rem; color: var(--h-ink); background: var(--h-paper); border: 1px solid var(--h-line); padding: 10px; border-radius: 3px; }
+@media(min-width:900px) {
+  .h-home__root,.h-home--noresume .h-home__root { grid-template-areas:
+    'duel duel duel duel duel duel duel today today today today today'
+    'who who who who who who who today today today today today'
+    'circles circles circles circles circles circles circles circles circles circles circles circles'
+    'files files files files files files files files tijori tijori tijori tijori'
+    'files files files files files files files files quests quests quests quests'
+    'resume resume resume resume resume resume resume resume resume resume resume resume'; }
+  .h-home__today { padding-left: var(--h-s-6); padding-right: 0; border-right: 0; border-left: 1px solid var(--h-hair); }
+}

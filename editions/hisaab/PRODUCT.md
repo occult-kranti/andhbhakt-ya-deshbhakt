@@ -1,11 +1,19 @@
 # HISAAB DO
 
-HISAAB DO is a bilingual browser quiz about Indian public money and public records. Its promise is a short question, a locked answer and a dated, sourced receipt. Political labels are satire about labelling, never findings about a player's beliefs.
+HISAAB DO is a bilingual browser quiz about Indian public money and public records. A short question leads to a locked answer and a dated, sourced receipt. Progress labels and the illustrated certificates are satire, never findings about a player's beliefs.
 
-The current product includes daily questions, state and sector files, money trails, the Vault, progression, bot duels, direct friend duels, pass-and-play and friends/family circles. Preserve these modes. Online beta adds a server referee, matchmaking, private rooms, shared circles and period-based competitions. Device progress does not become trusted online rank.
+## Current instruction — 27 September 2026
 
-Players should reach play without registration, understand the source after answering and choose their own pace outside timed duels. Correctness comes before speed. Speed XP is 30 below eight seconds, 20 below fifteen, and 10 thereafter; wrong answers earn zero. Games and honours have no cash value.
+Work on `feat/hisaab-human-duels-certificates`, based on the existing HISAAB development branch. Push to GitHub only. Do not merge main/master, change the live frontend, deploy the database, or use ChatGPT Sites for implementation/publication in this task. GitHub Pages remains the frontend host and Supabase the separate multiplayer backend.
 
-The user approved the light newspaper palette and Night edition. Add the earlier Classic palette as an option; rotation must never alter a live round. Desh Bhakt is a hidden temporary competition honour in presentation slot nine; it does not change earned XP bands, and the final permanent label occupies slot ten.
+Home immediately offers a human duel and today's file. A returning player can choose to open today's file on arrival; this never consents to a wager or starts a live timed round automatically. There is no real account login yet: the online profile is a device-bound guest session. Competitive entry points never create a bot or silently fill an empty queue. Untimed solo practice remains clearly labelled learning; friends and pass-and-play remain human alternatives.
 
-Keep HISAAB on `claude/loving-pasteur-s8xwtf`, isolated from Jaanta Kya Hai. Never merge this work into main or deploy it over the other game's Site. Evidence and implementation rules live in `docs/hisaab/CHARTER.md` and `docs/hisaab/ENGINE.md`.
+Nine permanent XP bands run from Andhbhakt to Deshbhakt. Certified Anti-National is a hidden temporary server qualification for eligible top-ten daily/weekly/tournament players and the qualified savings leader. Hide it from unearned ladders and promotional copy. Existing earned XP survives. A cached or expired title is never current proof.
+
+UPI tax savings are free simulated game coins, not cash, bank balances or tax advice. Stakes are optional and default to zero; no balance can lock someone out of zero-stake play. The server reserves and settles each match once and refunds draws and pre-start/system cancellations. Leaving a started match forfeits the stake; one absent seat after a 90-second grace forfeits to an active opponent, while two absent seats are refunded. Featured files advertise ×10 earned completion rewards separately from the pot. Exact qualification and caps appear before play.
+
+Correct answers say Waah Waah. Wins get brief celebration; losses get modest encouragement. No effect delays or distracts from a live question. Ads may be requested between games after each practice completion or two wins/three losses, after the result receipt, with approved real provider configuration. No ad fill is guaranteed; missing ads never block play.
+
+Certificates use an optional device-local player photo, a consistent original satirical Modi-inspired cartoon and a per-level medal/caption. Player image share grows from 30% to 90%; the cartoon shrinks from 70% to 10% and moves from smiling to comically crying. Photo sharing is voluntary and user-initiated. Exported certificates identify their satire and distinguish personal progress from temporary online honours.
+
+Preserve Day, Night and Classic themes, Hindi/English, receipt sources, accessibility, reduced motion and settings. Do not display question-bank inventory counts. Session progress counts are useful and remain visible.

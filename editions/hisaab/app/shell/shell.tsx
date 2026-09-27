@@ -6,7 +6,7 @@ import { Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState, us
 import { getPrefs, subscribePrefs } from '@/lib/fx/prefs';
 import { useLocale } from '@/app/use-locale';
 import { budget, useBudgetSnapshot } from '../budget';
-import { useRoute, type Chrome } from '../router';
+import { href, navigate, useRoute, type Chrome } from '../router';
 import { CeremonyHost } from '../ui/ceremony';
 import { ErrorState, Page } from '../ui/page';
 import { Skeleton } from '../ui/skeleton';
@@ -19,6 +19,7 @@ import { ProgressionWatch } from './progression-watch';
 import { DEV_SCREENS, SCREENS, SCREEN_TITLES } from './screens';
 import { TopBar } from './top-bar';
 import { applyTheme, useTheme } from './theme';
+import { readLandingPreference } from '../screens/home/landing-preference';
 import './shell.css';
 
 /**
@@ -77,6 +78,12 @@ export function Shell() {
   const chrome: Chrome = override ?? route.chrome;
   const main = useRef<HTMLElement>(null);
   const first = useRef(true);
+  useEffect(() => {
+    // A saved preference only affects a new bare visit, never a shared link or an active match.
+    if ((!location.hash || location.hash === '#/' || location.hash === '#') && readLandingPreference() === 'daily') {
+      navigate(href.online('play', { file: 'today' }), { replace: true });
+    }
+  }, []);
 
   // A route change is a new visit (one toast each), a new page for assistive tech, and the top.
   useLayoutEffect(() => {

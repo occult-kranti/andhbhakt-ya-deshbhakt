@@ -23,6 +23,8 @@ import { Button } from '../../ui/button';
 import { LegalStatus } from '../../ui/chip';
 import { useLang } from '../../ui/lang';
 import { Stamp } from '../../ui/stamp';
+import { CompletionAdBreak } from '../../ads/completion-ad-break';
+import { OutcomeCelebration } from '../../fx/outcome-celebration';
 import { Kicker } from '../../ui/text';
 import { formatNameHi, formatOf } from '../duel/lib';
 import { RoundHead } from './live';
@@ -235,6 +237,7 @@ export function MatchResult({
             {sub}
           </p>
           {copy ? <p className="h-result__copy">{copy}</p> : null}
+          {verdict !== 'cancelled' ? <OutcomeCelebration key={room.id} outcome={verdict} /> : null}
           {verdict !== 'cancelled' ? (
             <div className="h-result__scale">
               {scale ? (
@@ -366,7 +369,7 @@ export function MatchResult({
                             kind={!my ? 'wait' : my.correct ? 'pass' : 'fail'}
                             seed={r.question.factId ?? r.id}
                             size="s"
-                            text={!my ? 'PENDING' : my.correct ? 'SAHI' : 'GALAT'}
+                            text={!my ? 'PENDING' : my.correct ? 'WAAH WAAH' : 'GALAT'}
                           />
                         </div>
                       </div>
@@ -419,6 +422,7 @@ export function MatchResult({
         </section>
       </div>
 
+      {verdict !== 'cancelled' && kind === 'friend' ? <CompletionAdBreak completionId={`room:${room.id}:${me}`} kind="duel" outcome={verdict} /> : null}
       <div className="h-result__bar">
         <div className="h-result__barin">
           {rematch?.note ? (

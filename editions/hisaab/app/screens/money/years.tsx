@@ -1,19 +1,10 @@
-/**
- * screens/money/years.tsx — Saal-dar-Saal (charter §6): pick a year, 2000 → 2026, and open that year's
- * file across every lane.
- *
- * The year strip is a one-series column chart of the REAL number of cards on file per year (registered
- * lanes), one hue (syahi), bars from a single baseline; the selected year and the busiest year carry
- * their value, every year says it in its accessible name, and the table of year files is one tap away
- * (always shown from 900px). Years are a radio group with a roving tab stop (arrow keys, Home, End).
- * A thin year shares a file with its neighbours (the foundation merges them, never borrowing cards from
- * other years): selecting it shades the whole range and the brief says so. A year with no cards says
- * that plainly and points to the nearest file. The brief holds the ONE primary action.
+/** Browse practice files by year without publishing the question-bank inventory.
+ * Session progress remains visible; year selection is keyboard-accessible.
  */
 import { useCallback, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { Check, ChevronRight } from 'lucide-react';
 import { routeForYear, YEAR_MODE, yearRoutes, type Route } from '../../../edition';
-import { formatNumber, SECTOR_NAMES_HI } from '../../data';
+import { SECTOR_NAMES_HI } from '../../data';
 import { href, Link, navigate, type AppRoute } from '../../router';
 import { useScreenTitle } from '../../shell/chrome';
 import { Button } from '../../ui/button';
@@ -42,8 +33,6 @@ export function YearsView({ route }: { route: AppRoute }) {
   const wide = useMedia('(min-width: 900px)');
   const files = yearRoutes();
   const counts = useMemo(() => yearCounts(), []);
-  const max = Math.max(1, ...counts.values());
-  const busiest = useMemo(() => [...counts.entries()].reduce((a, b) => (b[1] > a[1] ? b : a))[0], [counts]);
   const briefRef = useRef<HTMLDivElement>(null);
   const strip = useRef<HTMLDivElement>(null);
   const [hover, setHover] = useState<number | null>(null);
@@ -79,7 +68,6 @@ export function YearsView({ route }: { route: AppRoute }) {
   };
 
   const readoutYear = hover ?? year;
-  const readoutCount = counts.get(readoutYear) ?? 0;
   const readoutFile = routeForYear(readoutYear);
 
   return (
@@ -91,9 +79,9 @@ export function YearsView({ route }: { route: AppRoute }) {
 
       <figure className="h-years">
         <figcaption className="h-years__cap">
-          <span className="h-years__captitle">{t('Cards on file, by year', 'हर साल फ़ाइल में कार्ड')}</span>
+          <span className="h-years__captitle">{t('Choose a year to explore', 'जानने के लिए साल चुनें')}</span>
           <span className="h-years__readout" aria-hidden="true">
-            <span className="h-mono">{readoutYear}</span> · <span className="h-mono">{readoutCount}</span> {readoutCount === 1 ? t('card', 'कार्ड') : t('cards', 'कार्ड')}
+            <span className="h-mono">{readoutYear}</span>
             {readoutFile ? ` · ${readoutFile.merged ? t(`file ${yearFileLabel(readoutFile)}`, `फ़ाइल ${yearFileLabel(readoutFile)}`) : t('own file', 'अपनी फ़ाइल')}` : ` · ${t('no file', 'कोई फ़ाइल नहीं')}`}
           </span>
         </figcaption>
@@ -101,7 +89,7 @@ export function YearsView({ route }: { route: AppRoute }) {
           ref={strip}
           className="h-years__strip"
           role="radiogroup"
-          aria-label={t(`Years ${TRAIL_SPAN}: cards on file`, `साल ${TRAIL_SPAN}: फ़ाइल में कार्ड`)}
+          aria-label={t(`Explore years ${TRAIL_SPAN}`, `साल ${TRAIL_SPAN} देखें`)}
           onKeyDown={onKey}
           onPointerLeave={() => setHover(null)}
         >
@@ -127,10 +115,6 @@ export function YearsView({ route }: { route: AppRoute }) {
                 onPointerEnter={() => setHover(y)}
                 onFocus={() => setHover(null)}
               >
-                <span className="h-years__plot" aria-hidden="true" style={{ ['--v' as string]: `${n / max}` }}>
-                  {n && (y === year || y === busiest) ? <span className="h-years__val">{n}</span> : null}
-                  <span className={cx('h-years__bar', !n && 'h-years__bar--zero')} />
-                </span>
                 <span className="h-years__lbl" aria-hidden="true">
                   {y}
                 </span>
@@ -143,7 +127,7 @@ export function YearsView({ route }: { route: AppRoute }) {
         <ul className="h-years__legend" aria-label={t('Legend', 'संकेत')}>
           <li>
             <span className="h-years__key h-years__key--bar" aria-hidden="true" />
-            {t('Height: cards on file that year', 'ऊँचाई: उस साल फ़ाइल में कार्ड')}
+            {t('Select a year to open its practice file', 'अभ्यास फ़ाइल खोलने के लिए साल चुनें')}
           </li>
           <li>
             <span className="h-years__key h-years__key--same" aria-hidden="true" />
@@ -173,20 +157,11 @@ export function YearsView({ route }: { route: AppRoute }) {
               lead={
                 <>
                   <p>{file.subtitle}</p>
-                  {file.merged ? (
-                    <p>
-                      {(counts.get(year) ?? 0) > 0
-                        ? t(
-                            `${year} has ${counts.get(year)} ${(counts.get(year) ?? 0) === 1 ? 'card' : 'cards'} of its own — fewer than ${CARDS}, so it shares this file. No cards are borrowed from other years.`,
-                            `${year} के अपने ${counts.get(year)} कार्ड हैं — ${CARDS} से कम, इसलिए यह फ़ाइल साझा है। दूसरे सालों से कोई कार्ड उधार नहीं।`,
-                          )
-                        : t(`${year} has no cards of its own; the file around it holds its neighbours.`, `${year} का अपना कोई कार्ड नहीं; आसपास के सालों की फ़ाइल।`)}
-                    </p>
-                  ) : null}
+                  {file.merged ? <p>{t('This edition groups nearby years in one practice file.', 'इस अभ्यास फ़ाइल में आसपास के साल शामिल हैं।')}</p> : null}
                 </>
               }
               facts={[
-                { k: t('Cards', 'कार्ड'), v: `${CARDS} ${t('cards', 'कार्ड')} · ${formatNumber(file.poolSize)} ${t('on file', 'फ़ाइल में')}` },
+                { k: t('Cards', 'कार्ड'), v: `${CARDS} ${t('cards', 'कार्ड')}` },
                 { k: t('Sectors', 'सेक्टर'), v: <span lang={isHi ? 'hi' : undefined}>{file.topics.map((s) => (isHi && SECTOR_NAMES_HI[s] ? SECTOR_NAMES_HI[s] : s)).join(' · ')}</span> },
                 ...(status.best ? [{ k: t('Best', 'सर्वश्रेष्ठ'), v: <span className="h-mono">{bestText(status.best).replace(/^Best /, '')}</span> }] : []),
               ]}
@@ -202,7 +177,7 @@ export function YearsView({ route }: { route: AppRoute }) {
 }
 
 function yearLabel(y: number, n: number, f: Route | null, st: FileStatus) {
-  const cards = n === 0 ? 'no cards on file' : `${n} ${n === 1 ? 'card' : 'cards'} on file`;
+  const cards = f ? 'practice file available' : 'practice file being prepared';
   if (!f) return `${y}: ${cards}. No file yet.`;
   const which = f.merged ? `Shares the ${yearFileLabel(f)} file` : 'Own file';
   const state = st.state === 'cleared' ? 'cleared' : st.running ? `${st.done} of ${CARDS} answered` : 'sealed';
@@ -257,7 +232,7 @@ function YearTable({
                 <span className="h-years__rowyear h-mono">{yearFileLabel(f)}</span>
                 <span className="h-years__rowmain">
                   <span className="h-years__rowcount">
-                    <span className="h-mono">{formatNumber(f.poolSize)}</span> {t('cards on file', 'कार्ड')}
+                    {t('Practice file', 'अभ्यास फ़ाइल')}
                     {f.merged ? ` · ${t('merged years', 'साझा साल')}` : ''}
                   </span>
                   <span className="h-years__rowstate">{statusWords(s, t)}</span>

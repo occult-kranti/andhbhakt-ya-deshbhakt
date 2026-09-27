@@ -521,7 +521,8 @@ const Brief = function Brief({ drawer, centre, loaded, isHi, ref }: BriefProps &
             </div>
           ) : null}
         </dl>
-        <Button variant="primary" block href={href.route(r.id)}>
+        <Button variant="primary" block href={href.online()}>{t('Find a human duel', 'इंसानी मुक़ाबला ढूँढ़ो')}</Button>
+        <Button variant="paper" block href={href.route(r.id)}>
           {openWords(status, t)}
         </Button>
       </section>

@@ -81,7 +81,7 @@ export function MediaView(_: { route: AppRoute }) {
                 ) : null
               }
               facts={[
-                { k: t('Cards', 'कार्ड'), v: `${CARDS} ${t('cards', 'कार्ड')} · ${press.poolSize} ${t('on file', 'फ़ाइल में')}` },
+                { k: t('Cards', 'कार्ड'), v: `${CARDS} ${t('cards', 'कार्ड')}` },
                 { k: t('Chapters', 'अध्याय'), v: press.chapters.join(' → ') },
                 ...(status.best ? [{ k: t('Best', 'सर्वश्रेष्ठ'), v: <span className="h-mono">{bestText(status.best).replace(/^Best /, '')}</span> }] : []),
               ]}

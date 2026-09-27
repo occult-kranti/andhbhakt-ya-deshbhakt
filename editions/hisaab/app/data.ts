@@ -355,8 +355,8 @@ const LABEL_EXTRA: ReadonlyArray<{ hi: string; en: string; aside?: string; aside
   },
   { hi: 'टुकड़े-टुकड़े गैंग', en: 'Tukde-Tukde Gang', lineHi: 'करोड़ों को टुकड़ों में गिनते हैं।', hinglish: 'Crore ko tukdon mein ginta hai.' },
   {
-    hi: 'सर्टिफ़ाइड एंटी-नेशनल',
-    en: 'Certified Anti-National',
+    hi: 'देशभक्त',
+    en: 'Deshbhakt',
     lineHi: 'पैसा कहाँ गया, पता है। फिर भी पूछते हैं।',
     hinglish: 'Paisa kahan gaya, pata hai. Phir bhi poochta hai.',
   },

@@ -112,9 +112,9 @@ export const bestText = (best: FileStatus['best']) =>
 
 /** The primary-button words for a file, by where the player stands. */
 export function openWords(status: FileStatus, t: (en: string, hi?: string) => string): string {
-  if (status.running) return t(`Resume file · ${status.done} of ${CARDS}`, `फ़ाइल जारी रखो · ${status.done}/${CARDS}`);
-  if (status.state === 'cleared') return t('Replay file', 'फ़ाइल दोबारा खोलो');
-  return t('Open file', 'फ़ाइल खोलो');
+  if (status.running) return t(`Resume practice · ${status.done} of ${CARDS}`, `अभ्यास जारी रखो · ${status.done}/${CARDS}`);
+  if (status.state === 'cleared') return t('Practice again', 'फिर अभ्यास करो');
+  return t('Practice this file', 'इस फ़ाइल का अभ्यास');
 }
 
 /** One status line in words (never colour alone). */
@@ -138,7 +138,7 @@ export function stateCardsLine(route: Route, t: (en: string, hi?: string) => str
       `${route.ownCount} receipts from ${name}, ${route.padded.length} from the Centre.`,
       `${route.ownCount} रसीदें ${stateNameHi(route.state ?? '')} से, ${route.padded.length} केंद्र से।`,
     );
-  return t(`${CARDS} cards · ${route.poolSize} on file`, `${CARDS} कार्ड · फ़ाइल में ${route.poolSize}`);
+  return t(`${CARDS} cards per practice`, `हर अभ्यास में ${CARDS} कार्ड`);
 }
 
 // ---- bank slices -------------------------------------------------------------------------------------

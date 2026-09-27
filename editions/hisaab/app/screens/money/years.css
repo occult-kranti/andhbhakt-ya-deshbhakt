@@ -341,3 +341,6 @@
     display: none;
   }
 }
+
+/* Year browsing keeps equal tap targets without encoding bank inventory. */
+.h-years__y { justify-content: center; }

@@ -15,8 +15,6 @@ import { XP_BANDS } from '../../../engine/scoring.mjs';
 import {
   BABU_RANK_LADDER,
   BANK_ITEMS,
-  BOT_LINE,
-  BOT_NAME,
   formatNumber,
   LADDER_DISPLAY,
   SOURCE_KIND_TEXT,
@@ -117,7 +115,6 @@ export default function RulesScreen({ route }: ScreenProps) {
   }, []);
   const lanes = useMemo(() => laneCounts(), []);
   const total = BANK_ITEMS.length;
-  const withStatus = BANK_ITEMS.filter((q) => q.status).length;
 
   const jump = (id: string) => {
     navigate(href.rules(id), { replace: true });
@@ -186,12 +183,12 @@ export default function RulesScreen({ route }: ScreenProps) {
             </p>
             <p>
               Your rank is a label — the ones TV, WhatsApp and Reddit throw at people. You start as <strong>Andhbhakt</strong> (a blind devotee — of anyone, for
-              anything) and, receipt by receipt, earn your way to <strong>Certified Anti-National</strong>: the label you get for asking where the money went. The
+              anything) and, receipt by receipt, earn your way to <strong>Deshbhakt</strong>: curious enough to ask where the money went. The
               satire is aimed at labelling and at blind devotion — never at a religion, caste, region or community, never at a party's voters, and never at a private
               citizen.
             </p>
             <p>
-              <strong>Labels never apply to real people.</strong> A certificate whose name is, or contains, anyone named in our files prints “Anonymous Janta”.
+              <strong>Labels describe game progress, never political beliefs.</strong> A certificate whose name is, or contains, anyone named in our files prints “Anonymous Janta”.
               Certificates say “Satire. Not a government document.”
             </p>
             <p className="h-rules__hing">Funny at the top. Rigorous in the receipt. Nothing funny happens inside a receipt.</p>
@@ -244,7 +241,7 @@ export default function RulesScreen({ route }: ScreenProps) {
             <h3 className="h-rules__h3">{t('How statuses are dated', 'स्थिति की तारीख़ कैसे')}</h3>
             <p>
               Every item carries an <strong>as-of month</strong>: the month someone last checked its status against a source. It prints beside the status — “as of
-              Sep 2026” — on every receipt and every share card. {formatNumber(withStatus)} of the {formatNumber(total)} questions in this build carry a legal status.
+              Sep 2026” — on every receipt and every share card. Legal status appears when relevant to the claim.
             </p>
             <p>
               A status last checked more than {STALE_MONTHS} months ago is marked <strong>status older than {STALE_MONTHS} months</strong> in your Receipts Vault,
@@ -270,7 +267,6 @@ export default function RulesScreen({ route }: ScreenProps) {
               {govt.map(([g, n]) => (
                 <li key={g} className="h-rules__govtrow">
                   <Chip kind="govt">{g}</Chip>
-                  <span className="h-mono">{formatNumber(n)}</span>
                   <span className="h-rules__pct">{pct(n, total)}%</span>
                 </li>
               ))}
@@ -355,27 +351,11 @@ export default function RulesScreen({ route }: ScreenProps) {
 
             <h3 className="h-rules__h3">{t('Duels', 'मुक़ाबले')}</h3>
             <ul className="h-rules__ul">
-              <li>
-                Formats:{' '}
-                {DUEL_FORMATS.map((f, i) => (
-                  <span key={f.mode}>
-                    <strong>{f.name}</strong> — {f.rounds === 1 ? '1 question' : f.mode === 'trilogy' ? `best of ${f.rounds}` : `${f.rounds} questions`}, {f.duration} s
-                    each{i < DUEL_FORMATS.length - 1 ? '; ' : '.'}
-                  </span>
-                ))}
-              </li>
-              <li>
-                The verdict: a right answer beats a wrong one. If both are right, the faster wins — unless the two are within {(EDITION.tieMs / 1000).toFixed(2)} s,
-                which is a tie. Each device measures from when its question is shown; the stopwatch is not a precision comparison between devices. Options are never reshuffled mid-round.
-              </li>
-              <li>
-                <strong>{BOT_NAME}</strong>: {BOT_LINE} It picks one of the four options at random and answers at a random moment between 1 s and half a second
-                before the clock ends. It is always labelled BOT, and there is no hidden difficulty setting.
-              </li>
-              <li>
-                A correct round earns the stopwatch answer XP above against either Babu-Bot or a friend; a wrong answer earns 0 answer XP.
-                The duel closes each question after its deadline. File and daily questions have no deadline.
-              </li>
+              <li>Online duels are between two people. Choose a file and an optional stake before joining. There is no bot replacement when the queue is empty.</li>
+              <li>Each online match has five rounds and a 30-second deadline per question. Correct answers decide first; server-recorded dispatch-to-answer time breaks equal scores. Differences of 120 ms or less are draws. Connection delay still matters.</li>
+              <li>UPI tax savings are free game coins with no cash value or connection to your bank or taxes. Stakes apply once per match, are reserved on readiness and settled once; draws and pre-start or system cancellations return reserved coins. After both players are ready, leaving forfeits your stake. An absence of 90 seconds with an active opponent also forfeits it; if both are absent, stakes return. A zero stake is always available.</li>
+              <li>The file selection shows its earned reward before play. ×10 multiplies the eligible completion reward only; the wager pot is unchanged. Rewards are limited to qualifying play and the published daily cap.</li>
+              <li>Practice files are untimed learning without an opponent. Correct-answer XP follows the stopwatch bands above. Online competition records stay separate from editable device XP.</li>
               <li>
                 <strong>Surprise Audit</strong> is a separate bonus on selected duel rounds: a ×2 audit adds one extra answer reward;
                 a ×3 audit adds two. It never changes your base stopwatch band, and a wrong answer earns no audit bonus.
@@ -443,11 +423,11 @@ export default function RulesScreen({ route }: ScreenProps) {
           <Sec s={S('privacy')}>
             <ul className="h-rules__ul">
               <li>
-                <strong>No gameplay account required.</strong> Your progress, name and settings stay in this browser on this device.
+                <strong>No gameplay account required.</strong> Your practice progress, optional photo and settings stay in this browser. Online guest sessions, answers, balances and competition results are stored on the game server.
                 Export or delete your progress in Settings. Clearing browser storage removes local data.
               </li>
               <li>The browser requests the site and its assets from the hosting provider; the fonts are included in those assets. Solo gameplay does not upload your answers or progress to a gameplay server. Opening sources, WhatsApp or GitHub connects to those services when you choose.</li>
-              <li>Advertising is off in the default release. If enabled later, labeled ads are limited to the home and receipt archive footers after an eligible consent choice. They do not appear in questions, live rounds, circles or result receipts, and never award XP. The Privacy page explains ad data and controls.</li>
+              <li>Advertising is off in the default release. With approved configuration and an eligible privacy choice, an ad break may follow a completed practice game or two wins or three losses, after the result receipt. Ad availability and format depend on the provider. Ads never interrupt live rounds or award XP or coins. The Privacy page explains ad data and controls.</li>
               <li><strong>Circles</strong> save your per-circle nickname and people met on this device; choosing Connect shares that nickname and your self-reported device XP with online peers through the same peer-to-peer connections. Anyone holding the invite can join. There is no central member list or verified leaderboard; leaving removes your browser’s copy, not the invite.</li>
               <li>
                 <strong>Duel a Friend</strong> is peer-to-peer. The two browsers find each other through public Nostr relays, which carry only the connection setup,
@@ -456,7 +436,7 @@ export default function RulesScreen({ route }: ScreenProps) {
               </li>
               <li>
                 To connect directly, your browser asks public STUN servers (Google’s and Cloudflare’s) for its internet address, and the other player’s browser
-                learns that address — as with any video call. The relays see your address and a scrambled room id. There is no central gameplay account service.
+                learns that address — as with any video call. The relays see your address and a scrambled room id. These direct connections are separate from the online server guest service.
               </li>
               <li>
                 Friend duels are casual and trust-based: each browser reports its own answer time, and a modified browser could lie. There are no stakes and no
@@ -474,7 +454,7 @@ export default function RulesScreen({ route }: ScreenProps) {
               <li>No party symbols — not in the art, the icons or the emoji — and no party colours. Share grids use ✅ and ❌ only.</li>
               <li>No logos, mastheads or brand colours of media houses: outlet names are plain text.</li>
               <li>No outline map of India: states are a grid of tiles that makes no boundary claim.</li>
-              <li>No photos, caricatures or silhouettes of real people.</li>
+              <li>Certificates may show your chosen profile photo and an original Modi-inspired satirical cartoon. The cartoon changes expression with game progress; it is not a photograph or an endorsement. Certificates are clearly marked as satire.</li>
             </ul>
           </Sec>
 
@@ -540,12 +520,12 @@ export default function RulesScreen({ route }: ScreenProps) {
               ))}
             </ol>
             <p className="h-rules__fine">
-              {t('Files in this build', 'इस संस्करण की फ़ाइलें')} ({formatNumber(total)} {t('questions', 'सवाल')}):
+              {t('Explore the files', 'फ़ाइलें देखें')}:
             </p>
             <ul className="h-rules__lanes">
               {lanes.map((l) => (
                 <li key={l.lane}>
-                  {l.name} <span className="h-mono">{formatNumber(l.count)}</span>
+                  {l.name}
                 </li>
               ))}
             </ul>

@@ -12,6 +12,9 @@ export function normalizeAdConfig(raw = {}) {
     homeSlot: typeof raw.homeSlot === 'string' ? raw.homeSlot : '',
     cmpId: typeof raw.cmpId === 'string' ? raw.cmpId : '',
     origin: typeof raw.origin === 'string' ? raw.origin : '',
+    h5Enabled: raw.h5Enabled === true,
+    h5Approved: raw.h5Approved === true,
+    h5Test: raw.h5Test === true,
   });
 }
 
@@ -24,6 +27,9 @@ export function adConfigFromEnv(env = {}) {
     homeSlot: env.HISAAB_ADS_HOME_SLOT,
     cmpId: env.HISAAB_ADS_CMP_ID,
     origin: env.HISAAB_ADS_ORIGIN,
+    h5Enabled: env.HISAAB_ADS_H5_ENABLED === 'true',
+    h5Approved: env.HISAAB_ADS_H5_APPROVED === 'true',
+    h5Test: env.HISAAB_ADS_H5_TEST === 'true',
   });
 }
 
@@ -62,4 +68,19 @@ export function adsTxt(config) {
   return /^ca-pub-\d{16}$/.test(config?.client ?? '')
     ? `google.com, ${config.client.slice(3)}, DIRECT, f08c47fec0942fa0\n`
     : null;
+}
+
+/** H5 placements have their own approval and only run after a completed game. */
+export function gameAdEligibility(config, context, consent) {
+  // Reuse publisher, origin and CMP rules, not the home display unit or its route allowlist.
+  const publisher = adEligibility({ ...config, homeSlot: '0000000000' }, {
+    ...context, placement: 'home-footer', screen: 'home', hash: '#/',
+  }, consent);
+  if (!publisher.allowed) return publisher;
+  if (!config.h5Enabled) return { allowed: false, reason: 'h5-disabled' };
+  if (!config.h5Approved) return { allowed: false, reason: 'h5-not-approved' };
+  if (context?.phase !== 'completed' || context.activeGame !== false)
+    return { allowed: false, reason: 'game-not-complete' };
+  if (context.online === false) return { allowed: false, reason: 'offline' };
+  return { allowed: true, reason: 'ready' };
 }

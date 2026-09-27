@@ -184,8 +184,8 @@ export function SectorsView({ route }: { route: AppRoute }) {
                     <span className="h-typing__t">{f.sector}</span>
                     <span>
                       {t(
-                        `Being typed · ${f.pool} ${f.pool === 1 ? 'card' : 'cards'} so far. A file opens at ${CARDS}.`,
-                        `टाइप हो रही है · अभी ${f.pool} कार्ड। ${CARDS} पर फ़ाइल खुलेगी।`,
+                        'This practice file is being prepared.',
+                        'यह अभ्यास फ़ाइल तैयार हो रही है।',
                       )}
                     </span>
                   </div>
@@ -217,7 +217,7 @@ function FolderButton({ folder, selected, expanded, wide, onChoose }: { folder: 
       icon={ICONS[sector]}
       titleHi={SECTOR_NAMES_HI[sector]}
       title={isMedia ? (isHi ? 'किसका मीडिया?' : 'Kiska Media?') : sector}
-      meta={`${isMedia ? `${t('Media & Speech', 'मीडिया और अभिव्यक्ति')} · ` : ''}${CARDS} ${t('cards', 'कार्ड')} · ${r.poolSize} ${t('on file', 'फ़ाइल में')}${status.best ? ` · ${bestText(status.best)}` : ''}`}
+      meta={`${isMedia ? `${t('Media & Speech', 'मीडिया और अभिव्यक्ति')} · ` : ''}${CARDS} ${t('cards', 'कार्ड')}${status.best ? ` · ${bestText(status.best)}` : ''}`}
       state={status.state === 'progress' ? 'open' : status.state}
       seed={r.id}
       progress={status.running ? { value: status.done, max: CARDS, ticks: CARDS, label: t(`${status.done} of ${CARDS} answered`, `${status.done}/${CARDS} जवाब`) } : undefined}
@@ -265,7 +265,7 @@ function SectorBrief({ folder, loaded, inline }: { folder: Folder; loaded: boole
         <div>
           <dt>{t('Cards', 'कार्ड')}</dt>
           <dd>
-            {CARDS} {t('cards', 'कार्ड')} · {r.poolSize} {t('on file', 'फ़ाइल में')}
+            {CARDS} {t('cards', 'कार्ड')}
           </dd>
         </div>
         <div>
@@ -279,8 +279,9 @@ function SectorBrief({ folder, loaded, inline }: { folder: Folder; loaded: boole
           </div>
         ) : null}
       </dl>
-      <Button variant="primary" block href={href.route(r.id)}>
-        {isMedia && !status.running && status.state !== 'cleared' ? t('Open the press file', 'प्रेस फ़ाइल खोलो') : openWords(status, t)}
+      <Button variant="primary" block href={href.online('play', { file: isMedia ? 'media' : sector === 'Welfare & Subsidies' ? 'subsidies' : 'all' })}>{t('Find a human duel', 'इंसानी मुक़ाबला ढूँढ़ो')}</Button>
+      <Button variant="paper" block href={href.route(r.id)}>
+        {isMedia && !status.running && status.state !== 'cleared' ? t('Practice the press file', 'प्रेस फ़ाइल का अभ्यास') : openWords(status, t)}
       </Button>
       {isMedia ? (
         <Link to={href.files('media')} className="h-link h-link--tap">

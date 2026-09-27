@@ -29,15 +29,10 @@ const ICONS: Readonly<Record<string, ReactNode>> = {
   years: <CalendarRange size={22} strokeWidth={2.2} />,
 };
 
-/** "12 files · 2 cleared" / "1 file · 6 cards" / "No files yet" — the real counts, in the locale. */
+/** Discovery avoids inventory totals; only the player's own completed-file count is shown. */
 function useCountLine(entry: Entry) {
   const { t } = useLang();
-  const files =
-    entry.files === 0
-      ? t('No files yet', 'अभी कोई फ़ाइल नहीं')
-      : entry.files === 1
-        ? t('1 file · 6 cards', '1 फ़ाइल · 6 कार्ड')
-        : t(`${formatNumber(entry.files)} files`, `${formatNumber(entry.files)} फ़ाइलें`);
+  const files = entry.files === 0 ? t('No files yet', 'अभी कोई फ़ाइल नहीं') : t('Explore the file', 'फ़ाइल देखें');
   const cleared =
     entry.cleared > 0 ? t(`${formatNumber(entry.cleared)} cleared`, `${formatNumber(entry.cleared)} पूरी`) : null;
   return { files, cleared };

@@ -1,7 +1,7 @@
 /**
  * screens/me/ladder.tsx — the label ladder, the hero of the Profile (design bible §11.14, §4.5).
  *
- * Nine rows, Certified Anti-National on top. Every rung is readable (knowing the joke is the pull):
+ * Nine earned rows, Deshbhakt on top. Every rung is readable (knowing the joke is the pull):
  * Devanagari over Latin, the one-liner and its levels. Earned rungs carry an ISSUED stamp (with the date
  * where the record still has it); the current rung expands with the band meter, the Hinglish line and —
  * on phones — the certificate thumbnail and share action passed in as `current`.

@@ -295,7 +295,7 @@ export const CardResult = forwardRef<HTMLElement, CardResultProps>(function Card
   const headId = useId();
   const sharer = useShareState();
   const otherSide = otherSideOf(item);
-  const verdictLine = right ? t('Receipt mil gayi.', 'रसीद मिल गई।') : t('Galat. Par receipt toh le lo.', 'ग़लत। पर रसीद तो ले लो।');
+  const verdictLine = right ? t('Waah Waah! Receipt mil gayi.', 'वाह वाह! रसीद मिल गई।') : t('Galat. Par receipt toh le lo.', 'ग़लत। पर रसीद तो ले लो।');
   return (
     <section ref={ref} className="h-cardres" aria-labelledby={headId} tabIndex={-1}>
       <div className="h-cardres__verdict h-stamp-stage">

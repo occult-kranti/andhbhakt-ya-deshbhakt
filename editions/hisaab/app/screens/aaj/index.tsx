@@ -47,6 +47,7 @@ import {
 } from '../route/lib';
 import { ReceiptStrip } from '../route/receipt-strip';
 import { LabelCard } from '../start/label-card';
+import { CompletionAdBreak } from '../../ads/completion-ad-break';
 import './aaj.css';
 
 type DailyAnswer = { choice: number | null; correct: boolean; elapsedMs: number | null };
@@ -365,8 +366,8 @@ function AajFinish({
               <span aria-live="polite">{shareWords(sharer.state, t("Share today's grid", 'आज का ग्रिड भेजो'), t)}</span>
             </Button>
             <div className="h-aaj__row">
-              <Button variant="paper" size="s" href={href.files()}>
-                {t('Open a file', 'कोई फ़ाइल खोलो')}
+              <Button variant="paper" size="s" href={href.online('play', { file: 'today' })}>
+                {t('Duel today’s file', 'आज की फ़ाइल पर मुक़ाबला')}
               </Button>
               <Button variant="ghost" size="s" href={href.home()}>
                 {t('Home', 'होम')}
@@ -384,6 +385,7 @@ function AajFinish({
         )}
         share="challenge"
       />
+      <CompletionAdBreak completionId={`daily:${day}`} kind="practice" />
     </Page>
   );
 }

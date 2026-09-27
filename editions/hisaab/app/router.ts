@@ -98,7 +98,7 @@ const RULES: readonly Rule[] = [
   { pattern: new RegExp(`^/q/${ID}$`), name: 'taster', keys: ['id'], tab: 'home' },
   { pattern: /^\/online$/, name: 'online', view: 'play', tab: 'duel' },
   { pattern: /^\/online\/(standings|circles)$/, name: 'online', keys: ['view'], tab: 'duel' },
-  { pattern: /^\/duel$/, name: 'duel', view: 'setup', tab: 'duel' },
+  { pattern: /^\/duel$/, name: 'online', view: 'play', tab: 'duel' },
   { pattern: /^\/circles$/, name: 'circles', tab: 'circles' },
   { pattern: /^\/circles\/([a-f0-9]{32})$/, name: 'circles', keys: ['id'], tab: 'circles' },
   { pattern: /^\/duel\/friend$/, name: 'duel', view: 'friend', tab: 'duel' },
@@ -201,7 +201,7 @@ export const href = Object.freeze({
   aaj: () => '#/aaj',
   taster: (id: string) => `#/q/${encodeURIComponent(id)}`,
   online: (view: 'play' | 'standings' | 'circles' = 'play', query?: Record<string, string>) => `#/online${view === 'play' ? '' : `/${view}`}${queryString(query)}`,
-  duel: (query?: Record<string, string>) => `#/duel${queryString(query)}`,
+  duel: (query?: Record<string, string>) => `#/online${queryString(query ? Object.fromEntries(Object.entries(query).filter(([key]) => key !== 'vs')) : undefined)}`,
   circles: (id?: string) => `#/circles${id ? `/${encodeURIComponent(id)}` : ''}`,
   /** The P2P lobby; with a code it opens the join form pre-filled. */
   friend: (code?: string) => `#/duel/friend${queryString({ code })}`,

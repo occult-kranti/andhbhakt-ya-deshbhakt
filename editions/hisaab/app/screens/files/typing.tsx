@@ -1,17 +1,9 @@
-/**
- * screens/files/typing.tsx — a file that is still being typed: the designed empty state for a mode
- * or file with fewer than six cards in the bank (money-trail lanes not yet registered, a thin sector).
- *
- * Honest by construction: it prints the real number of cards typed so far and the real threshold
- * (a file opens at 6 — the engine's run length); nothing is padded or invented. When the lanes land,
- * the same screen shows the files instead, with no code change.
- */
+/** A prepared empty state for unpublished practice files. Internal pool counts stay private. */
 import { useId, type ReactNode } from 'react';
 import { Keyboard } from 'lucide-react';
 import { cx } from '../../ui/cx';
 import { useLang } from '../../ui/lang';
 import { Tape } from '../../ui/tape';
-import { CARDS } from './lib';
 import '../../ui/file-card.css';
 import './typing.css';
 
@@ -29,16 +21,10 @@ export type TypingFileProps = {
   className?: string;
 };
 
-export function TypingFile({ fno, title, titleHi, pool, action, className }: TypingFileProps) {
+export function TypingFile({ fno, title, titleHi, action, className }: TypingFileProps) {
   const { t } = useLang();
   const headId = useId();
-  const count =
-    pool > 0
-      ? t(
-          `${pool} ${pool === 1 ? 'card' : 'cards'} typed so far. A file opens at ${CARDS}.`,
-          `अभी तक ${pool} कार्ड टाइप हुए। ${CARDS} पर फ़ाइल खुलेगी।`,
-        )
-      : t(`No cards typed yet. A file opens at ${CARDS}.`, `अभी कोई कार्ड टाइप नहीं हुआ। ${CARDS} पर फ़ाइल खुलेगी।`);
+  const count = t('This file is being prepared. Try another file while it is checked.', 'यह फ़ाइल तैयार हो रही है। तब तक दूसरी फ़ाइल देखें।');
   return (
     <section className={cx('h-file', 'h-file--sealed', 'h-typefile', className)} aria-labelledby={headId}>
       <span className="h-file__tab">{fno}</span>

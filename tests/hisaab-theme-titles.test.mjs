@@ -15,11 +15,11 @@ test('daily rotation spans three editions and changes only on UTC-day boundaries
   for (const pref of [null, undefined, 'desh-bhakt', '', {}]) assert.equal(themePreference(pref), 'system');
 });
 
-const grant = { title: 'desh-bhakt', source: 'leaderboard', rank: 1, competitionId: 'daily-quick:2026-09-27', awardedAt: 1_000, expiresAt: 2_000 };
+const grant = { title: 'certified-antinational', source: 'leaderboard', rank: 1, competitionId: 'daily-quick:2026-09-27', awardedAt: 1_000, expiresAt: 2_000 };
 
 test('competition honour exists only inside its server supplied time window, for ranks 1–10', () => {
   assert.equal(activeCompetitionTitle(grant, 999), null);
-  assert.equal(activeCompetitionTitle(grant, 1_000)?.label, 'Desh Bhakt');
+  assert.equal(activeCompetitionTitle(grant, 1_000)?.label, 'Certified Anti-National');
   assert.equal(activeCompetitionTitle(grant, 1_999)?.ordinal, 9);
   assert.equal(activeCompetitionTitle(grant, 2_000), null);
   for (let rank = 1; rank <= 10; rank++) assert.equal(activeCompetitionTitle({ ...grant, rank }, 1_001)?.rank, rank);
@@ -35,8 +35,15 @@ test('no local progress, malformed or stale qualification can create the honour'
   for (const bad of invalid) assert.equal(activeCompetitionTitle(bad, 1_001), null);
   assert.equal(activeCompetitionTitle(grant, NaN), null);
   assert.equal(LABELS.length, 9);
-  assert.equal(LABELS.some((r) => r.label === 'Desh Bhakt' || r.ordinal === 9), false);
+  assert.equal(LABELS.some((r) => r.label === 'Certified Anti-National' || r.ordinal === 9), false);
   assert.equal(labelForLevel(40).band, 8, 'existing highest XP band is unchanged');
   assert.equal(labelForLevel(40).ordinal, 10);
   assert.deepEqual(LABELS.map((r) => r.ordinal), [1, 2, 3, 4, 5, 6, 7, 8, 10]);
+});
+
+test('savings honour is reserved for first place and old grants are rejected', () => {
+  assert.equal(activeCompetitionTitle({ ...grant, source: 'savings' }, 1001)?.label, 'Certified Anti-National');
+  assert.equal(activeCompetitionTitle({ ...grant, source: 'savings', rank: 2 }, 1001), null);
+  assert.equal(activeCompetitionTitle({ ...grant, title: 'desh-bhakt' }, 1001), null);
+  assert.equal(LABELS[8].label, 'Deshbhakt');
 });

@@ -1,0 +1,10 @@
+.h-outcome-cheer { display: flex; align-items: center; gap: 12px; margin: 20px 0; text-align: start; }
+.h-outcome-cheer__mark { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border: 1.5px solid currentColor; border-radius: 50%; color: var(--h-pass); animation: h-outcome-nod 650ms ease-out both; }
+.h-outcome-cheer--loss .h-outcome-cheer__mark { color: var(--h-noted); }
+.h-outcome-cheer--draw .h-outcome-cheer__mark { color: var(--h-ink); }
+.h-outcome-cheer strong { font-size: 18px; font-family: var(--h-font-display); }
+.h-outcome-cheer__note { display: block; margin-top: 3px; font-size: 14px; line-height: 1.45; }
+@keyframes h-outcome-nod { 0% { transform: scale(.92) rotate(-8deg); } 55% { transform: scale(1.06) rotate(4deg); } 100% { transform: none; } }
+:root[data-motion='reduced'] .h-outcome-cheer__mark,
+:root[data-effects='off'] .h-outcome-cheer__mark { animation: none; }
+@media (prefers-reduced-motion: reduce) { .h-outcome-cheer__mark { animation: none; } }

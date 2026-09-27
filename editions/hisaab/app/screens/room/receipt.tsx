@@ -1,7 +1,7 @@
 /**
  * screens/room/receipt.tsx — the round receipt between rounds (bible §11.11).
  *
- * Order (≤ 900 ms): option states → STAMP (SAHI · APPROVED / GALAT · OBJECTION / PENDING "No answer")
+ * Order (≤ 900 ms): option states → STAMP (WAAH WAAH / GALAT · OBJECTION / PENDING "No answer")
  * → the round line, only when true → the receipt prints (RECEIPT # · XP with its breakdown, SOURCE,
  * STATUS with as-of, OTHER SIDE, GOVT THEN) → the noting, collapsed ("Read the noting").
  * A Surprise Audit is announced here — this round's, and the NEXT round's before it starts — never on
@@ -153,7 +153,7 @@ export function RoundReceipt({
           )
         : t(`Level at ${mineScore}–${theirScore}.`, `${mineScore}–${theirScore} पर बराबर।`);
   const said = [
-    !mine ? t('No answer.', 'कोई जवाब नहीं।') : mine.correct ? t('Correct.', 'सही।') : t('Wrong.', 'ग़लत।'),
+    !mine ? t('No answer.', 'कोई जवाब नहीं।') : mine.correct ? t('Waah Waah! Correct.', 'वाह वाह! सही जवाब।') : t('Wrong.', 'ग़लत।'),
     key ? `${t('Answer', 'उत्तर')}: ${key}.` : '',
     line ?? '',
     scoreWords,

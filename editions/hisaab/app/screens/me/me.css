@@ -597,3 +597,7 @@
 .h-register__moresum:focus-visible {
   box-shadow: var(--h-focus-ring);
 }
+
+/* Local certificate portrait: quiet editing controls, image becomes the shared artifact. */
+.h-photo{display:grid;gap:12px;padding:16px 0;border-top:var(--h-bw) solid var(--h-line);border-bottom:var(--h-bw) solid var(--h-line)}
+.h-photo__intro{display:flex;gap:12px;align-items:center}.h-photo__intro strong{font-family:var(--h-font-display);font-size:22px;line-height:1.1}.h-photo__intro p,.h-photo__status{margin:5px 0 0;color:var(--h-ink-2);font-size:14px;line-height:1.4}.h-photo__preview{width:64px;height:64px;object-fit:cover;border:var(--h-bw) solid var(--h-line);flex:none}.h-photo__actions{display:flex;gap:8px;flex-wrap:wrap}.h-photo__status{min-height:1.4em}.h-certview__honourpick{margin:0;padding:14px;border:var(--h-bw) solid var(--h-syahi);background:var(--h-syahi-soft);display:flex;gap:10px;align-items:start}.h-certview__honourpick input{width:20px;height:20px;accent-color:var(--h-syahi)}.h-certview__honourpick small{display:block;font-size:12px;margin-top:4px}

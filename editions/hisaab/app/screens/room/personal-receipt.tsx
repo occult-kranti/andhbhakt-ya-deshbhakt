@@ -21,7 +21,7 @@ export function PersonalReceipt({ room, names, onSettings, banner, onSay }: {
   const q = answer.question;
   const item = itemById(q.factId ?? null);
   const rival = names[other(room.seat)];
-  const verdict = answer.correct ? t('Correct answer', 'सही जवाब') : t('Incorrect answer', 'ग़लत जवाब');
+  const verdict = answer.correct ? t('Waah Waah! Correct answer.', 'वाह वाह! सही जवाब।') : t('Incorrect answer', 'ग़लत जवाब');
   useEffect(() => {
     onSay(t(`Your answer: ${answer.correct ? 'correct' : 'incorrect'}. ${rival} is still answering.`, `आपका जवाब ${answer.correct ? 'सही' : 'ग़लत'}। ${rival} अभी जवाब दे रहा है।`));
     // One announcement for this answer; this component is keyed by its round.

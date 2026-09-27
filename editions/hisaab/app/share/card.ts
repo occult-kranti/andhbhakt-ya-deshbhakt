@@ -36,6 +36,10 @@ import {
 } from '../data';
 import { loadHandFont } from '../ui/fonts';
 import { stampAngle } from '../ui/seed';
+import { activeCompetitionTitle } from '../../engine/labels.mjs';
+import type { TitleGrant } from '../../online/types';
+import { online } from '../../online/runtime';
+import { certificateArt, honourLine, mascotAsset, spriteCrop } from './certificate-art.mjs';
 
 export const CARD_W = 1080;
 export const CARD_H = 1350;
@@ -698,6 +702,8 @@ export type CertificateCardInput = {
   /** Footer line; default the certificate's own. */
   footer: string;
   fno?: string;
+  portrait?: string | null;
+  competitionTitle?: TitleGrant | null;
 };
 
 const CERT_MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
@@ -714,185 +720,91 @@ function fitSize(ctx: Ctx, t: Tokens, role: FontRole, weight: number, text: stri
   return { size: min, lines: wrap(ctx, text, width) };
 }
 
+/** Decode same-origin generated art or a locally normalized portrait, never a remote photo URL. */
+async function certificateImage(source: string): Promise<HTMLImageElement | null> {
+  try {
+    const image = new Image();
+    await new Promise<void>((resolve, reject) => { image.onload = () => resolve(); image.onerror = reject; image.src = source; });
+    return image;
+  } catch { return null; }
+}
+
 /** The Certificate of Labelling as a PNG blob (1080 × 1350, ALWAYS light). */
 export async function renderCertificateCard(input: CertificateCardInput): Promise<Blob> {
   const t = lightTokens();
-  const label = labelDisplay(input.band);
+  const honour = activeCompetitionTitle(input.competitionTitle, online.now());
+  const rung = labelDisplay(input.band);
+  const label = honour ? { ...rung, en: honour.label, hi: honour.labelHi, aside: undefined } : rung;
+  const art = certificateArt(input.band, !!honour);
   const name = certificateName(input.name);
   const date = input.issuedOn === null ? null : new Date(input.issuedOn);
   const receipts = input.receipts === null ? null : Math.max(0, Math.floor(input.receipts));
-  const fno = input.fno ?? `L-${label.band}/${(date ?? new Date()).getFullYear()}-${String(receipts ?? 0).padStart(4, '0')}`;
+  const fno = input.fno ?? `L-${rung.band}/${(date ?? new Date()).getFullYear()}-${String(receipts ?? 0).padStart(4, '0')}`;
   const stampText = date ? `ISSUED · ${certDate(date)}` : 'ISSUED';
   const latin = label.en.toUpperCase();
-  await Promise.all([
-    loadHandFont(),
+  const base = (import.meta as ImportMeta & { env: { BASE_URL?: string } }).env?.BASE_URL || '/';
+  const [mascot, portrait] = await Promise.all([
+    certificateImage(mascotAsset(base)),
+    input.portrait?.startsWith('data:image/jpeg;base64,') ? certificateImage(input.portrait) : Promise.resolve(null),
     loadFaces(t, [
-      ['display', 700, `${label.hi} ${latin} ${name.toUpperCase()} ${stampText}`],
-      ['ui', 400, `This is to certify that has, after been officially labelled ${label.line} ${label.aside ?? ''}`],
-      ['ui', 600, `${formatNumber(receipts ?? 0)} sourced ${receipts === 1 ? 'receipt' : 'receipts'}`],
-      ['mono', 700, `CERTIFICATE OF LABELLING F.No. ${fno} 0123456789 of`],
-      ['mono', 400, `${input.footer} ${input.site}`],
-      ['hand', 400, 'Noted. Pl. forward.'],
+      ['display', 700, `${label.hi} ${latin} ${name.toUpperCase()} HISAAB DO.`],
+      ['ui', 400, `${art.caption} ${label.aside ?? ''} has earned the label`],
+      ['mono', 700, `CERTIFICATE OF LABELLING F.No. ${fno} ${stampText} ${input.footer} ${honourLine(honour)} ${input.site} 0123456789 ★`],
     ]),
   ]);
   const { canvas, ctx } = newCanvas();
-
-  // ground + the card with its 6px (here 16px) syahi hard shadow (bible §5 h-cert)
-  ctx.fillStyle = t.ground;
-  ctx.fillRect(0, 0, CARD_W, CARD_H);
-  const cx = 56;
-  const cy = 56;
-  const cw = CARD_W - 56 * 2 - 16;
-  const ch = CARD_H - 56 * 2 - 16;
-  roundRect(ctx, cx + 16, cy + 16, cw, ch, 48);
-  ctx.fillStyle = t.syahi;
-  ctx.fill();
-  roundRect(ctx, cx, cy, cw, ch, 48);
-  ctx.fillStyle = t.receipt;
-  ctx.fill();
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = t.line;
-  ctx.stroke();
-
-  const pad = 64;
-  const x = cx + pad;
-  const w = cw - pad * 2;
-  let y = cy + pad;
-
-  // header: typed title + file number, rule under it
-  ctx.font = fontOf(t, 'mono', 700, 26);
-  setSpacing(ctx, 4);
-  ctx.fillStyle = t.ink;
-  y += 26;
-  ctx.fillText('CERTIFICATE OF LABELLING', x, y);
-  const fnoText = `F.No. ${fno}`;
-  const titleW = ctx.measureText('CERTIFICATE OF LABELLING').width;
-  if (titleW + ctx.measureText(fnoText).width + 40 <= w) {
-    ctx.textAlign = 'right';
-    ctx.fillText(fnoText, x + w, y);
-    ctx.textAlign = 'left';
+  ctx.fillStyle = t.ground; ctx.fillRect(0, 0, CARD_W, CARD_H);
+  const x = 86, w = 908;
+  roundRect(ctx, 50, 50, 980, 1250, 24); ctx.fillStyle = t.syahi; ctx.fill();
+  roundRect(ctx, 38, 38, 980, 1250, 24); ctx.fillStyle = t.receipt; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = t.line; ctx.stroke();
+  ctx.fillStyle = t.ink; ctx.font = fontOf(t, 'display', 700, 57); ctx.fillText('HISAAB DO.', x, 115);
+  ctx.font = fontOf(t, 'mono', 700, 20); ctx.textAlign = 'right'; ctx.fillText('CERTIFICATE OF LABELLING', x + w, 88); ctx.fillText(`F.No. ${fno}`, x + w, 116); ctx.textAlign = 'left';
+  ctx.fillRect(x, 139, w, 3);
+  // Fixed image strip: an exact 30:70 → 90:10 split, independent of the title or optional portrait.
+  const top = 160, height = 365, pw = w * art.portrait / 100, mw = w - pw;
+  ctx.fillStyle = t['syahi-soft']; ctx.fillRect(x, top, pw, height);
+  ctx.save(); ctx.beginPath(); ctx.rect(x, top, pw, height); ctx.clip();
+  if (portrait) {
+    const scale = Math.max(pw / portrait.width, height / portrait.height);
+    ctx.drawImage(portrait, x + (pw - portrait.width * scale) / 2, top + (height - portrait.height * scale) * 0.38, portrait.width * scale, portrait.height * scale);
   } else {
-    y += 36;
-    ctx.fillText(fnoText, x, y);
+    ctx.fillStyle = t['syahi-text']; ctx.font = fontOf(t, 'display', 700, 125); ctx.textAlign = 'center';
+    ctx.fillText(name.split(/\s+/).slice(0, 2).map(part => part.charAt(0)).join('').toUpperCase(), x + pw / 2, top + height / 2 + 40); ctx.textAlign = 'left';
   }
-  setSpacing(ctx, 0);
-  y += 24;
-  ctx.fillRect(x, y, w, 4);
-  y += 30;
-
-  // "This is to certify that NAME has, after N sourced receipts, been officially labelled"
-  const body = fontOf(t, 'ui', 400, 38);
-  const strong = fontOf(t, 'ui', 600, 38);
-  const nameFont = fontOf(t, 'display', 700, 50);
-  const lines = wrapRuns(
-    ctx,
-    receipts === null
-      ? [
-          { text: 'This is to certify that ', font: body, color: t.ink },
-          { text: name.toUpperCase(), font: nameFont, color: t.ink },
-          { text: ' has been officially labelled', font: body, color: t.ink },
-        ]
-      : [
-          { text: 'This is to certify that ', font: body, color: t.ink },
-          { text: name.toUpperCase(), font: nameFont, color: t.ink },
-          { text: ' has, after ', font: body, color: t.ink },
-          { text: `${formatNumber(receipts)} sourced ${receipts === 1 ? 'receipt' : 'receipts'}`, font: strong, color: t.ink },
-          { text: ', been officially labelled', font: body, color: t.ink },
-        ],
-    w,
-  );
-  for (const line of lines) {
-    y += 56;
-    drawRunLine(ctx, line, x, y);
+  ctx.restore(); ctx.fillStyle = t.paper; ctx.fillRect(x + pw, top, mw, height);
+  if (mascot) {
+    const crop = spriteCrop(art.frame, mascot.width, mascot.height); const size = Math.min(mw, height);
+    ctx.drawImage(mascot, crop.x, crop.y, crop.width, crop.height, x + pw + (mw - size) / 2, top + (height - size) / 2, size, size);
   }
-  y += 34;
-
-  // the label: Devanagari above in syahi, Latin caps with the riso overprint
-  const hi = fitSize(ctx, t, 'display', 700, label.hi, w, 84, 44, 2);
-  ctx.font = fontOf(t, 'display', 700, hi.size);
-  ctx.fillStyle = t['syahi-text'];
-  for (const line of hi.lines) {
-    y += hi.size * 1.25;
-    ctx.fillText(line, x, y - hi.size * 0.2);
+  ctx.fillStyle = t.line; ctx.fillRect(x + pw - 1, top, 2, height); ctx.fillRect(x, top + height, w, 3);
+  ctx.fillStyle = t.ink; ctx.fillRect(x, top + height - 27, 82, 27); ctx.fillStyle = t.paper; ctx.font = fontOf(t, 'mono', 700, 18); ctx.fillText('JANTA', x + 10, top + height - 8);
+  ctx.fillStyle = t.ink; ctx.font = fontOf(t, 'mono', 700, 16); ctx.fillText('SATIRE', x + pw + 7, top + height - 8);
+  ctx.beginPath(); ctx.arc(x + w - 65, top + height + 4, 53, 0, Math.PI * 2); ctx.fillStyle = honour ? t.syahi : t.manila; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = t.ink; ctx.stroke();
+  ctx.fillStyle = honour ? t['syahi-ink'] : t.ink; ctx.textAlign = 'center'; ctx.font = fontOf(t, 'display', 700, 54); ctx.fillText(art.medal, x + w - 65, top + height + 22); ctx.textAlign = 'left';
+  const nameFit = fitSize(ctx, t, 'display', 700, name.toUpperCase(), w - 125, 64, 38, 1);
+  ctx.fillStyle = t.ink; ctx.font = fontOf(t, 'display', 700, nameFit.size); ctx.fillText(name.toUpperCase(), x, 606);
+  ctx.font = fontOf(t, 'ui', 400, 28); ctx.fillText('has earned the label', x, 643);
+  let y = 662;
+  const hi = fitSize(ctx, t, 'display', 700, label.hi, w, 55, 38, 1); ctx.font = fontOf(t, 'display', 700, hi.size); ctx.fillStyle = t['syahi-text'];
+  for (const line of hi.lines) { y += hi.size * 1.18; ctx.fillText(line, x, y); }
+  y += 15;
+  const en = fitSize(ctx, t, 'display', 700, latin, w, latin.length > 18 ? 76 : 104, 58, 2); ctx.font = fontOf(t, 'display', 700, en.size); ctx.fillStyle = t.ink;
+  for (const line of en.lines) { y += en.size * 1.02; ctx.fillText(line, x, y); }
+  if (label.aside) { y += 31; ctx.font = fontOf(t, 'ui', 400, 26); ctx.fillText(label.aside, x, y); }
+  y += 42; ctx.font = fontOf(t, 'ui', 400, 31); ctx.fillStyle = t['ink-2'];
+  for (const line of wrap(ctx, art.caption, w)) { ctx.fillText(line, x, y); y += 36; }
+  ctx.font = fontOf(t, 'mono', 700, 22); ctx.fillStyle = t.ink;
+  ctx.fillText(receipts === null ? 'RECEIPTS ON RECORD' : `${formatNumber(receipts)} SOURCED ${receipts === 1 ? 'RECEIPT' : 'RECEIPTS'}`, x, 1045);
+  ctx.textAlign = 'right'; ctx.fillText(stampText, x + w, 1045); ctx.textAlign = 'left';
+  if (honour) {
+    ctx.font = fontOf(t, 'mono', 700, 21); ctx.fillStyle = t['syahi-text']; wrap(ctx, honourLine(honour), w).forEach((line, i) => ctx.fillText(line, x, 1085 + i * 28));
+  } else {
+    LADDER_DISPLAY.forEach((r, i) => { ctx.beginPath(); ctx.arc(x + 10 + i * 30, 1085, 9, 0, Math.PI * 2); ctx.fillStyle = r.band <= rung.band ? t.syahi : t.paper; ctx.fill(); ctx.strokeStyle = t.line; ctx.lineWidth = 2; ctx.stroke(); });
+    ctx.fillStyle = t.ink; ctx.font = fontOf(t, 'mono', 700, 21); ctx.fillText(`${rung.band + 1} / ${LADDER_DISPLAY.length} earned`, x + 300, 1093);
   }
-  y += 8;
-  const en = fitSize(ctx, t, 'display', 700, latin, w - 10, 138, 64, 2);
-  ctx.font = fontOf(t, 'display', 700, en.size);
-  setSpacing(ctx, en.size * 0.02);
-  for (const line of en.lines) {
-    y += en.size * 0.95;
-    ctx.fillStyle = t['syahi-soft'];
-    ctx.fillText(line, x + 7, y + 7);
-    ctx.fillStyle = t.ink;
-    ctx.fillText(line, x, y);
-  }
-  setSpacing(ctx, 0);
-  if (label.aside) {
-    y += 44;
-    ctx.font = fontOf(t, 'ui', 400, 32);
-    ctx.fillStyle = t.ink;
-    ctx.fillText(label.aside, x, y);
-  }
-  y += 26;
-  ctx.font = fontOf(t, 'ui', 400, 36);
-  ctx.fillStyle = t['ink-2'];
-  for (const line of wrap(ctx, label.line, w)) {
-    y += 50;
-    ctx.fillText(line, x, y);
-  }
-
-  // bottom block, anchored to the card's foot: stamp + hand note, rung dots, footer
-  const footTop = cy + ch - pad - 88;
-  const dotsY = footTop - 46;
-  const stampY = dotsY - 120;
-  // The stamp sits left on its own line; the babu's hand note sits above it, right-aligned.
-  ctx.font = fontOf(t, 'display', 700, 40);
-  setSpacing(ctx, 40 * 0.08);
-  const stampW = ctx.measureText(stampText).width + 40 + 18;
-  setSpacing(ctx, 0);
-  drawStamp(ctx, t, stampText, x + 12 + stampW / 2, stampY, `cert-${label.band}`, 40, t.syahi);
-  ctx.save();
-  ctx.translate(x + w - 8, stampY - 82);
-  ctx.rotate((-3 * Math.PI) / 180);
-  ctx.font = fontOf(t, 'hand', 400, 44);
-  ctx.fillStyle = t['syahi-text'];
-  ctx.textAlign = 'right';
-  ctx.fillText('Noted. Pl. forward.', 0, 0);
-  ctx.restore();
-
-  const r = 13;
-  LADDER_DISPLAY.forEach((rung, i) => {
-    const dx = x + r + i * (r * 2 + 14);
-    ctx.beginPath();
-    ctx.arc(dx, dotsY, r, 0, Math.PI * 2);
-    ctx.fillStyle = rung.band <= label.band ? t.syahi : t.paper;
-    ctx.fill();
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = t.line;
-    ctx.stroke();
-  });
-  ctx.font = fontOf(t, 'mono', 700, 26);
-  ctx.fillStyle = t.ink;
-  ctx.fillText(`${label.band + 1} of ${LADDER_DISPLAY.length}`, x + LADDER_DISPLAY.length * (r * 2 + 14) + 10, dotsY + 9);
-
-  ctx.save();
-  ctx.setLineDash([14, 10]);
-  ctx.strokeStyle = t.line;
-  ctx.lineWidth = 4;
-  ctx.beginPath();
-  ctx.moveTo(x, footTop);
-  ctx.lineTo(x + w, footTop);
-  ctx.stroke();
-  ctx.restore();
-  // The disclaimer must survive a forward viewed on a phone (1080px → ~360px wide): bold ink at 28px
-  // reads at ~9px there, where 24px ink-2 at 400 was ~8px grey. Two lines at most, then the site.
-  ctx.font = fontOf(t, 'mono', 700, 28);
-  ctx.fillStyle = t.ink;
-  const foot = wrap(ctx, input.footer, w);
-  foot.slice(0, 2).forEach((line, i) => ctx.fillText(line, x, footTop + 40 + i * 34));
-  ctx.font = fontOf(t, 'mono', 400, 24);
-  ctx.fillStyle = t['ink-2'];
-  ctx.fillText(input.site, x, footTop + 40 + Math.min(2, foot.length) * 34);
-
+  ctx.strokeStyle = t.line; ctx.lineWidth = 2; ctx.setLineDash([10, 8]); ctx.beginPath(); ctx.moveTo(x, 1140); ctx.lineTo(x + w, 1140); ctx.stroke(); ctx.setLineDash([]);
+  ctx.font = fontOf(t, 'mono', 700, 24); ctx.fillStyle = t.ink;
+  wrap(ctx, input.footer, w).forEach((line, i) => ctx.fillText(line, x, 1180 + i * 30));
+  ctx.font = fontOf(t, 'mono', 400, 21); ctx.fillStyle = t['ink-2']; ctx.fillText(`${input.site} · Can you out-read me?`, x, 1250);
   return toBlob(canvas);
 }

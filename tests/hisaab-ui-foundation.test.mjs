@@ -279,7 +279,7 @@ test('the router parses every screen route, the share shorthands and query strin
     ['#/route/state-up', 'route', null, 'files', 'full'],
     ['#/aaj', 'aaj', null, 'home', 'full'],
     ['#/q/hsc001', 'taster', null, 'home', 'full'],
-    ['#/duel', 'duel', 'setup', 'duel', 'full'],
+    ['#/duel', 'online', 'play', 'duel', 'full'],
     ['#/duel/friend', 'duel', 'friend', 'duel', 'full'],
     ['#/duel/pass', 'pass', null, 'duel', 'none'],
     ['#/room', 'room', null, 'duel', 'none'],
@@ -491,7 +491,7 @@ test('data: source chips, status lines, labels, the BOT label and the certificat
 
   assert.equal(data.LADDER_DISPLAY.length, 9);
   assert.equal(data.labelDisplay(0).hi, 'अंधभक्त');
-  assert.equal(data.labelDisplay(8).en, 'Certified Anti-National');
+  assert.equal(data.labelDisplay(8).en, 'Deshbhakt');
   assert.equal(data.labelDisplay(6).aside, '(as per the forwards)');
   assert.equal(data.goalCopy(0), '4 levels to WhatsApp University Fresher');
   assert.equal(data.goalCopy(1e9), 'Top rung. Keep asking.');
