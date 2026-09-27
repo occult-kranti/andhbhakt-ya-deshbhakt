@@ -29,7 +29,7 @@ HISAAB DO puts a source-linked receipt inside a bilingual public-money quiz
 | Tagline | Janta ka paisa. Janta ka sawaal. |
 | Format | Playable browser game |
 | Languages | English and Hindi |
-| Link | https://hisaab-do.whatswrong-inc.chatgpt.site |
+| Link | https://occult-kranti.github.io/fact-duel/hisaab |
 | Current stage | Early playable product; online beta status follows release evidence |
 | Cash play | No cash entry or cash prizes |
 | Ownership/contact | Use the live contact page; founder/company particulars were not supplied |
@@ -49,7 +49,7 @@ Hello,
 
 I am building HISAAB DO, a browser quiz in English and Hindi about public money. Every answer comes with a receipt and source link. I thought it might interest your quiz or civic-learning community.
 
-The playable demo is here: https://hisaab-do.whatswrong-inc.chatgpt.site
+The playable demo is here: https://occult-kranti.github.io/fact-duel/hisaab
 
 If useful, I can walk you through one round and explain the editorial rules and the online beta. There is no expectation that you cover or endorse it.
 

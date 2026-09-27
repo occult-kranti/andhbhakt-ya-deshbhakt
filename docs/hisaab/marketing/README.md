@@ -1,6 +1,6 @@
 # HISAAB DO launch and investor pack
 
-Prepared 27 September 2026. Public product: https://hisaab-do.whatswrong-inc.chatgpt.site
+Prepared 27 September 2026. Public product: https://occult-kranti.github.io/fact-duel/hisaab
 
 This is an editable launch package, not evidence of product-market fit. The proposed online beta uses a server referee. Claims about release status must follow the root release report, not the date on this pack. The deck deliberately distinguishes the existing browser game, the online beta under construction, and later commercial experiments.
 

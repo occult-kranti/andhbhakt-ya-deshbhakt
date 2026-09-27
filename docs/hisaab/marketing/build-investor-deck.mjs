@@ -54,7 +54,7 @@ text('Janta ka paisa.\nJanta ka sawaal.',65,338,990,171,55,{serif:true});
 line(564,C.ink);
 text('A bilingual browser game with a receipt after every answer.',65,588,1115,53,28);
 text('Investor discussion   /   September 2026',65,661,1115,31,20,{color:C.muted});
-notes('Source: HISAAB DO project charter and live product https://hisaab-do.whatswrong-inc.chatgpt.site. Early playable product. Traction, financing terms and revenue were not supplied. This deck makes no claim of independently validated demand.');
+notes('Source: HISAAB DO project charter and live product https://occult-kranti.github.io/fact-duel/hisaab. Early playable product. Traction, financing terms and revenue were not supplied. This deck makes no claim of independently validated demand.');
 
 // 2: editorial thesis with clear distinction between a bet and evidence.
 slide('The product bet',2);
@@ -133,7 +133,7 @@ slide('Investment milestones',10,{dark:true});
 text('A stable community pilot.\nA measured reason to return.\nA supportable cost to serve.',64,231,1132,224,53,{serif:true,color:C.cream});
 text('Proposed use of funds: content stewardship, multiplayer reliability\nand focused distribution experiments.',65,506,1130,97,29,{color:C.cream});
 text('Raise amount, runway, team details and terms: founder input required.',65,637,1130,39,23,{color:C.lavender});
-notes('This is an introductory investor product discussion, not a completed financing memorandum. Funding amount, runway, terms, founder/team details, cap table, revenue, traction and market size were not supplied and must not be invented. Suggested milestones are proposals, not achieved facts. Demo: https://hisaab-do.whatswrong-inc.chatgpt.site. Service pricing reference, accessed 27 September 2026: https://supabase.com/pricing. A paid public launch plan and variable usage need a real operating budget.');
+notes('This is an introductory investor product discussion, not a completed financing memorandum. Funding amount, runway, terms, founder/team details, cap table, revenue, traction and market size were not supplied and must not be invented. Suggested milestones are proposals, not achieved facts. Demo: https://occult-kranti.github.io/fact-duel/hisaab. Service pricing reference, accessed 27 September 2026: https://supabase.com/pricing. A paid public launch plan and variable usage need a real operating budget.');
 
 const stagingDir=path.join(workspaceDir,'.codex-finalizer');
 await fs.mkdir(stagingDir,{recursive:true});

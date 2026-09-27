@@ -1,5 +1,7 @@
 # HISAAB DO server beta release
 
+> **Current hosting instruction — 27 September 2026:** Use GitHub Pages at https://occult-kranti.github.io/fact-duel/hisaab/ for the public game. The owner does not want ChatGPT Sites hosting. Publish future frontend updates only through the HISAAB Pages workflow; Supabase remains the multiplayer backend. Keep `main` and the other game unchanged. Earlier Sites references are historical.
+
 Release verification: 27 September 2026. Source branch:
 `claude/loving-pasteur-s8xwtf`. Do not merge this edition into `main`.
 
@@ -67,3 +69,27 @@ server beta. The previous browser modes remain available.
 The investor deck remains the prepared introductory draft; its build-stage
 labels predate this publication. This release record is authoritative for
 availability. Financing details, traction and marketing outcomes remain unset.
+
+
+## Current public release: GitHub Pages
+
+Verified 27 September 2026. The public URL is
+https://occult-kranti.github.io/fact-duel/hisaab/ and online entry is
+https://occult-kranti.github.io/fact-duel/hisaab/#/online.
+
+- HISAAB workflow run `36288385094`: completed successfully for application
+  source `f9d73b38893ff5f7cc812fbbaa325da4da6f588f`.
+- Pages build/deployment run `36288464020`: completed successfully for
+  `225f28e5b9ae62a232197a08dc9e625f2222cc8a` on `gh-pages`.
+- Public HTML, application bundle and online bundle returned HTTP 200. The
+  online bundle contains the expected Supabase endpoint and matchmaking/private
+  room controls.
+- Supabase preflight accepted the GitHub Pages origin. A fresh disposable guest
+  creation, profile read and session deletion each returned HTTP 200 with
+  `ok: true`. No test identity or token was retained.
+- Comparing the prior and new Pages trees found no changed files outside
+  `hisaab/`. `main` remains at `9c90aa3c7ee5d6a3f7a2e1e1492b20f95cf91232`.
+
+These deployment and connection checks do not replace the separate-network
+latency or remaining browser-flow checks recorded above. The earlier Sites
+publication is historical; all future frontend delivery uses GitHub Pages.

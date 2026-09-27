@@ -63,7 +63,7 @@ Do not advertise a public tournament schedule until its exact rules, UTC times, 
 
 The use-of-funds discussion begins with content stewardship, dependable multiplayer operations and measured distribution experiments. The founder must supply the raise amount, runway, terms, company details, team biographies, ownership and budget. Each proposed tranche should buy evidence: a stable pilot, a repeatable cohort result, then a supportable cost per completed match.
 
-The live demo is available at https://hisaab-do.whatswrong-inc.chatgpt.site. Traction, revenue and financing terms are not supplied. This deck can support an introductory product discussion; it is not a complete investment memorandum.
+The live demo is available at https://occult-kranti.github.io/fact-duel/hisaab. Traction, revenue and financing terms are not supplied. This deck can support an introductory product discussion; it is not a complete investment memorandum.
 
 ## Source and evidence ledger
 

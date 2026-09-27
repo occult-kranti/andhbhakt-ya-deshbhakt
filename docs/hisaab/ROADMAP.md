@@ -1,5 +1,7 @@
 # HISAAB DO — release roadmap
 
+> **Current hosting instruction — 27 September 2026:** Use GitHub Pages at https://occult-kranti.github.io/fact-duel/hisaab/ for the public game. The owner does not want ChatGPT Sites hosting. Publish future frontend updates only through the HISAAB Pages workflow; Supabase remains the multiplayer backend. Keep `main` and the other game unchanged. Earlier Sites references are historical.
+
 Team lead: Claude (this session). Branch: `claude/loving-pasteur-s8xwtf`. Charter: `CHARTER.md`.
 Each lane below is one subagent with a written brief. A lane is done only when its acceptance
 checks pass; the lead merges, reviews and deploys.

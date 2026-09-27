@@ -1,10 +1,12 @@
 # HISAAB DO — server launch and operating plan
 
-Reviewed **27 September 2026**. This is the server expansion of the independent HISAAB site. Keep its source on `claude/loving-pasteur-s8xwtf`, its publication on the separate HISAAB Sites project, and Jaanta Kya Hai and `main` unchanged. Domain registration is deliberately excluded from the service list below.
+> **Current hosting instruction — 27 September 2026:** Use GitHub Pages at https://occult-kranti.github.io/fact-duel/hisaab/ for the public game. The owner does not want ChatGPT Sites hosting. Publish future frontend updates only through the HISAAB Pages workflow; Supabase remains the multiplayer backend. Keep `main` and the other game unchanged. Earlier Sites references are historical.
+
+Reviewed **27 September 2026**. This is the server expansion of the independent HISAAB site. Keep its source on `claude/loving-pasteur-s8xwtf`, its publication in `gh-pages/hisaab/`, and Jaanta Kya Hai and `main` unchanged. Domain registration is deliberately excluded from the service list below.
 
 ## Architecture and release boundary
 
-The selected architecture is the existing static Sites frontend plus a Supabase Edge command API and durable PostgreSQL match transactions in the existing Mumbai (`ap-south-1`) project. The release owner inspected project `wvupsqfevlrmhqfjreyx` as **ACTIVE_HEALTHY** during this server expansion; the inactive observation in the earlier static-release document is historical. Project health alone does not prove deployment of this game. The database is the referee: the browser submits an answer choice, never a score or an authoritative elapsed time. This does not require a continuously running virtual machine or a physics simulation.
+The selected architecture is the GitHub Pages frontend plus a Supabase Edge command API and durable PostgreSQL match transactions in the existing Mumbai (`ap-south-1`) project. The release owner inspected project `wvupsqfevlrmhqfjreyx` as **ACTIVE_HEALTHY** during this server expansion; the inactive observation in the earlier static-release document is historical. Project health alone does not prove deployment of this game. The database is the referee: the browser submits an answer choice, never a score or an authoritative elapsed time. This does not require a continuously running virtual machine or a physics simulation.
 
 The implementation lane uses a cryptographically random 256-bit guest bearer token, stored in the browser, with only its SHA-256 hash in the database and a 30-day server expiry. This is a device-bound guest profile, **not Supabase Auth, a verified person, or recoverable cross-device login**. Clearing storage or changing origin can lose access. Personal practice XP is separate from server-recorded competition results; do not import browser XP into public standings.
 
@@ -71,7 +73,7 @@ The best-five tournament caps counted contributions, not attempts: more play can
 
 | Service | Needed now? | Concrete owner action / cost position |
 | --- | --- | --- |
-| Existing HISAAB Sites hosting | Already connected | Reuse `appgprj_6ab86670b86c8191b6f997fe9ef5aa90`. Confirm the account's actual hosting plan and access; no independent price has been verified here. Do not replace the original game's project. |
+| GitHub Pages hosting | Active | Reuse the existing `fact-duel` Pages publication at `/hisaab/`. The HISAAB workflow replaces only that directory. No ChatGPT Sites service is required. |
 | Existing Supabase project | Required for server play | Use `wvupsqfevlrmhqfjreyx`, Mumbai, after successful migration/function deployment and permission tests. A bounded pilot can use available Free capacity. **Pro starts at US$25/month** and is recommended before broad public promotion for non-pausing service and daily backups; extra compute/usage/taxes can add cost. Pro is not an uptime SLA. [S1] |
 | Cloudflare Turnstile or equivalent CAPTCHA | Recommended before opening anonymous registration broadly | A Turnstile Free account supports up to 20 widgets and unlimited challenges. Connect public site key plus server-only secret and validate server-side on guest creation / suspicious activity. It is not automatically installed by reading this plan, and it is not identity verification. No paid Cloudflare hosting is needed just to use Turnstile. [S5] |
 | Real support/privacy inbox | Recommended before public promotion | Supply a monitored address, responsible owner and response process. Existing public GitHub issues are not a private mailbox. Provider and cost remain an owner choice. |

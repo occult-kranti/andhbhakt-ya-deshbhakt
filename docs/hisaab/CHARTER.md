@@ -1,5 +1,7 @@
 # HISAAB DO — project charter
 
+> **Current hosting instruction — 27 September 2026:** Use GitHub Pages at https://occult-kranti.github.io/fact-duel/hisaab/ for the public game. The owner does not want ChatGPT Sites hosting. Publish future frontend updates only through the HISAAB Pages workflow; Supabase remains the multiplayer backend. Keep `main` and the other game unchanged. Earlier Sites references are historical.
+
 *हिसाब दो — "Show us the accounts."*
 *Janta ka paisa. Janta ka sawaal.* (The people's money. The people's question.)
 
