@@ -88,7 +88,7 @@ try {
   });
   await check('three independent disposable device identities', async () => {
     for (const suffix of ['A', 'B', 'C']) {
-      const response = await call(null, 'session', { nickname: `HISAAB_QA_${seed}_${suffix}` });
+      const response = await call(null, 'session', { nickname: `HISAAB_QA_${seed}_${suffix}`, email: `hisaab-qa-${crypto.randomUUID()}@example.invalid`, adultConfirmed: true, termsVersion: 'beta-1' });
       assert.match(response.token, /^[a-f0-9]{64}$/);
       sessions.push({ ...response.session, token: response.token });
       report.identities.push({ id: response.session.id, nickname: response.session.nickname });

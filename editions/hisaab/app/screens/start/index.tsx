@@ -5,7 +5,7 @@
  * Phone: a full-height poster. The kicker F.No. 00/IN/<year> sits beside the EN/हिं toggle, then
  * अंधभक्त या देशभक्त / SHOW US THE ACCOUNTS, the motto and three typed lines with real counts. Below it: the pitch
  * (or, after the first receipt, the inline label card), ONE violet primary (Open today's file) and three
- * text links (a state, the money trail, a duel code). Footer: "No account. Stored on this device. Rules &
+ * text links (a state, the money trail, a duel code). Footer: "Local progress stays on this device. Player profile required to play. Rules &
  * sources". Desktop (≥ 900px): the poster on a halftone patch with static TIJORI art (7 cols) | the
  * action column (5 cols).
  *
@@ -167,7 +167,7 @@ export default function StartScreen(_props: ScreenProps) {
 
         <footer className="h-start__foot">
           <p>
-            {t('No account. Stored on this device.', 'कोई अकाउंट नहीं। सब इसी डिवाइस पर।')}{' '}
+            {t('Local progress stays on this device. Player profile required to play.', 'स्थानीय प्रगति इसी डिवाइस पर। खेलने के लिए खिलाड़ी प्रोफ़ाइल चाहिए।')}{' '}
             <a className="h-link h-link--tap" href={href.rules()}>
               {t('Rules & sources', 'नियम और स्रोत')}
             </a>

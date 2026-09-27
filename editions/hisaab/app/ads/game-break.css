@@ -1,3 +1,16 @@
+.h-game-ad-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 16px 0;
+  padding: 12px 16px;
+  border: 1px solid var(--h-ink);
+  background: var(--h-paper);
+  color: var(--h-ink);
+  font-size: 14px;
+}
+.h-game-ad-entry button { flex: none; }
 .h-game-ad {
   width: min(64rem, calc(100vw - 24px));
   max-height: calc(100dvh - 24px);
@@ -15,5 +28,6 @@
 .h-game-ad__continue:disabled { opacity: .5; cursor: wait; }
 .h-game-ad__continue:focus-visible { outline: 3px solid var(--h-noted); outline-offset: 4px; }
 @media (max-width: 520px) {
+  .h-game-ad-entry { align-items: stretch; flex-direction: column; }
   .h-game-ad__head { align-items: start; flex-direction: column; gap: 12px; }
 }

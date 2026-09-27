@@ -1,0 +1,33 @@
+.h-access { max-width: 810px; gap: 0; }
+.h-access__folio { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; border-block: 3px double var(--h-rule); padding: 12px 0; color: var(--h-ink-2); font: .78rem var(--h-font-mono); letter-spacing: .04em; }
+.h-access__sheet { padding: clamp(22px, 5vw, 48px) 0 44px; max-width: 640px; }
+.h-access__eyebrow { margin: 0 0 14px; color: var(--h-syahi-text); font: .82rem var(--h-font-mono); letter-spacing: .08em; }
+.h-access h1 { margin: 0 0 12px; font: clamp(2.2rem, 7vw, 4.25rem)/1.08 var(--h-font-editorial, var(--h-font-display)); overflow-wrap: anywhere; }
+.h-access p { line-height: 1.55; }
+.h-access__lead { margin: 0 0 26px; color: var(--h-ink-2); max-width: 58ch; }
+.h-access form { display: grid; gap: 18px; }
+.h-access form > label { display: grid; gap: 6px; font-weight: 700; }
+.h-access input:not([type=checkbox]):not([type=radio]), .h-access select { width: 100%; min-width: 0; min-height: 48px; padding: 10px 12px; border: 2px solid var(--h-line); border-radius: 4px; background: var(--h-paper); color: var(--h-ink); font: max(1rem, 16px) var(--h-font-body, inherit); }
+.h-access form input:not([type=checkbox]):not([type=radio])[aria-invalid=true] { border-color: var(--h-fail-text); }
+.h-access label small { font-size: .87rem; line-height: 1.45; font-weight: 400; color: var(--h-ink-2); }
+.h-access__avatars { display: flex; flex-wrap: wrap; gap: 10px; border: 0; padding: 0; margin: 0; }
+.h-access__avatars legend { font-weight: 700; margin-bottom: 8px; }
+.h-access__avatars label { position: relative; display: inline-grid; place-items: center; width: 48px; height: 48px; border: 2px solid var(--h-line); background: var(--h-paper); cursor: pointer; }
+.h-access__avatars label:has(input:checked) { border-color: var(--h-syahi); background: var(--h-syahi-soft); }
+.h-access__avatars input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.h-access__avatars label:has(input:focus-visible) { outline: 3px solid var(--h-syahi); outline-offset: 3px; }
+.h-access__avatars label > span:not(.h-sr) { font-size: 1.35rem; }
+.h-access .h-access__check { display: flex; align-items: start; gap: 12px; font-weight: 400; line-height: 1.45; }
+.h-access__check input { width: 22px; height: 22px; flex: 0 0 22px; accent-color: var(--h-syahi); }
+.h-access__error { margin: 0; border-left: 4px solid var(--h-fail-text); padding: 10px 12px; background: var(--h-fail-soft, var(--h-paper)); }
+.h-access form > .h-btn { justify-self: start; }
+.h-access__secondary { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 26px; border-top: 1px solid var(--h-hair); padding-top: 18px; }
+.h-access__secondary button { padding: 0; border: 0; background: none; font: inherit; text-decoration: underline; color: var(--h-syahi-text); cursor: pointer; }
+.h-access__secondary a { color: var(--h-ink-2); }
+.h-access__replace { margin-top: 18px; border-top: 1px solid var(--h-hair); padding-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+.h-access__replace p { flex-basis: 100%; margin: 0; }
+.h-access__replace > button:not(.h-btn) { border: 0; background: none; padding: 0; color: var(--h-syahi-text); text-decoration: underline; cursor: pointer; font: inherit; min-height: 40px; }
+.h-access__secondary :is(a,button) { min-height: 40px; display: inline-flex; align-items: center; }
+.h-access__code { display: block; margin: 22px 0; padding: 18px; background: var(--h-manila); color: var(--h-manila-ink); font: 1rem/1.8 var(--h-font-mono); overflow-wrap: anywhere; user-select: all; }
+.h-access__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 600px) { .h-access__actions .h-btn { width: 100%; } }

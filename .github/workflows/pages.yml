@@ -24,6 +24,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Verify source
+        env:
+          PGLITE_MODULE_PATH: ${{ github.workspace }}/node_modules/@electric-sql/pglite/dist/index.js
         run: |
           pnpm exec tsc --noEmit
           node --test tests/*.test.mjs

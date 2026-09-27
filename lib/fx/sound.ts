@@ -827,6 +827,7 @@ export class SoundEngine {
   private lastPlayed = new Map<Cue, number>();
   private prefsBound = false;
   private testRun: AbortController | null = null;
+  private adPauses = 0;
 
   /** All cue names, in audition order. */
   readonly cues = CUES;
@@ -871,9 +872,26 @@ export class SoundEngine {
    * `<FxProvider>` installs one for you. Safe to call repeatedly.
    */
   unlock(): void {
+    if (this.adPauses) return;
     const ac = this.ensure();
     if (!ac) return;
     if (ac.state === 'suspended') void ac.resume().catch(() => undefined);
+  }
+
+  /** Silence game cues while a provider owns an ad break, including gesture auto-unlock. */
+  pauseForAd(): () => void {
+    this.adPauses += 1;
+    if (this.adPauses === 1) {
+      this.stop();
+      if (this.ctx?.state === 'running') void this.ctx.suspend().catch(() => undefined);
+    }
+    let released = false;
+    return () => {
+      if (released) return;
+      released = true;
+      this.adPauses = Math.max(0, this.adPauses - 1);
+      // Do not force playback after the break; the next user gesture can unlock it.
+    };
   }
 
   private noiseFor(ac: BaseAudioContext): (color: NoiseColor) => AudioBuffer {
@@ -892,7 +910,7 @@ export class SoundEngine {
    * hidden tab, throttled, unsupported, server).
    */
   play(cue: Cue, opts: PlayOptions = {}): number {
-    if (typeof document === 'undefined') return 0;
+    if (typeof document === 'undefined' || this.adPauses) return 0;
     const prefs = getPrefs();
     if (!prefs.sound || prefs.volume <= 0 || document.hidden) return 0;
     const builder = BUILDERS[cue];

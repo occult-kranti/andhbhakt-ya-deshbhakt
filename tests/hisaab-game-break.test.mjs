@@ -10,11 +10,11 @@ const context = { origin: config.origin, phase: 'completed', activeGame: false, 
 const consent = { status: 'ready', providerId: 'test-cmp', advertisingAllowed: true, storageAllowed: true, regionalRulesSatisfied: true, audience: 'adult' };
 const duel = (id, outcome) => ({ id, kind: 'duel', outcome });
 
-test('mixed results count independent cumulative 2-win / 3-loss cadence; one due placement per completion', () => {
+test('mixed results count independently until an opportunity resets both tallies', () => {
   let state = emptyCadence();
   const outcomes = ['win', 'loss', 'draw', 'loss', 'win', 'loss', 'win', 'win'];
   const due = outcomes.map((outcome, i) => { const r = reduceCompletion(state, duel(String(i), outcome)); state = r.state; return r.due; });
-  assert.deepEqual(due, [false, false, false, false, true, true, false, true]);
+  assert.deepEqual(due, [false, false, false, false, true, false, false, true]);
   assert.equal(state.wins, 0);
   assert.equal(state.losses, 0);
 });

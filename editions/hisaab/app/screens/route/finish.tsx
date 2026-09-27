@@ -113,7 +113,6 @@ export function RouteFinish({ route, record, run, journeys, journal, progression
 
   return (
     <Page screen="route-finish" className="h-finish">
-      <CompletionAdBreak completionId={`file:${run.id}`} kind="practice" />
       <ScreenHeader
         kicker={`${fileNo(route)} · ${t('CLEARED', 'क्लियर')}`}
         titleHi={titleHi}
@@ -193,6 +192,7 @@ export function RouteFinish({ route, record, run, journeys, journal, progression
           </div>
         </div>
       </div>
+      <CompletionAdBreak completionId={`file:${run.id}`} kind="practice" />
       <ReceiptStrip
         entries={minis}
         title={t('Share this file', 'यह फ़ाइल भेजो')}

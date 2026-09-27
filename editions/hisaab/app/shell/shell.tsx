@@ -16,6 +16,7 @@ import { ChromeContext, TITLE_SUFFIX } from './chrome';
 import { ScreenBoundary } from './error-boundary';
 import { Nav } from './nav';
 import { ProgressionWatch } from './progression-watch';
+import { ProfileAccess } from './profile-access';
 import { DEV_SCREENS, SCREENS, SCREEN_TITLES } from './screens';
 import { TopBar } from './top-bar';
 import { applyTheme, useTheme } from './theme';
@@ -149,7 +150,9 @@ export function Shell() {
               }
             >
               <div className={chrome === 'none' ? 'h-screen' : 'h-screen h-screen--enter'} key={route.path}>
-                {Screen ? <Screen route={route} /> : <NotFound />}
+                <ProfileAccess routeName={route.name} routeView={route.view}>
+                  {Screen ? <Screen route={route} /> : <NotFound />}
+                </ProfileAccess>
               </div>
             </Suspense>
           </ScreenBoundary>

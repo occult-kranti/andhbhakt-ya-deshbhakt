@@ -8,7 +8,7 @@ export const DUEL_FILES = Object.freeze([
  { id: 'pre-election', name: 'Pre-election', rewardMultiplier: 10 },
  { id: 'media', name: 'Who owns media?', rewardMultiplier: 10 },
 ].map(Object.freeze));
-export const ACTIONS = new Set(['session', 'deleteSession', 'profile', 'create', 'join', 'queue', 'snapshot', 'ready', 'answer', 'next', 'leave', 'leaderboards', 'leaderboard', 'tournaments', 'circles']);
+export const ACTIONS = new Set(['session', 'recover', 'rotateRecovery', 'exportProfile', 'deleteSession', 'profile', 'create', 'join', 'queue', 'snapshot', 'ready', 'answer', 'next', 'leave', 'leaderboards', 'leaderboard', 'tournaments', 'circles']);
 export class GameError extends Error { constructor(code, message, status = 400) { super(message); this.code = code; this.status = status; } }
 export function cleanNickname(value) {
   if (typeof value !== 'string') throw new GameError('BAD_NICKNAME', 'Choose a nickname.');
@@ -21,6 +21,24 @@ export function validateInput(body) {
   const payload = { ...body }; delete payload.action;
   // Never accept identity, timing, scores or answers supplied as assertions.
   for (const key of ['sessionId','playerId','elapsedMs','correct','score','xp','correctIndex','serverNow','tokenHash','balance','savings','reward','rewardMultiplier','payout','winnerId']) delete payload[key];
+  delete payload._recoveryHash;
+  if (['session','profile'].includes(body.action)) {
+    if (payload.email != null) {
+      if (typeof payload.email !== 'string') throw new GameError('BAD_EMAIL','Enter a valid email address.');
+      payload.email = payload.email.trim().toLowerCase();
+      if (payload.email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) throw new GameError('BAD_EMAIL','Enter a valid email address.');
+    }
+    if (payload.adultConfirmed != null && payload.adultConfirmed !== true) throw new GameError('AGE_CONFIRMATION_REQUIRED','Confirm that you are at least 18.');
+    if (payload.termsVersion != null && payload.termsVersion !== 'beta-1') throw new GameError('TERMS_REQUIRED','Accept the current beta terms.');
+    if (payload.avatar != null && !['spark','shield','bolt','star','book','compass'].includes(payload.avatar)) throw new GameError('BAD_AVATAR','Choose a supported avatar.');
+    if (payload.locale != null && !['en','hi'].includes(payload.locale)) throw new GameError('BAD_LOCALE','Choose a supported language.');
+    if (payload.preferences != null && (typeof payload.preferences !== 'object' || Array.isArray(payload.preferences) || Object.keys(payload.preferences).some(key => !['sound','reducedMotion'].includes(key)) || Object.values(payload.preferences).some(value => typeof value !== 'boolean'))) throw new GameError('BAD_PREFERENCES','Choose supported preferences.');
+    if (body.action === 'session' && (!payload.email || payload.adultConfirmed !== true || payload.termsVersion !== 'beta-1')) throw new GameError('PROFILE_REQUIRED','Email, 18+ confirmation and beta terms are required.');
+  }
+  if (body.action === 'recover') {
+    if (!/^[a-f0-9]{64}$/.test(payload.recoveryCode || '')) throw new GameError('BAD_RECOVERY','The recovery code is invalid.');
+    payload.recoveryCode = undefined;
+  }
   if (body.action === 'session' || (body.action === 'profile' && payload.nickname != null)) payload.nickname = cleanNickname(payload.nickname);
   if (payload.nickname != null) payload.nickname = cleanNickname(payload.nickname);
   if (payload.roomId != null && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(payload.roomId)) throw new GameError('BAD_ROOM', 'Invalid room.');
@@ -46,3 +64,9 @@ export function roundWinner(answers, tieMs = 120) {
   return right[0].elapsedMs < right[1].elapsedMs ? right[0].playerId : right[1].playerId;
 }
 export function stopwatchXp(correct, elapsedMs) { return !correct ? 0 : elapsedMs < 8000 ? 30 : elapsedMs < 15000 ? 20 : 10; }
+
+// Bind recovery secrets to this game so a code cannot authenticate on another game.
+export async function hashRecovery(code) {
+  if (!/^[a-f0-9]{64}$/.test(code || '')) throw new GameError('BAD_RECOVERY','The recovery code is invalid.');
+  return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('hisaab:recovery:' + code))), b => b.toString(16).padStart(2,'0')).join('');
+}

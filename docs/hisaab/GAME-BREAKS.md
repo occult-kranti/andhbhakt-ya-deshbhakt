@@ -16,11 +16,13 @@ Correct-answer stamps say **WAAH WAAH**. Win, loss and draw results carry a shor
 | Draw | Does not advance either counter |
 | Abandoned, cancelled, incomplete match | Does not enter the journal |
 
-Wins and losses have independent counters. A loss does not reset the win counter. A practice completion does not alter either duel counter. The scheduler offers at most one placement for an event, never a queue of backlogged ads.
+Wins and losses count independently until either threshold offers a placement; that opportunity resets **both** tallies. This prevents adjacent breaks after mixed results. A practice completion does not alter either duel counter. The scheduler offers at most one placement for an event, never a queue of backlogged ads.
+
+The win/loss cadence applies to a finished online duel or friend duel with a specific device player's seat and a stable match ID. Shared-device Pass & Play has two human seats but no single owner of the device outcome, so it does not arbitrarily count seat 0 as this player's win or loss. Bot matches do not count.
 
 Completion IDs and counters are saved **before** loading any provider code. Repeated polling, remounting or refreshing a completed result cannot repeat its ad opportunity. Web Locks serialize cross-tab result recording where available. Without Web Locks, localStorage remains best effort across simultaneous tabs. Blocked, corrupt or full storage skips the placement; it never blocks play. The journal fails closed at 20,000 IDs instead of evicting old IDs and accidentally replaying them. These local counts are advertising cadence only; they do not award XP, coins or leaderboard status.
 
-`CompletionAdBreak` is mounted only on terminal results. It gives the player five seconds to read the result after any promotion ceremony. Leaving the result cancels that opportunity; it is not carried into a live question. The player can return to the result from the break at any time. Zero-stake games follow the same gameplay rules and remain available regardless of ad availability or watching.
+`CompletionAdBreak` is mounted only on terminal results. The result stays visible until the player deliberately chooses the inline **Continue** action; no timer opens an ad. The provider's own ready state then enables a second Continue gesture to request a placement directly. Leaving the result cancels that opportunity; it is not carried into a live question. The player can return to the result from the break at any time. Zero-stake games follow the same gameplay rules and remain available regardless of ad availability or watching.
 
 ## Actual provider integration
 
@@ -28,7 +30,7 @@ The adapter uses Google's H5 Ad Placement API with a **next** interstitial place
 
 The SDK runs in the same document as the game, following Google's document-structure guidance. An ad-only iframe is deliberately not used. The result is already durable, so ending a SDK-backed break reloads that result document to remove all third-party callbacks, timers and preload activity before the next game. Persistent completion deduplication prevents a reload loop. The adapter ignores callbacks after disposal as an additional guard.
 
-Loading is bounded to four seconds; a ready/shown break is bounded to 90 seconds. No-fill, frequency cap, error, blocked SDK, timeout, offline transition, navigation, consent revocation and user dismissal all return control without payout changes. Native dialog semantics isolate focus and make the underlying game inert while the break is open.
+Loading is bounded to four seconds; a ready/shown break is bounded to 90 seconds. No-fill, frequency cap, error, blocked SDK, timeout, offline transition, navigation, consent revocation and user dismissal all return control without payout changes. Native dialog semantics isolate focus and make the underlying game inert while the break is open. Game audio pauses across the provider lifecycle; closing it returns audio control to the next user gesture.
 
 ### Configure an approved release
 
@@ -36,7 +38,7 @@ Loading is bounded to four seconds; a ready/shown break is bounded to 90 seconds
 2. Install and test a reviewed CMP with the existing `window.hisaabAdConsent` bridge and actual provider consent signals; a custom accept checkbox is not a substitute. The current gate allows only an adult audience with explicit advertising/storage consent and satisfied regional rules.
 3. Set the existing `HISAAB_ADS_ENABLED`, `HISAAB_ADS_SITE_APPROVED`, `HISAAB_ADS_AUTO_ADS_DISABLED`, publisher client, CMP ID and exact HTTPS origin values. Disable account-level Auto ads. Then set `HISAAB_ADS_H5_ENABLED=true` and `HISAAB_ADS_H5_APPROVED=true` only when those statements are true. The home display slot remains a separate optional configuration.
 4. In an approved provider test build, set `HISAAB_ADS_H5_TEST=true`. Exercise Continue, no-fill, blocked script, offline, keyboard close, consent withdrawal, silent ads, a long ad, and page reload. Confirm the CMP's real consent signals reach the SDK and the game is not advertising to a protected audience. Remove test mode for public serving.
-5. On GitHub Pages, keep `HISAAB_ADS_ORIGIN` as the origin alone (for example `https://owner.github.io`), with the game path in `HISAAB_BASE`. Verify any required `ads.txt` at the origin root through the repository that owns that root. Never place credentials or private keys in these public build-time values.
+5. Before using GitHub Pages for an ad-funded release, resolve its hosting terms for commercial/SaaS usage or move to an approved host. Keep `HISAAB_ADS_ORIGIN` as the origin alone (for example `https://owner.github.io`), with the game path in `HISAAB_BASE`. Verify any required `ads.txt` at the origin root through the repository that owns that root. Never place credentials or private keys in these public build-time values.
 
 No publisher account, ad creative, consent platform, live fill or live video has been supplied/verified by this implementation. Tests use provider callbacks as doubles and prove application scheduling/failure handling, not ad-network approval or revenue.
 

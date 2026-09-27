@@ -1,0 +1,26 @@
+.h-account { margin: 28px 0; padding: clamp(18px, 3vw, 28px); border: 2px solid var(--h-line); background: var(--h-paper); display: grid; gap: 18px; overflow-wrap: anywhere; }
+.h-account__heading { display: flex; align-items: start; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid var(--h-hair); padding-bottom: 18px; }
+.h-account__heading .h-kicker { margin: 0 0 6px; }
+.h-account__heading h2 { margin: 0; font: clamp(1.6rem, 4vw, 2.2rem)/1.2 var(--h-font-editorial, var(--h-font-display)); }
+.h-account__heading > span { font: .78rem var(--h-font-mono); border: 1px solid var(--h-rule); padding: 5px 8px; }
+.h-account p { max-width: 70ch; margin: 0; line-height: 1.5; }
+.h-account form { display: grid; gap: 16px; max-width: 580px; }
+.h-account form > label { display: grid; gap: 5px; font-weight: 700; }
+.h-account input:not([type=radio]) { min-width: 0; width: 100%; min-height: 46px; border: 2px solid var(--h-line); border-radius: 4px; color: var(--h-ink); background: var(--h-ground); padding: 8px 10px; font: max(1rem, 16px) var(--h-font-body, inherit); }
+.h-account fieldset { display: flex; gap: 10px; flex-wrap: wrap; border: 0; margin: 0; padding: 0; }
+.h-account legend { font-weight: 700; margin-bottom: 8px; }
+.h-account fieldset label { position: relative; display: grid; place-items: center; width: 48px; height: 48px; border: 2px solid var(--h-line); font-size: 1.4rem; cursor: pointer; }
+.h-account fieldset label:has(input:checked) { border-color: var(--h-syahi); background: var(--h-syahi-soft); }
+.h-account fieldset label:has(input:focus-visible) { outline: 3px solid var(--h-syahi); outline-offset: 3px; }
+.h-account fieldset input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.h-account form > .h-btn { justify-self: start; }
+.h-account__tools, .h-account__privacy, .h-account__delete > div { display: flex; flex-wrap: wrap; gap: 12px; }
+.h-account__privacy { border-top: 1px solid var(--h-hair); padding-top: 14px; gap: 12px 24px; }
+.h-account__privacy a { color: var(--h-syahi-text); min-height: 40px; display: inline-flex; align-items: center; }
+.h-account__secret { display: grid; justify-items: start; gap: 10px; border: 2px solid var(--h-syahi); padding: 16px; }
+.h-account__secret code { display: block; padding: 12px; background: var(--h-manila); color: var(--h-manila-ink); line-height: 1.7; max-width: 100%; overflow-wrap: anywhere; user-select: all; }
+.h-account__delete { border-top: 1px solid var(--h-hair); padding-top: 14px; }
+.h-account__delete summary { cursor: pointer; min-height: 44px; }
+.h-account__delete p { margin: 8px 0 14px; }
+.h-account__status { border-left: 3px solid var(--h-syahi); padding-left: 10px; }
+@media (max-width: 500px) { .h-account__tools .h-btn { width: 100%; } }

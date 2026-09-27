@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { sound } from '@/components/fx';
 import { useBudgetSnapshot } from '../budget';
 import { Button } from '../ui/button';
 import { useLang } from '../ui/lang';
@@ -22,11 +23,13 @@ export type CompletionAdBreakProps = {
 /** Mount on a terminal result only. A cancelled/abandoned match must never mount this component. */
 export function CompletionAdBreak({ completionId, kind, outcome }: CompletionAdBreakProps) {
   const [due, setDue] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [eligible, setEligible] = useState(false);
+  const [open, setOpen] = useState(false);
+  const { t } = useLang();
   const { ceremony, live, held } = useBudgetSnapshot();
   useEffect(() => {
     setDue(false);
-    setReady(false);
+    setOpen(false);
     let active = true;
     // The short deferral also avoids recording twice under React's development effect replay.
     const timer = setTimeout(() => {
@@ -38,20 +41,37 @@ export function CompletionAdBreak({ completionId, kind, outcome }: CompletionAdB
   }, [completionId, kind, outcome]);
 
   useEffect(() => {
-    setReady(false);
-    if (!due || ceremony || live || held) return;
-    // Let the result and its short celebration finish; never compete with a promotion dialog.
-    const timer = setTimeout(() => {
-      if (document.hidden || document.querySelector('dialog[open], [aria-modal="true"]')) { setDue(false); return; }
+    if (!due) return;
+    const update = () => {
       const context = { origin: window.location.origin, phase: 'completed', activeGame: false, online: navigator.onLine };
-      if (gameAdEligibility(config, context, readAdConsent(window)).allowed) setReady(true);
-      else setDue(false);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [due, ceremony, live, held]);
+      setEligible(gameAdEligibility(config, context, readAdConsent(window)).allowed);
+    };
+    update();
+    let unsubscribe = () => {};
+    try { unsubscribe = (window as Window & { hisaabAdConsent?: { subscribe: (listener: () => void) => () => void } }).hisaabAdConsent?.subscribe(update) ?? unsubscribe; }
+    catch { setEligible(false); }
+    window.addEventListener('hisaab:ad-consent-ready', update);
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+    return () => {
+      unsubscribe();
+      window.removeEventListener('hisaab:ad-consent-ready', update);
+      window.removeEventListener('online', update);
+      window.removeEventListener('offline', update);
+    };
+  }, [due]);
 
-  if (!ready || !due || ceremony || live || held) return null;
-  return createPortal(<GameBreak onClose={() => { setDue(false); setReady(false); }} />, document.body);
+  if (!due || !eligible || live || held) return null;
+  return <>
+    <div className="h-game-ad-entry">
+      <span>{t('Optional ad break between games. Your result is saved.', 'खेलों के बीच वैकल्पिक विज्ञापन। आपका नतीजा दर्ज है।')}</span>
+      <Button variant="paper" size="s" disabled={!!ceremony || open} onClick={() => {
+        if (document.hidden || document.querySelector('dialog[open], [aria-modal="true"]')) return;
+        setOpen(true);
+      }}>{t('Continue', 'आगे')}</Button>
+    </div>
+    {open ? createPortal(<GameBreak onClose={() => { setOpen(false); setDue(false); }} />, document.body) : null}
+  </>;
 }
 
 function GameBreak({ onClose }: { onClose: () => void }) {
@@ -69,6 +89,7 @@ function GameBreak({ onClose }: { onClose: () => void }) {
     let active = true;
     // Native modal semantics trap focus, make the game inert and support keyboard dismissal.
     try { node.showModal(); } catch { close.current(); return; }
+    const resumeSound = sound.pauseForAd();
     const placement = requestGameBreak({
       config,
       context: { origin: window.location.origin, phase: 'completed', activeGame: false, online: navigator.onLine },
@@ -83,6 +104,7 @@ function GameBreak({ onClose }: { onClose: () => void }) {
     return () => {
       active = false;
       placement.cancel();
+      resumeSound();
       window.removeEventListener('offline', offline);
       node.close();
       if (before?.isConnected) before.focus({ preventScroll: true });

@@ -1,5 +1,5 @@
 export type Words = { en: string; hi?: string };
-export type PlayerSession = { id: string; nickname: string; expiresAt: number; onlineXp?: number; balance?: number; savings?: number; title?: TitleGrant | null };
+export type PlayerSession = { id: string; nickname: string; email?: string; avatar?: string | null; locale?: string | null; preferences?: Record<string, unknown> | null; adultConfirmed?: boolean; termsVersion?: string | null; profileComplete?: boolean; expiresAt: number; onlineXp?: number; balance?: number; savings?: number; title?: TitleGrant | null };
 export type OnlinePlayer = { id: string; nickname: string; ready: boolean; answered: boolean; score: number };
 export type OnlineReceipt = { choice: number | null; correct: boolean; correctIndex: number; elapsedMs: number; xp: number; explanation: Words; sourceUrl?: string };
 export type OnlineMatch = {

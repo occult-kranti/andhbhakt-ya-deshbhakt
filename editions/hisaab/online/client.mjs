@@ -8,32 +8,35 @@ export class OnlineError extends Error {
 /** @param {{url?:string, anonKey?:string, fetcher?:typeof fetch, storage?:Pick<Storage,'getItem'|'setItem'|'removeItem'>|null, clock?:()=>number, timeoutMs?:number}} options */
 export function createOnlineClient({ url, anonKey = '', fetcher = globalThis.fetch, storage = null, clock = () => performance.now(), timeoutMs = 10000 } = {}) {
   let credential = null;
+  let currentRoom = null;
+  let persistent = !!storage;
   let credentialEpoch = 0;
   const listeners = new Set();
   const notifySession = () => { for (const listener of listeners) listener(); };
   let anchor = null;
   let bestRoundTrip = Infinity;
-  try { credential = JSON.parse(storage?.getItem(STORAGE.serverSession) || 'null'); } catch { /* storage may be denied */ }
+  try { credential = JSON.parse(storage?.getItem(STORAGE.serverSession) || 'null'); } catch { persistent = false; }
   if (!credential || !/^[a-f0-9]{64}$/.test(credential.token || '')) credential = null;
   const endpoint = typeof url === 'string' ? url.trim().replace(/\/$/, '') : '';
   const configured = /^https:\/\//.test(endpoint) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?\//.test(endpoint);
 
   async function request(action, payload = {}, { signal } = {}) {
-    if (!configured) throw new OnlineError('Online play is not connected on this build. You can still read practice files.', 'UNCONFIGURED');
-    if (action !== 'session' && !credential) throw new OnlineError('Choose a nickname to connect first.', 'SESSION_REQUIRED');
+    if (!configured) throw new OnlineError('The profile service is unavailable on this build. Please try again when it is connected.', 'UNCONFIGURED');
+    if (!['session', 'recover'].includes(action) && !credential) throw new OnlineError('Create or restore your profile first.', 'SESSION_REQUIRED');
+    if (['queue', 'create', 'join', 'ready'].includes(action) && credential?.session?.profileComplete !== true) throw new OnlineError('Complete your player profile before starting a new match.', 'PROFILE_REQUIRED');
     const startedEpoch = credentialEpoch;
     const startedToken = credential?.token ?? null;
     const controller = new AbortController();
     const abort = () => controller.abort();
     if (signal?.aborted) controller.abort();
     signal?.addEventListener('abort', abort, { once: true });
-    const requestTimeout = action === 'session' || action === 'profile' ? Math.max(timeoutMs, 15000) : timeoutMs;
+    const requestTimeout = ['session', 'profile', 'recover'].includes(action) ? Math.max(timeoutMs, 15000) : timeoutMs;
     const timer = setTimeout(() => controller.abort(), requestTimeout);
     const began = clock();
     try {
       const headers = { 'Content-Type': 'application/json', 'x-region': 'ap-south-1' };
       if (anonKey) { headers.apikey = anonKey; headers.Authorization = `Bearer ${anonKey}`; }
-      if (credential && action !== 'session') headers['x-hisaab-session'] = credential.token;
+      if (credential && !['session', 'recover'].includes(action)) headers['x-hisaab-session'] = credential.token;
       const response = await fetcher(endpoint, { method: 'POST', headers, body: JSON.stringify({ ...payload, action }), signal: controller.signal, credentials: 'omit', cache: 'no-store' });
       let data;
       try { data = await response.json(); } catch { throw new OnlineError('The game server returned an unreadable response. Try reconnecting.', 'BAD_RESPONSE'); }
@@ -44,9 +47,9 @@ export function createOnlineClient({ url, anonKey = '', fetcher = globalThis.fet
         bestRoundTrip = ended - began;
         anchor = { server: data.serverNow, local: (began + ended) / 2 };
       }
-      if (credential && data.session) {
+      if (credential && data.session && action !== 'recover') {
         credential = { ...credential, session: data.session };
-        try { storage?.setItem(STORAGE.serverSession, JSON.stringify(credential)); } catch {}
+        try { storage?.setItem(STORAGE.serverSession, JSON.stringify(credential)); } catch { persistent = false; }
         notifySession();
       }
       if (credential && data.match?.economy) {
@@ -64,27 +67,33 @@ export function createOnlineClient({ url, anonKey = '', fetcher = globalThis.fet
     } finally { clearTimeout(timer); signal?.removeEventListener('abort', abort); }
   }
 
-  async function connect(nickname) {
+  function install(data) {
+    if (!/^[a-f0-9]{64}$/.test(data.token || '') || !data.session?.id) throw new OnlineError('The server did not return a usable player identity.', 'BAD_SESSION');
+    credential = { token: data.token, session: data.session };
+    credentialEpoch += 1;
+    try { storage?.setItem(STORAGE.serverSession, JSON.stringify(credential)); } catch { persistent = false; }
+    notifySession();
+    return data.session;
+  }
+  async function connect(profile) {
     if (credential) {
       const data = await request('profile');
       return data.session;
     }
-    const data = await request('session', { nickname });
-    if (!/^[a-f0-9]{64}$/.test(data.token || '') || !data.session?.id) throw new OnlineError('The server did not create a usable player identity.', 'BAD_SESSION');
-    credential = { token: data.token, session: data.session };
-    credentialEpoch += 1;
-    try { storage?.setItem(STORAGE.serverSession, JSON.stringify(credential)); } catch { /* current tab can still play */ }
-    notifySession();
-    return data.session;
+    if (!profile || typeof profile !== 'object') throw new OnlineError('Enter your nickname and email to create a profile.', 'PROFILE_REQUIRED');
+    return install(await request('session', profile));
   }
   return {
     configured, request, connect,
+    async createProfile(profile) { if (credential) throw new OnlineError('A profile is already present. Edit it instead.', 'SESSION_EXISTS'); const data = await request('session', profile); return { session: install(data), recoveryCode: data.recoveryCode }; },
+    async recover(recoveryCode) { const data = await request('recover', { recoveryCode }); return { session: install(data), recoveryCode: data.recoveryCode }; },
     subscribe(listener) { listeners.add(listener); return () => listeners.delete(listener); },
     get session() { return credential?.session ?? null; },
+    get persistent() { return persistent; },
     get latencyMs() { return Number.isFinite(bestRoundTrip) ? Math.round(bestRoundTrip) : null; },
     now: () => anchor ? anchor.server + clock() - anchor.local : Date.now(),
-    rememberRoom(id) { try { id ? storage?.setItem(STORAGE.serverRoom, id) : storage?.removeItem(STORAGE.serverRoom); } catch {} },
-    rememberedRoom() { try { return storage?.getItem(STORAGE.serverRoom) || null; } catch { return null; } },
-    forget() { credential = null; credentialEpoch += 1; notifySession(); try { storage?.removeItem(STORAGE.serverSession); storage?.removeItem(STORAGE.serverRoom); } catch {} },
+    rememberRoom(id) { const previous = currentRoom; currentRoom = id || null; try { id ? storage?.setItem(STORAGE.serverRoom, id) : storage?.removeItem(STORAGE.serverRoom); } catch {} if (previous !== currentRoom) notifySession(); },
+    rememberedRoom() { if (currentRoom) return currentRoom; try { return storage?.getItem(STORAGE.serverRoom) || null; } catch { return null; } },
+    forget() { credential = null; currentRoom = null; credentialEpoch += 1; notifySession(); try { storage?.removeItem(STORAGE.serverSession); storage?.removeItem(STORAGE.serverRoom); } catch {} },
   };
 }

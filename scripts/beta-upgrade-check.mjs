@@ -3,14 +3,17 @@ import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { hashRecovery } from '../supabase/hisaab/functions/hisaab-game/core.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const from = process.argv.find(x => x.startsWith('--from='))?.slice(7) || 'b74c287';
 const { PGlite } = await import(process.env.PGLITE_MODULE_PATH ? pathToFileURL(process.env.PGLITE_MODULE_PATH).href : '@electric-sql/pglite');
 const db = new PGlite();
 const read = name => readFileSync(new URL(`../${name}`, import.meta.url), 'utf8');
 const prior = name => execFileSync('git', ['show', `${from}:${name}`], { cwd: root, maxBuffer: 8 * 1024 * 1024, encoding: 'utf8' });
+const rawRpc = async (hash, action, payload = {}) =>
+  (await db.query('select public.hisaab_game($1,$2,$3::jsonb,$4) as data', [hash, action, JSON.stringify(payload), 'local-upgrade'])).rows[0].data;
 const rpc = async (hash, action, payload = {}) => {
-  const data = (await db.query('select public.hisaab_game($1,$2,$3::jsonb,$4) as data', [hash, action, JSON.stringify(payload), 'local-upgrade'])).rows[0].data;
+  const data = await rawRpc(hash, action, payload);
   assert.equal(data.ok, true, `${action}: ${data.error?.code}`); return data;
 };
 try {
@@ -34,8 +37,13 @@ try {
   assert.equal((await db.query('select count(*)::int n from hisaab_private.answers')).rows[0].n, 10);
   for (const token of [a,b]) {
     assert.equal((await rpc(token, 'profile')).session.balance, 100);
-    assert.equal((await rpc(token, 'profile')).session.balance, 100);
+    assert.equal((await rpc(token, 'profile')).session.profileComplete, false);
     await rpc(token, 'snapshot', { roomId: historical.id });
+    assert.equal((await rawRpc(token, 'ready', { roomId: pending.id })).error.code, 'PROFILE_REQUIRED');
+    const upgraded = await rpc(token, 'profile', { email: `${token[0]}@example.invalid`, adultConfirmed: true, termsVersion: 'beta-1', _recoveryHash: await hashRecovery(token[0].repeat(64)) });
+    assert.equal(upgraded.session.profileComplete, true);
+    assert.equal(upgraded.session.id, token === a ? host.id : guest.id);
+    assert.equal(upgraded.session.balance, 100);
   }
   assert.equal((await db.query('select count(*)::int n from hisaab_private.reward_claims')).rows[0].n, 0, 'no retroactive reward');
   assert.equal((await db.query("select count(*)::int n from hisaab_private.wallet_entries where kind='starter'")).rows[0].n, 2, 'one lazy starter grant per old guest');
@@ -44,5 +52,5 @@ try {
   await rpc(a, 'leave', { roomId: pending.id });
   assert.equal((await db.query("select count(*)::int n from pg_tables where schemaname='hisaab_private' and not rowsecurity")).rows[0].n, 0);
   assert.equal((await db.query("select has_function_privilege('anon','public.hisaab_game(text,text,jsonb,text)','EXECUTE') as allowed")).rows[0].allowed, false);
-  console.log(JSON.stringify({ suite: 'populated-prior-upgrade', from, result: 'pass', checks: ['old guests retained', 'old answers retained', 'historical terminal rewards suppressed', 'starter grants idempotent', 'old waiting room zero defaults', 'old zero-stake ready contract', 'canonical schema repeatable', 'all private tables RLS', 'anon RPC denied'], limitation: 'Isolated single-connection PostgreSQL/WASM; no production data or concurrent lock proof.' }, null, 2));
+  console.log(JSON.stringify({ suite: 'populated-prior-upgrade', from, result: 'pass', checks: ['legacy guest IDs retained by in-place profile upgrade', 'old answers retained', 'historical terminal rewards suppressed', 'starter grants idempotent', 'old waiting room zero defaults', 'incomplete legacy ready gated; upgraded zero-stake ready contract', 'canonical schema repeatable', 'all private tables RLS', 'anon RPC denied'], limitation: 'Isolated single-connection PostgreSQL/WASM; no production data or concurrent lock proof.' }, null, 2));
 } finally { await db.close(); }

@@ -1,5 +1,5 @@
-/** Two independent HTTP guest clients. Defaults to local; live writes require an explicit URL + --allow-live.
- * Creates private QA rooms only, then revokes only its own two guest credentials. Never prints tokens/codes.
+/** Two independent HTTP beta profiles. Defaults to local; live writes require an explicit URL + --allow-live.
+ * Creates private QA rooms only, then revokes only its own two beta profile credentials. Never prints tokens/codes.
  * Local uses the real Edge handler/validator and PostgreSQL schema; it is not a multi-connection lock test.
  */
 import assert from 'node:assert/strict';
@@ -17,11 +17,11 @@ const value = name => process.argv.find(arg => arg.startsWith(`${name}=`))?.slic
 let api = value('--url'), local;
 if (!api) { local = await startLocalEdge(); api = local.url; }
 const endpoint = new URL(api);
-if (!['127.0.0.1','localhost','[::1]'].includes(endpoint.hostname) && !process.argv.includes('--allow-live')) throw Error('Remote guest mutations require explicit --allow-live after backend deployment.');
+if (!['127.0.0.1','localhost','[::1]'].includes(endpoint.hostname) && !process.argv.includes('--allow-live')) throw Error('Remote profile mutations require explicit --allow-live after backend deployment.');
 if (!['http:','https:'].includes(endpoint.protocol) || endpoint.username || endpoint.password) throw Error('Use an explicit HTTP(S) game endpoint without URL credentials.');
 const out = resolve(value('--out') || '/tmp/ayd-beta-smoke/report.json');
 mkdirSync(dirname(out), {recursive:true});
-const report = { startedAt:new Date().toISOString(), target:api, mode:local?'local-real-edge-postgres-wasm':'live-two-guest-http', checks:[], requests:[], cleanup:[], limitations:local?['PGlite serializes one SQL connection: no production concurrency or gateway proof.']:['Private QA rooms; not a load test or latency-neutrality proof.'] };
+const report = { startedAt:new Date().toISOString(), target:api, mode:local?'local-real-edge-postgres-wasm':'live-two-profile-http', checks:[], requests:[], cleanup:[], limitations:local?['PGlite serializes one SQL connection: no production concurrency or gateway proof.']:['Private QA rooms; not a load test or latency-neutrality proof.'] };
 const sessions=[]; const rooms=new Set(); const known = new Map(BANK.map(q=>[q.id,q]));
 const pause=ms=>new Promise(r=>setTimeout(r,ms));
 const save=()=>writeFileSync(out,JSON.stringify(report,null,2));
@@ -83,8 +83,8 @@ async function play(host,guest,room) {
 }
 
 try {
-  await check('two independent guest credentials and starter balances',async()=>{
-    for(const tag of ['A','B']) {const d=await call(null,'session',{nickname:`AYD_QA_${Date.now().toString(36)}_${tag}`});assert.match(d.token,/^[a-f0-9]{64}$/);sessions.push({...d.session,token:d.token});assert.equal(d.session.balance,100);}
+  await check('two independent profile credentials and starter balances',async()=>{
+    for(const tag of ['A','B']) {const d=await call(null,'session',{nickname:`AYD_QA_${Date.now().toString(36)}_${tag}`,email:`ayd-qa-${crypto.randomUUID()}@example.invalid`,adultConfirmed:true,termsVersion:'beta-1'});assert.match(d.token,/^[a-f0-9]{64}$/);assert.match(d.recoveryCode,/^[a-f0-9]{64}$/);assert.equal(d.session.profileComplete,true);sessions.push({...d.session,token:d.token});assert.equal(d.session.balance,100);}
     assert.notEqual(sessions[0].id,sessions[1].id);assert.notEqual(sessions[0].token,sessions[1].token);return {clients:2,balanceEach:100};
   });
   const [host,guest]=sessions;
@@ -101,7 +101,7 @@ try {
     await call(host,'leave',{roomId:r.id});await call(guest,'snapshot',{roomId:r.id});
     assert.equal((await profile(host)).balance,0);assert.equal((await profile(guest)).balance,200);return {host:0,guest:200,reward:ended.economy.reward};
   });
-  await check('zero-balance guest completes a zero-stake five-round human duel',async()=>{
+  await check('zero-balance profile completes a zero-stake five-round human duel',async()=>{
     assert.equal((await request(host,'create',{stake:1,file:'all'})).data.error.code,'INSUFFICIENT_BALANCE');
     const r=await createPair(host,guest,0);const final=await play(host,guest,r);
     assert.deepEqual(final.map(m=>m.economy.reward),[10,10]);assert.equal((await profile(host)).balance,10);assert.equal((await profile(guest)).balance,210);

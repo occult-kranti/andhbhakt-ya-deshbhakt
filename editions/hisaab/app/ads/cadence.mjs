@@ -11,7 +11,7 @@ function validState(state) {
     && state.seen.every((id) => typeof id === 'string' && id.length <= 300);
 }
 
-/** Independent cumulative counters: a loss does not reset wins and vice versa. No streak pressure. */
+/** Mixed outcomes count independently until either threshold offers one natural break. */
 export function reduceCompletion(state, completion) {
   const rejected = { state, recorded: false, due: false, reason: 'invalid' };
   if (!validState(state) || typeof completion?.id !== 'string' || !completion.id || completion.id.length > 240)
@@ -24,8 +24,11 @@ export function reduceCompletion(state, completion) {
   if (state.seen.length >= MAX_IDS) return { ...rejected, reason: 'journal-full' };
   let { wins, losses } = state;
   let due = completion.kind === 'practice';
-  if (completion.kind === 'duel' && completion.outcome === 'win') { wins += 1; if (wins === 2) { due = true; wins = 0; } }
-  if (completion.kind === 'duel' && completion.outcome === 'loss') { losses += 1; if (losses === 3) { due = true; losses = 0; } }
+  if (completion.kind === 'duel' && completion.outcome === 'win') { wins += 1; if (wins === 2) due = true; }
+  if (completion.kind === 'duel' && completion.outcome === 'loss') { losses += 1; if (losses === 3) due = true; }
+  // Consume both tallies with an opportunity, even when consent/fill is unavailable. This
+  // avoids back-to-back placements after alternating results or a period without ads.
+  if (due && completion.kind === 'duel') { wins = 0; losses = 0; }
   return { state: { version: 1, wins, losses, seen: [...state.seen, id] }, recorded: true, due, reason: due ? 'placement-due' : 'counted' };
 }
 

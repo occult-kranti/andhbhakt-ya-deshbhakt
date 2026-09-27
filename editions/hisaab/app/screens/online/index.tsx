@@ -1,5 +1,5 @@
-/** Online beta: server-owned state, device guest identity, no local score authority. */
-import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
+/** Online beta: server-owned state, player profile, no local score authority. */
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Copy, Radio, Users, Trophy, Wifi, ArrowLeft, RefreshCw, Check, X } from 'lucide-react';
 import { online } from '../../../online/runtime';
 import type { OnlineMatch, PlayerSession, Words } from '../../../online/types';
@@ -25,7 +25,6 @@ export default function OnlineScreen({ route }: ScreenProps) {
   const { t, isHi } = useLang();
   const [session, setSession] = useState<PlayerSession | null>(online.session);
   const [match, setMatch] = useState<OnlineMatch | null>(null);
-  const [name, setName] = useState(online.session?.nickname || '');
   const [code, setCode] = useState(route.query.code || '');
   const [busy, setBusy] = useState(false);
   const [file, setFile] = useState(['all', 'today', 'subsidies', 'pre-election', 'media'].includes(route.query.file) ? route.query.file : 'all');
@@ -42,7 +41,6 @@ export default function OnlineScreen({ route }: ScreenProps) {
   const [pendingChoice, setPendingChoice] = useState<number | null>(null);
   const [pendingAnswer, setPendingAnswer] = useState<{ roomId: string; round: number; choice: number; requestId: string } | null>(null);
   const [copyNote, setCopyNote] = useState('');
-  const [deleteConfirm, setDeleteConfirm] = useState(false);
   const epoch = useRef(0);
   const working = useRef(false);
   const answerLock = useRef<string | null>(null);
@@ -59,17 +57,18 @@ export default function OnlineScreen({ route }: ScreenProps) {
     const previous = matchRef.current;
     if (previous?.id === next.id && previous.serverNow > next.serverNow) return;
     matchRef.current = next; setMatch(next); setConnected(true); setError('');
-    online.rememberRoom(['finished', 'cancelled'].includes(next.phase) ? null : next.id);
+    // Keep the room through its final receipt; leaving the terminal view clears it and reapplies the profile gate.
+    online.rememberRoom(next.id);
     if (previous?.round !== next.round || previous?.id !== next.id) { answerLock.current = null; setPendingChoice(null); setPendingAnswer(null); }
     if (next.receipt) { answerLock.current = `${next.id}:${next.round}`; setPendingChoice(next.receipt.choice); setPendingAnswer(null); }
   }, []);
   const fail = useCallback((e: unknown) => { if (!alive.current || errorCode(e) === 'CANCELLED') return; setError(message(e)); if (!errorCode(e) || ['NETWORK', 'TIMEOUT', 'SESSION_EXPIRED', 'UNAUTHORIZED', 'INVALID_SESSION'].includes(errorCode(e) || '')) setConnected(false); if (['SESSION_EXPIRED', 'UNAUTHORIZED', 'INVALID_SESSION'].includes(errorCode(e) || '')) setExpired(true); }, []);
 
-  async function connect(e?: FormEvent) {
-    e?.preventDefault(); if (working.current) return;
+  async function connect() {
+    if (working.current) return;
     working.current = true; setBusy(true); setError(''); const turn = epoch.current;
     try {
-      const player = await online.connect(name.trim());
+      const player = await online.connect();
       if (!alive.current || epoch.current !== turn) return;
       setSession(player); setConnected(true);
       const saved = online.rememberedRoom();
@@ -130,10 +129,10 @@ export default function OnlineScreen({ route }: ScreenProps) {
   async function leave() {
     const id = matchRef.current?.id; epoch.current++;
     matchRef.current = null; setMatch(null); setSettings(false); setError(''); setPendingChoice(null); setPendingAnswer(null); answerLock.current = null; online.rememberRoom(null);
-    // Navigation is immediate; the server also expires absent guests. A late response cannot restore the room.
+    // Navigation is immediate; the server also expires absent players. A late response cannot restore the room.
     if (id) { try { await online.request('leave', { roomId: id }); } catch { /* user already left locally */ } }
     // The server's accepted-answer ledger owns this total; casual device XP is separate.
-    try { const player = await online.connect(name.trim()); if (alive.current) setSession(player); } catch (e) { fail(e); }
+    try { const player = await online.connect(); if (alive.current) setSession(player); } catch (e) { fail(e); }
   }
   const resetIdentity = () => { online.forget(); setSession(null); setExpired(false); setError(''); setConnected(false); setMatch(null); matchRef.current = null; };
   const words = (value: Words | null | undefined) => value ? (isHi ? value.hi || value.en : value.en) : '';
@@ -187,8 +186,8 @@ export default function OnlineScreen({ route }: ScreenProps) {
     <ScreenHeader kicker="THE LIVE EDITION · ONLINE BETA" titleHi="आमने सामने" title={view === 'standings' ? t('The standings', 'रैंकिंग') : view === 'circles' ? t('Your online circle', 'आपकी ऑनलाइन मंडली') : t('Same question. Real opponent.', 'एक सवाल। असली प्रतिद्वंद्वी।')} lead={t('Bring the facts. The server keeps the score.', 'तथ्य साथ लाओ। हिसाब सर्वर रखेगा।')} />
     <nav className="h-online__tabs" aria-label={t('Online sections', 'ऑनलाइन हिस्से')}><a aria-current={view === 'play' ? 'page' : undefined} href={href.online() }><Radio size={17} />{t('Play', 'खेलें')}</a><a aria-current={view === 'standings' ? 'page' : undefined} href={href.online('standings')}><Trophy size={17} />{t('Standings & cups', 'रैंकिंग व कप')}</a><a aria-current={view === 'circles' ? 'page' : undefined} href={href.online('circles')}><Users size={17} />{t('Circles', 'मंडलियाँ')}</a></nav>
     {!online.configured ? <div className="h-online__notice"><h2>{t('The online desk is not connected yet.', 'ऑनलाइन डेस्क अभी जुड़ा नहीं है।')}</h2><p>{t('Live matches and server standings will appear here once the service is connected. You can invite a friend directly or play together on one phone.', 'सर्विस जुड़ने पर लाइव मुक़ाबले और सर्वर रैंकिंग यहाँ दिखेंगे। दोस्त को सीधे बुलाएँ या एक फ़ोन पर साथ खेलें।')}</p><Button variant="primary" href={href.friend()}>{t('Invite a real friend', 'असली दोस्त को बुलाएँ')}</Button><Button href={href.pass()}>{t('Two people · one phone', 'दो खिलाड़ी · एक फ़ोन')}</Button><Button href={href.aaj()}>{t('Daily practice', 'आज का अभ्यास')}</Button></div> : <>
-      {error && <div className="h-online__notice" role="alert"><p>{error}</p>{expired ? <Button onClick={resetIdentity}>{t('Start a new guest profile', 'नई अतिथि प्रोफ़ाइल शुरू करें')}</Button> : <Button size="s" disabled={busy} onClick={() => void connect()}>{t('Retry connection', 'फिर कनेक्ट करें')}</Button>}</div>}
-      {!session || !connected ? <section className="h-online__identity"><h2>{t(session ? 'Reconnect to your desk.' : 'What should we call you?', session ? 'अपने डेस्क से फिर जुड़ें।' : 'आपको क्या बुलाएँ?')}</h2><form onSubmit={e => void connect(e)}><label htmlFor="h-online-name">{t('Public nickname', 'सार्वजनिक उपनाम')}</label><input id="h-online-name" value={name} required minLength={2} maxLength={24} autoComplete="nickname" disabled={!!session} onChange={e => setName(e.target.value)} /><Button type="submit" variant="primary" disabled={busy} busy={busy}>{busy ? t('Connecting…', 'जुड़ रहे हैं…') : t('Connect to play', 'खेलने के लिए जुड़ें')}</Button></form><p className="h-online__subline">{t('A guest profile saved on this browser for 30 days. Clearing browser data loses this identity. Use a nickname, not personal details.', 'इस ब्राउज़र में 30 दिन की अतिथि प्रोफ़ाइल। ब्राउज़र डेटा मिटाने पर पहचान खो जाएगी। निजी जानकारी के बजाय उपनाम रखें।')}</p></section> : view === 'standings' ? <CompetitionBoard /> : view === 'circles' ? <OnlineCircles /> : <>
+      {error && <div className="h-online__notice" role="alert"><p>{error}</p>{expired ? <Button onClick={resetIdentity}>{t('Restore or create a player file', 'फ़ाइल लौटाएँ या नई बनाएँ')}</Button> : <Button size="s" disabled={busy} onClick={() => void connect()}>{t('Retry connection', 'फिर कनेक्ट करें')}</Button>}</div>}
+      {!session || !connected ? <section className="h-online__identity"><h2>{t('Reconnect to your desk.', 'अपने डेस्क से फिर जुड़ें।')}</h2><p className="h-online__subline">{t('Your player file must be checked by the server before a new table opens.', 'नई बैठक खोलने से पहले सर्वर आपकी खिलाड़ी फ़ाइल जाँचेगा।')}</p><Button variant="primary" disabled={busy} busy={busy} onClick={() => void connect()}>{t('Retry connection', 'फिर कनेक्ट करें')}</Button></section> : view === 'standings' ? <CompetitionBoard /> : view === 'circles' ? <OnlineCircles /> : <>
         <div className="h-online__byline"><span>{t('PLAYING AS', 'खेल रहे हैं')} <strong>{session.nickname}</strong></span><span>{t('ONLINE XP', 'ऑनलाइन XP')} <strong>{session.onlineXp ?? 0}</strong></span><span>{t('UPI TAX SAVINGS', 'UPI टैक्स बचत')} <strong>{session.balance ?? 0}</strong> {t('coins', 'सिक्के')}</span><span><Wifi size={15} aria-hidden="true" /> {t('Connected', 'कनेक्टेड')}{online.latencyMs !== null ? ` · ${online.latencyMs} ms` : ''}</span></div>
         <div className="h-online__desk">
           <section className="h-online__leadplay">
@@ -217,10 +216,10 @@ export default function OnlineScreen({ route }: ScreenProps) {
             <div className="h-online__practice"><p className="h-kicker">{t('AT YOUR OWN PACE', 'अपनी गति से')}</p><h3>{t('Read it. Then duel it.', 'पढ़ो। फिर मुक़ाबला करो।')}</h3><p>{t('Practice files are solo learning, with a short ad between games when available.', 'अभ्यास फ़ाइलें अकेले सीखने के लिए हैं। उपलब्ध होने पर खेलों के बीच छोटा विज्ञापन।')}</p><Button href={href.aaj()}>{t('Practice today’s file', 'आज की फ़ाइल का अभ्यास')}</Button><Button variant="ghost" href={href.files()}>{t('Explore practice files', 'अभ्यास फ़ाइलें देखें')}</Button></div>
           </section>
         </div>
-        <section className="h-online__rules"><h2>{t('A fairer table, clear rules.', 'साफ़ नियम, बेहतर मुक़ाबला।')}</h2><p>{t('Correct answer XP: under 8 s = 30 · under 15 s = 20 · 15 s or more = 10. Wrong answers earn no XP. The server records your first answer; it cannot be changed.', 'सही जवाब का XP: 8 सेकंड से कम = 30 · 15 सेकंड से कम = 20 · 15 सेकंड या अधिक = 10। ग़लत जवाब पर XP नहीं। सर्वर पहला जवाब दर्ज करता है; बदल नहीं सकते।')}</p><p>{t('Most correct answers wins the match. Equal accuracy: lower total answer time wins, with a 0.12 s draw window. Network delay still matters. Online beta uses guest identities and is not cheat-proof.', 'सबसे ज़्यादा सही जवाब देने वाला मुक़ाबला जीतेगा। बराबर सही जवाब हों तो कुल कम समय जीतता है; 0.12 सेकंड के अंदर बराबरी। नेटवर्क की देरी असर डालती है। ऑनलाइन बीटा अतिथि पहचान इस्तेमाल करता है; धोखा पूरी तरह रोकने का दावा नहीं है।')}</p></section>
+        <section className="h-online__rules"><h2>{t('A fairer table, clear rules.', 'साफ़ नियम, बेहतर मुक़ाबला।')}</h2><p>{t('Correct answer XP: under 8 s = 30 · under 15 s = 20 · 15 s or more = 10. Wrong answers earn no XP. The server records your first answer; it cannot be changed.', 'सही जवाब का XP: 8 सेकंड से कम = 30 · 15 सेकंड से कम = 20 · 15 सेकंड या अधिक = 10। ग़लत जवाब पर XP नहीं। सर्वर पहला जवाब दर्ज करता है; बदल नहीं सकते।')}</p><p>{t('Most correct answers wins the match. Equal accuracy: lower total answer time wins, with a 0.12 s draw window. Network delay still matters. Online beta profiles do not verify email or prevent every form of cheating.', 'सबसे ज़्यादा सही जवाब देने वाला मुक़ाबला जीतेगा। बराबर सही जवाब हों तो कुल कम समय जीतता है; 0.12 सेकंड के अंदर बराबरी। नेटवर्क की देरी असर डालती है। ऑनलाइन बीटा ईमेल सत्यापित नहीं करता और हर तरह की धोखाधड़ी रोकने का दावा नहीं करता।')}</p></section>
       </>}
     </>}
-    {session && online.configured && <details className="h-online__delete"><summary>{t('Online profile & privacy', 'ऑनलाइन प्रोफ़ाइल और गोपनीयता')}</summary><p>{t('Your nickname and qualifying results can appear publicly. This guest identity belongs to this browser. Deleting it removes its online profile, standings membership and circle memberships. Device-only casual progress is separate.', 'आपका उपनाम और योग्य नतीजे सार्वजनिक हो सकते हैं। अतिथि पहचान इस ब्राउज़र की है। इसे मिटाने पर ऑनलाइन प्रोफ़ाइल, रैंकिंग सदस्यता और मंडलियों की सदस्यता हटती है। डिवाइस का दोस्ताना रिकॉर्ड अलग है।')}</p>{deleteConfirm ? <><p>{t('Delete this online identity permanently?', 'यह ऑनलाइन पहचान हमेशा के लिए मिटाएँ?')}</p><Button disabled={busy} onClick={() => { setBusy(true); void online.request('deleteSession').then(() => { resetIdentity(); setDeleteConfirm(false); }).catch(fail).finally(() => setBusy(false)); }}>{t('Yes, delete online profile', 'हाँ, ऑनलाइन प्रोफ़ाइल मिटाएँ')}</Button><Button onClick={() => setDeleteConfirm(false)}>{t('Keep it', 'रहने दें')}</Button></> : <Button size="s" variant="ghost" onClick={() => setDeleteConfirm(true)}>{t('Delete online profile', 'ऑनलाइन प्रोफ़ाइल मिटाएँ')}</Button>}</details>}
+    {session && online.configured && <section className="h-online__delete"><h2>{t('Your player file', 'आपकी खिलाड़ी फ़ाइल')}</h2><p>{t('Manage your nickname, private unverified email, recovery code and online data in Profile. Your certificate photo stays on this device.', 'उपनाम, निजी असत्यापित ईमेल, रिकवरी कोड और ऑनलाइन डेटा प्रोफ़ाइल में सँभालें। प्रमाण पत्र की तस्वीर इसी डिवाइस पर रहती है।')}</p><Button size="s" href={href.me()}>{t('Open profile', 'प्रोफ़ाइल खोलें')}</Button></section>}
     <a className="h-link h-online__back" href={href.home()}><ArrowLeft size={17} />{t('Back to your desk', 'अपनी डेस्क पर वापस')}</a>
   </Page>;
 }

@@ -10,6 +10,18 @@ create table if not exists hisaab_private.sessions (
  expires_at timestamptz not null default(now()+interval '30 days'), last_seen timestamptz not null default now(),
  rate_start timestamptz not null default now(), rate_count integer not null default 0, deleted boolean not null default false
 );
+-- Existing guest rows stay in place; their wallet, XP, matches and circle memberships remain keyed by id.
+-- Email is unverified contact metadata, never an authentication lookup or unique owner claim.
+alter table hisaab_private.sessions add column if not exists email text;
+alter table hisaab_private.sessions add column if not exists recovery_hash text;
+alter table hisaab_private.sessions add column if not exists adult_confirmed boolean not null default false;
+alter table hisaab_private.sessions add column if not exists terms_version text;
+alter table hisaab_private.sessions add column if not exists avatar text;
+alter table hisaab_private.sessions add column if not exists locale text;
+alter table hisaab_private.sessions add column if not exists preferences jsonb not null default '{}'::jsonb;
+alter table hisaab_private.sessions add column if not exists profile_completed_at timestamptz;
+create unique index if not exists hisaab_recovery_hash_unique on hisaab_private.sessions(recovery_hash) where recovery_hash is not null;
+
 create table if not exists hisaab_private.network_limits (
  network_hash text not null, window_start timestamptz not null, count integer not null default 1,
  primary key(network_hash,window_start)
@@ -306,11 +318,21 @@ create or replace function hisaab_private.circle_list(p_self uuid) returns jsonb
  from hisaab_private.circles c join hisaab_private.circle_members cm on cm.circle_id=c.id where cm.session_id=p_self
 $$;
 
+-- Account metadata is returned only by the bearer-authenticated profile/recovery command.
+create or replace function hisaab_private.profile_complete(p hisaab_private.sessions) returns boolean
+language sql stable set search_path='' as $$
+ select p.email is not null and p.adult_confirmed and p.terms_version='beta-1' and p.profile_completed_at is not null
+$$;
+create or replace function hisaab_private.profile_json(p hisaab_private.sessions,p_now timestamptz) returns jsonb
+language sql stable set search_path='' as $$
+ select jsonb_build_object('id',p.id,'nickname',p.nickname,'email',p.email,'avatar',p.avatar,'locale',p.locale,'preferences',p.preferences,'adultConfirmed',p.adult_confirmed,'termsVersion',p.terms_version,'profileComplete',hisaab_private.profile_complete(p),'expiresAt',hisaab_private.ms(p.expires_at),'onlineXp',(select coalesce(sum(a.xp),0) from hisaab_private.answers a where a.session_id=p.id))||hisaab_private.wallet(p.id)||jsonb_build_object('title',hisaab_private.current_title(p.id,p_now))
+$$;
+
 -- Entry time is captured BEFORE any row/advisory lock. Client timestamps are ignored.
 create or replace function public.hisaab_game(p_session_hash text,p_action text,p_payload jsonb default '{}'::jsonb,p_network_hash text default '') returns jsonb
 language plpgsql security invoker set search_path='' as $$
 declare t timestamptz:=clock_timestamp(); s hisaab_private.sessions; r hisaab_private.rooms; c hisaab_private.circles;
- n integer; room uuid; q jsonb; deck jsonb; choice integer; elapsed integer; correct boolean; board jsonb; v_mode text; op text; nick text; old_answer hisaab_private.answers; issued timestamptz; circle_ids uuid[]; v_file text; v_stake integer; cancelled record;
+ n integer; room uuid; q jsonb; deck jsonb; choice integer; elapsed integer; correct boolean; board jsonb; v_mode text; op text; nick text; v_email text; v_recovery text; issued_recovery boolean:=false; old_answer hisaab_private.answers; issued timestamptz; circle_ids uuid[]; v_file text; v_stake integer; cancelled record;
 begin
  if p_session_hash !~ '^[a-f0-9]{64}$' then return hisaab_private.fail('UNAUTHORIZED','A valid online profile is required.'); end if;
  if p_action='session' then
@@ -319,15 +341,35 @@ begin
   insert into hisaab_private.network_limits(network_hash,window_start) values(p_network_hash,date_trunc('hour',t)) on conflict(network_hash,window_start) do update set count=hisaab_private.network_limits.count+1 returning count into n;
   if n>20 then return hisaab_private.fail('RATE_LIMIT','Too many new profiles. Try again later.'); end if;
   delete from hisaab_private.network_limits where window_start<t-interval '2 days';
-  insert into hisaab_private.sessions(token_hash,nickname,created_at,expires_at,last_seen) values(p_session_hash,nick,t,t+interval '30 days',t) returning * into s;
+  v_email:=lower(btrim(p_payload->>'email')); v_recovery:=p_payload->>'_recoveryHash';
+  if v_email is null or char_length(v_email)>254 or v_email !~ '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$' then return hisaab_private.fail('BAD_EMAIL','Enter a valid email address.'); end if;
+  if (p_payload->>'adultConfirmed') is distinct from 'true' then return hisaab_private.fail('AGE_CONFIRMATION_REQUIRED','Confirm that you are at least 18.'); end if;
+  if p_payload->>'termsVersion' is distinct from 'beta-1' then return hisaab_private.fail('TERMS_REQUIRED','Accept the current beta terms.'); end if;
+  if v_recovery !~ '^[a-f0-9]{64}$' or v_recovery is null then return hisaab_private.fail('BAD_RECOVERY','A recovery credential is required.'); end if;
+  if p_payload ? 'avatar' and p_payload->>'avatar' not in ('spark','shield','bolt','star','book','compass') then return hisaab_private.fail('BAD_AVATAR','Choose a supported avatar.'); end if;
+  if p_payload ? 'locale' and p_payload->>'locale' not in ('en','hi') then return hisaab_private.fail('BAD_LOCALE','Choose a supported language.'); end if;
+  insert into hisaab_private.sessions(token_hash,nickname,email,recovery_hash,adult_confirmed,terms_version,avatar,locale,preferences,profile_completed_at,created_at,expires_at,last_seen)
+  values(p_session_hash,nick,v_email,v_recovery,true,'beta-1',p_payload->>'avatar',p_payload->>'locale',coalesce(p_payload->'preferences','{}'::jsonb),t,t,t+interval '30 days',t) returning * into s;
   perform hisaab_private.ensure_wallet(s.id);
-  return jsonb_build_object('ok',true,'serverNow',hisaab_private.ms(t),'session',jsonb_build_object('id',s.id,'nickname',s.nickname,'expiresAt',hisaab_private.ms(s.expires_at),'onlineXp',0)||hisaab_private.wallet(s.id));
+  return jsonb_build_object('ok',true,'serverNow',hisaab_private.ms(t),'session',hisaab_private.profile_json(s,t));
+ end if;
+ if p_action='recover' then
+  -- A wrong code and a deleted account are indistinguishable. The bearer rotates atomically on this row.
+  insert into hisaab_private.network_limits(network_hash,window_start) values(p_network_hash,date_trunc('hour',t)) on conflict(network_hash,window_start) do update set count=hisaab_private.network_limits.count+1 returning count into n;
+  if n>60 then return hisaab_private.fail('RATE_LIMIT','Too many attempts. Try again later.'); end if;
+  v_recovery:=p_payload->>'_recoveryHash';
+  if v_recovery !~ '^[a-f0-9]{64}$' or v_recovery is null then return hisaab_private.fail('BAD_RECOVERY','The recovery code is invalid.'); end if;
+  select * into s from hisaab_private.sessions where recovery_hash=v_recovery and not deleted for update;
+  if s.id is null then return hisaab_private.fail('BAD_RECOVERY','The recovery code is invalid.'); end if;
+  update hisaab_private.sessions set token_hash=p_session_hash,expires_at=t+interval '30 days',last_seen=t,rate_start=t,rate_count=0 where id=s.id returning * into s;
+  perform hisaab_private.ensure_wallet(s.id);
+  return jsonb_build_object('ok',true,'serverNow',hisaab_private.ms(t),'session',hisaab_private.profile_json(s,t));
  end if;
  select * into s from hisaab_private.sessions where token_hash=p_session_hash for no key update;
  if s.id is null or s.deleted then return hisaab_private.fail('UNAUTHORIZED','Your online profile was not found.'); end if;
  perform hisaab_private.ensure_wallet(s.id);
  perform hisaab_private.expire_rooms(t);
- if s.expires_at<=t and p_action<>'deleteSession' then return hisaab_private.fail('SESSION_EXPIRED','Your online profile has expired. Create a new profile.'); end if;
+ if s.expires_at<=t and p_action<>'deleteSession' then return hisaab_private.fail('SESSION_EXPIRED','Session expired. Restore this profile with its recovery code.'); end if;
  update hisaab_private.sessions set last_seen=t,rate_start=case when rate_start<t-interval '1 minute' then t else rate_start end,rate_count=case when rate_start<t-interval '1 minute' then 1 else rate_count+1 end where id=s.id returning rate_count into n;
  if n>240 then return hisaab_private.fail('RATE_LIMIT','Slow down and try again shortly.'); end if;
  if p_action='deleteSession' then
@@ -339,11 +381,55 @@ begin
   delete from hisaab_private.circle_members where session_id=s.id;
   delete from hisaab_private.circles cc where cc.id=any(circle_ids) and not exists(select 1 from hisaab_private.circle_members m where m.circle_id=cc.id);
   delete from hisaab_private.results where session_id=s.id;
-  update hisaab_private.sessions set deleted=true,nickname='Deleted player',expires_at=t where id=s.id;
+  update hisaab_private.sessions set deleted=true,nickname='Deleted player',email=null,recovery_hash=null,adult_confirmed=false,terms_version=null,avatar=null,locale=null,preferences='{}'::jsonb,profile_completed_at=null,expires_at=t where id=s.id;
   return jsonb_build_object('ok',true,'serverNow',hisaab_private.ms(t),'deleted',true);
  elsif p_action='profile' then
-  if p_payload ? 'nickname' then nick:=btrim(p_payload->>'nickname'); if char_length(nick) not between 2 and 24 then return hisaab_private.fail('BAD_NICKNAME','Use 2–24 characters.'); end if; update hisaab_private.sessions set nickname=nick where id=s.id; s.nickname:=nick; end if;
-  return jsonb_build_object('ok',true,'serverNow',hisaab_private.ms(t),'session',jsonb_build_object('id',s.id,'nickname',s.nickname,'expiresAt',hisaab_private.ms(s.expires_at),'onlineXp',(select coalesce(sum(xp),0) from hisaab_private.answers where session_id=s.id))||hisaab_private.wallet(s.id)||jsonb_build_object('title',hisaab_private.current_title(s.id,t)));
+  if p_payload ? 'nickname' then nick:=btrim(p_payload->>'nickname'); if char_length(nick) not between 2 and 24 then return hisaab_private.fail('BAD_NICKNAME','Use 2–24 characters.'); end if; s.nickname:=nick; end if;
+  if p_payload ? 'email' then
+   v_email:=lower(btrim(p_payload->>'email'));
+   if v_email is null or char_length(v_email)>254 or v_email !~ '^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$' then return hisaab_private.fail('BAD_EMAIL','Enter a valid email address.'); end if;
+   s.email:=v_email;
+  end if;
+  if p_payload ? 'adultConfirmed' then
+   if p_payload->>'adultConfirmed' is distinct from 'true' then return hisaab_private.fail('AGE_CONFIRMATION_REQUIRED','Confirm that you are at least 18.'); end if;
+   s.adult_confirmed:=true;
+  end if;
+  if p_payload ? 'termsVersion' then
+   if p_payload->>'termsVersion' is distinct from 'beta-1' then return hisaab_private.fail('TERMS_REQUIRED','Accept the current beta terms.'); end if;
+   s.terms_version:='beta-1';
+  end if;
+  if p_payload ? 'avatar' then
+   if p_payload->>'avatar' not in ('spark','shield','bolt','star','book','compass') then return hisaab_private.fail('BAD_AVATAR','Choose a supported avatar.'); end if;
+   s.avatar:=p_payload->>'avatar';
+  end if;
+  if p_payload ? 'locale' then
+   if p_payload->>'locale' not in ('en','hi') then return hisaab_private.fail('BAD_LOCALE','Choose a supported language.'); end if;
+   s.locale:=p_payload->>'locale';
+  end if;
+  if p_payload ? 'preferences' then
+   if jsonb_typeof(p_payload->'preferences')<>'object' or (p_payload->'preferences')-array['sound','reducedMotion'] <> '{}'::jsonb or (p_payload->'preferences' ? 'sound' and jsonb_typeof(p_payload->'preferences'->'sound')<>'boolean') or (p_payload->'preferences' ? 'reducedMotion' and jsonb_typeof(p_payload->'preferences'->'reducedMotion')<>'boolean') then return hisaab_private.fail('BAD_PREFERENCES','Choose supported preferences.'); end if;
+   s.preferences:=p_payload->'preferences';
+  end if;
+  if s.email is not null and s.adult_confirmed and s.terms_version='beta-1' and s.profile_completed_at is null then
+   v_recovery:=p_payload->>'_recoveryHash';
+   if v_recovery !~ '^[a-f0-9]{64}$' or v_recovery is null then return hisaab_private.fail('BAD_RECOVERY','A recovery credential is required.'); end if;
+   s.profile_completed_at:=t; s.recovery_hash:=v_recovery; issued_recovery:=true;
+  end if;
+  update hisaab_private.sessions set nickname=s.nickname,email=s.email,adult_confirmed=s.adult_confirmed,terms_version=s.terms_version,avatar=s.avatar,locale=s.locale,preferences=s.preferences,profile_completed_at=s.profile_completed_at,recovery_hash=s.recovery_hash where id=s.id returning * into s;
+  return jsonb_build_object('ok',true,'serverNow',hisaab_private.ms(t),'session',hisaab_private.profile_json(s,t),'recoveryIssued',issued_recovery);
+ elsif p_action='rotateRecovery' then
+  v_recovery:=p_payload->>'_recoveryHash';
+  if v_recovery !~ '^[a-f0-9]{64}$' or v_recovery is null then return hisaab_private.fail('BAD_RECOVERY','A recovery credential is required.'); end if;
+  if not hisaab_private.profile_complete(s) then return hisaab_private.fail('PROFILE_REQUIRED','Complete your profile first.'); end if;
+  update hisaab_private.sessions set recovery_hash=v_recovery where id=s.id;
+  return jsonb_build_object('ok',true,'serverNow',hisaab_private.ms(t));
+ elsif p_action='exportProfile' then
+  return jsonb_build_object('ok',true,'serverNow',hisaab_private.ms(t),'profile',hisaab_private.profile_json(s,t),
+   'createdAt',s.created_at,'profileCompletedAt',s.profile_completed_at,
+   'answers',(select coalesce(jsonb_agg(jsonb_build_object('roomId',a.room_id,'round',a.round,'choice',a.choice,'correct',a.correct,'elapsedMs',a.elapsed_ms,'xp',a.xp,'receivedAt',a.received_at) order by a.received_at),'[]'::jsonb) from hisaab_private.answers a where a.session_id=s.id),
+   'results',(select coalesce(jsonb_agg(to_jsonb(res) order by res.completed_at),'[]'::jsonb) from hisaab_private.results res where res.session_id=s.id),
+   'walletEntries',(select coalesce(jsonb_agg(to_jsonb(w) order by w.created_at),'[]'::jsonb) from hisaab_private.wallet_entries w where w.session_id=s.id),
+   'circles',hisaab_private.circle_list(s.id));
  elsif p_action in ('leaderboards','tournaments') then
   if p_action='tournaments' then
    board:=hisaab_private.board(s.id,'tournament',t);
@@ -376,6 +462,7 @@ begin
   end if;
   return jsonb_build_object('ok',true,'serverNow',hisaab_private.ms(t),'circles',hisaab_private.circle_list(s.id));
  elsif p_action in ('create','queue','join') then
+  if not hisaab_private.profile_complete(s) then return hisaab_private.fail('PROFILE_REQUIRED','Complete your profile before starting a match.'); end if;
   -- Serializes the small matchmaking transaction, not match play.
   perform pg_advisory_xact_lock(726482941);
   select x.* into r from hisaab_private.rooms x join hisaab_private.members m on m.room_id=x.id where m.session_id=s.id and x.phase not in ('finished','cancelled') and x.created_at>t-interval '15 minutes' order by x.created_at desc limit 1 for update of x;
@@ -408,6 +495,7 @@ begin
   -- Membership checked before locking/returning any private state.
   if not exists(select 1 from hisaab_private.members where room_id=room and session_id=s.id) then return hisaab_private.fail('FORBIDDEN','You are not a player in this room.'); end if;
   select * into r from hisaab_private.rooms where id=room for update;
+  if p_action='ready' and not hisaab_private.profile_complete(s) then return hisaab_private.fail('PROFILE_REQUIRED','Complete your profile before starting a match.'); end if;
   update hisaab_private.members set last_seen=t where room_id=r.id and session_id=s.id;
   if r.phase not in ('finished','cancelled') and (r.created_at<t-interval '15 minutes' or (r.phase='waiting' and r.mode<>'private' and r.created_at<t-interval '3 minutes')) then update hisaab_private.rooms set phase='cancelled',reason='room-expired',finished_at=t where id=r.id; r.phase:='cancelled'; end if;
   if p_action='leave' and r.phase not in ('finished','cancelled') then update hisaab_private.rooms set phase='cancelled',reason=case when r.phase in ('question','result') then 'player-left-forfeit' else 'player-left' end,finished_at=t,winner_id=case when r.phase in ('question','result') then (select session_id from hisaab_private.members where room_id=r.id and session_id<>s.id limit 1) else null end where id=r.id;
@@ -454,4 +542,4 @@ revoke all on all functions in schema hisaab_private from public, anon, authenti
 grant execute on all functions in schema hisaab_private to service_role;
 revoke all on function public.hisaab_game(text,text,jsonb,text) from public, anon, authenticated;
 grant execute on function public.hisaab_game(text,text,jsonb,text) to service_role;
-comment on function public.hisaab_game(text,text,jsonb,text) is 'HISAAB Edge-only command boundary. Custom guest-token SHA256 required. Never grant anon/authenticated execution.';
+comment on function public.hisaab_game(text,text,jsonb,text) is 'HISAAB Edge-only command boundary. Custom bearer-token SHA256 required. Never grant anon/authenticated execution.';

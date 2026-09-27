@@ -13,7 +13,7 @@ Use the existing controls, focus states, settings modal and shared brand compone
 
 ## Certificate and arrival amendment
 
-Home is a duel desk with one primary human-duel action and a prominent dated Today’s file. It never forces onboarding or queue entry. The optional remembered arrival preference can open the daily learning file.
+Home is a duel desk with one primary human-duel action and a prominent dated Today’s file. It never forces queue entry. A required, compact profile gate precedes play; public policy/help pages remain accessible. Nickname and private email are primary fields; optional avatar and language preferences use disclosure. Preserve pending invite intent and existing progress through onboarding. The optional remembered arrival preference can open the daily learning file.
 
 Certificates carry a warm paper field, bold player name, large earned label, source/expiry when currently verified online, and visible satire wording. Use the original six-pose mascot sprite as a consistent character across the nine ranks. Image-area allocation moves monotonically from 30:70 player/cartoon to 90:10; intermediate labels have distinct captions and medal marks. Do not place factual allegations in decorative art. Use a neutral initials portrait if no photo is supplied. Photo controls, preview and PNG actions must work on narrow screens and with reduced motion.
 

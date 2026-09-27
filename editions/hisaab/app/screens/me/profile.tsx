@@ -29,6 +29,7 @@ import { NameField } from './name-field';
 import { PhotoField, usePortrait } from './photo-field';
 import { useCompetitionTitle } from './competition-title';
 import { usePersonalXp } from './personal-xp';
+import { AccountCard } from './account-card';
 import './me.css';
 
 function Stat({ icon, k, v, sub, to }: { icon: React.ReactNode; k: string; v: React.ReactNode; sub?: React.ReactNode; to?: string }) {
@@ -177,6 +178,7 @@ export function Profile() {
         }
       />
 
+      <AccountCard />
       {competitionTitle && <p className="h-me__fine"><Link to={`${href.certificate()}?honour=1`}>{t("Your competition honour is ready to share", "आपका प्रतियोगिता सम्मान शेयर करने के लिए तैयार है")}</Link></p>}
       <div className="h-me__grid">
         <section className="h-me__ladder" aria-labelledby="h-me-ladder">

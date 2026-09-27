@@ -1,8 +1,8 @@
 // Supabase Edge runtime. Intentionally no package dependencies.
-// verify_jwt=false: custom 256-bit guest token is checked on EVERY private action.
+// verify_jwt=false: custom 256-bit bearer token is checked on EVERY private action.
 // Never expose SUPABASE_SERVICE_ROLE_KEY to the client.
 // @ts-nocheck -- deployed by Deno, separate from the browser TypeScript project.
-import { GameError, validateInput, makeToken, hashToken } from './core.mjs';
+import { GameError, validateInput, makeToken, hashToken, hashRecovery } from './core.mjs';
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'content-type, apikey, authorization, x-hisaab-session, x-region', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Vary': 'Origin' };
 const output = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
 async function readBody(request) {
@@ -22,8 +22,12 @@ Deno.serve(async (request) => {
     if (text.length > 4096) throw new GameError('TOO_LARGE','Request is too large.',413);
     let body; try { body = JSON.parse(text); } catch { throw new GameError('BAD_JSON','Invalid request.'); }
     const { action, payload } = validateInput(body);
-    const token = action === 'session' ? makeToken() : request.headers.get('x-hisaab-session');
+    const issuedToken = ['session','recover'].includes(action) ? makeToken() : null;
+    const token = issuedToken || request.headers.get('x-hisaab-session');
     const tokenHash = await hashToken(token);
+    const recoveryCode = ['session','rotateRecovery','profile'].includes(action) ? makeToken() : null;
+    const recoveryHash = recoveryCode ? await hashRecovery(recoveryCode) : action === 'recover' ? await hashRecovery(body.recoveryCode) : null;
+    if (recoveryHash) payload._recoveryHash = recoveryHash;
     // Hash network hints with a server-only secret. No raw IP is persisted or returned.
     const secret = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
     const ip = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for')?.split(',').at(-1)?.trim() || 'unknown';
@@ -32,7 +36,9 @@ Deno.serve(async (request) => {
     if (!response.ok) { console.error('hisaab_rpc_failure', response.status); throw new GameError('SERVER_BUSY','The game server is busy. Retry shortly.',503); }
     const data = await response.json();
     if (!data.ok) return output(data, ['UNAUTHORIZED','SESSION_EXPIRED'].includes(data.error?.code) ? 401 : data.error?.code === 'RATE_LIMIT' ? 429 : 400);
-    if (action === 'session') data.token = token;
+    if (issuedToken) data.token = issuedToken;
+    if (action === 'session' || action === 'rotateRecovery' || (action === 'profile' && data.recoveryIssued)) data.recoveryCode = recoveryCode;
+    delete data.recoveryIssued;
     return output(data);
   } catch (error) { return output({ok:false,error:{code:error instanceof GameError ? error.code : 'SERVER_ERROR',message:error instanceof GameError ? error.message : 'Unable to reach the game server.'}},error instanceof GameError ? error.status : 500); }
 });
