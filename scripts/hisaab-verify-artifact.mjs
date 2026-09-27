@@ -70,7 +70,9 @@ function walk(directory) {
 for (const relative of required) requireFile(relative);
 walk(root);
 const index = readFileSync(path.join(root, 'index.html'), 'utf8');
-assert.match(index, /HISAAB DO/, 'Wrong game artifact: HISAAB DO title missing.');
+assert.match(index, /Andhbhakt ya Deshbhakt/, 'Wrong game artifact: Andhbhakt ya Deshbhakt title missing.');
+requireFile('social-card.png');
+assert.match(index, /https:\/\/occult-kranti\.github\.io\/andhbhakt-ya-deshbhakt\//, 'Standalone publication URL missing.');
 assert.match(index, /<script\b[^>]*type=["']module["'][^>]*src=/, 'Production module entry missing.');
 assert.doesNotMatch(index, /(?:src|href)=["'][^"']*\.(?:tsx?|jsx)(?:[?#"'])/, 'Unbuilt source entry in artifact.');
 assert.doesNotMatch(index, /<script\b[^>]*src=["'][^"']*(?:googlesyndication|doubleclick)/i, 'Ad script must be gated at runtime, never loaded by the document.');
@@ -86,7 +88,8 @@ for (const { relative, text } of textFiles) {
   }
 }
 const manifest = JSON.parse(readFileSync(path.join(root, 'manifest.webmanifest'), 'utf8'));
-assert.equal(manifest.short_name, 'HISAAB DO', 'Wrong manifest brand.');
+assert.equal(manifest.short_name, 'AYD', 'Wrong manifest brand.');
+assert.match(manifest.name, /^Andhbhakt ya Deshbhakt/, 'Wrong full manifest brand.');
 assert.equal(new URL(manifest.start_url, rootUrl).href, rootUrl, 'Manifest start_url must resolve to this release root.');
 assert.equal(new URL(manifest.scope, rootUrl).href, rootUrl, 'Manifest scope must resolve to this release root.');
 assert.ok(Array.isArray(manifest.icons) && manifest.icons.length, 'Manifest needs a bundled icon.');

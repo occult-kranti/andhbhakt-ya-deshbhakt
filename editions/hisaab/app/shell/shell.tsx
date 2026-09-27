@@ -88,7 +88,7 @@ export function Shell() {
   // A route change is a new visit (one toast each), a new page for assistive tech, and the top.
   useLayoutEffect(() => {
     budget.newVisit(route.path);
-    document.title = route.name === 'home' ? `${TITLE_SUFFIX} — हिसाब दो` : `${SCREEN_TITLES[route.name]} · ${TITLE_SUFFIX}`;
+    document.title = route.name === 'home' ? `${TITLE_SUFFIX} — अंधभक्त या देशभक्त` : `${SCREEN_TITLES[route.name]} · ${TITLE_SUFFIX}`;
     if (first.current) {
       first.current = false;
       return;

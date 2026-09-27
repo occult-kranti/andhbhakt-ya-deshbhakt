@@ -254,9 +254,9 @@
 
 /* Daily Edition: light printed chrome, the original Hindi mark retained. */
 .h-top { background: var(--h-paper); border-bottom: 3px double var(--h-rule); }
-.h-wordmark { flex-direction: column; justify-content: center; align-items: flex-start; gap: 0; }
+.h-wordmark { flex-direction: column; justify-content: center; align-items: flex-start; gap: 0; font-size: 17px; }
 .h-wordmark > span { background: none; }
-.h-wordmark__en { display: block; font-family: var(--h-font-editorial); font-size: 10px; line-height: 1; letter-spacing: .035em; }
+.h-wordmark__en { display: inline-flex; font-family: var(--h-font-editorial); font-size: 10px; line-height: 1; letter-spacing: -.03em; }
 .h-top__edition { display: none; font-family: var(--h-font-mono); font-size: var(--h-fs-2xs); color: var(--h-ink-2); }
 .h-levelchip__lv { border-radius: var(--h-r-xs); border-width: 1px; background: var(--h-ground); color: var(--h-ink); }
 .h-nav__list { grid-template-columns: repeat(6, minmax(0, 1fr)); }
@@ -264,7 +264,12 @@
 .h-nav__item svg { width: 21px; height: 21px; stroke-width: 1.8; }
 @media (min-width: 600px) {
   .h-wordmark { flex-direction: row; align-items: center; gap: 8px; }
-  .h-wordmark__en { display: inline; font-size: 17px; letter-spacing: -.04em; padding-left: var(--h-s-3); border-left: 1px solid var(--h-hair); }
+  .h-wordmark__en { display: inline-flex; font-size: 15px; letter-spacing: -.04em; padding-left: var(--h-s-3); border-left: 1px solid var(--h-hair); }
+}
+@media (max-width: 359px) {
+  .h-wordmark > span[lang='hi'] { display: none; }
+  .h-wordmark__en { display: grid; grid-template-columns: auto auto; gap: 0 .15em; font-size: 15px; line-height: 1.05; }
+  .h-wordmark__en > :first-child { grid-column: 1 / -1; }
 }
 @media (min-width: 900px) {
   .h-top { padding-inline: var(--h-s-6); }

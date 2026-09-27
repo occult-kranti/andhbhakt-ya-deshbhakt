@@ -10,7 +10,7 @@ import { cx } from './cx';
 import './certificate.css';
 
 export const CERT_FOOTER = 'Satire. Not a government document. Name and photo chosen by the player.';
-export const CERT_SITE = absoluteUrl('#/').replace(/^https?:\/\//, '').replace(/\/#\/$/, '') || 'HISAAB DO';
+export const CERT_SITE = absoluteUrl('#/').replace(/^https?:\/\//, '').replace(/\/#\/$/, '') || 'Andhbhakt ya Deshbhakt';
 export type CertificateProps = {
   name: string | null | undefined; receipts: number | null; band: number; issuedOn: Date | number | null;
   portrait?: string | null; competitionTitle?: TitleGrant | null; fno?: string; id?: string; className?: string;
@@ -33,7 +33,7 @@ export function Certificate({ name, receipts, band, issuedOn, portrait, competit
   const style = { '--h-photo-share': `${art.portrait}%`, '--h-mascot-x': `${(art.frame % 3) * 50}%`, '--h-mascot-y': `${Math.floor(art.frame / 3) * 100}%`, '--h-mascot-image': `url("${asset}")` } as CSSProperties;
   return <div data-theme="light" className={cx('h-certwrap', className)}>
     <article className="h-cert" id={id} style={style} data-band={art.band} data-honour={!!honour} aria-label={`Certificate of labelling: ${shownName}, ${label.en}`}>
-      <header className="h-cert__head"><strong>HISAAB DO.</strong><span>CERTIFICATE OF LABELLING<br />F.No. {fno ?? certificateFno(rung.band, date, receipts)}</span></header>
+      <header className="h-cert__head"><strong>Andhbhakt<br /><small>ya</small> Deshbhakt<span className="h-cert__branddot">.</span></strong><span>CERTIFICATE OF LABELLING<br />F.No. {fno ?? certificateFno(rung.band, date, receipts)}</span></header>
       <div className="h-cert__art" aria-label={`${art.portrait}% player portrait, ${art.mascot}% satirical caricature`}>
         <div className="h-cert__portrait">{portrait ? <img src={portrait} alt="Player-selected portrait" /> : <span className="h-cert__initials" aria-label="No photo selected">{initials}</span>}<span className="h-cert__portraitlabel">JANTA</span></div>
         <div className="h-cert__mascot"><span className="h-cert__mascotface" role="img" aria-label={`Original political caricature, ${art.expression}`} /><span className="h-cert__mascotlabel">SATIRE</span></div>

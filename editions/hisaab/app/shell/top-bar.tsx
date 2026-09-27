@@ -1,5 +1,5 @@
 /**
- * shell/top-bar.tsx — `h-top` (bible §5): 56px + safe-area top. Wordmark हिसाब दो (home), the level
+ * shell/top-bar.tsx — `h-top` (bible §5): 56px + safe-area top. Wordmark अंधभक्त या देशभक्त (home), the level
  * chip (→ profile), mute, settings. Replaced by the round header in a live room (chrome 'none').
  *
  * The chip names the label (from 600px) only once the player holds a receipt: before that the label is
@@ -40,9 +40,9 @@ export function TopBar({ inert }: { inert?: boolean }) {
   const muted = !prefs.sound;
   return (
     <header className="h-top" inert={inert || undefined}>
-      <a className="h-wordmark" href={href.home()} aria-label={t('Hisaab Do — home', 'हिसाब दो — होम')}>
+      <a className="h-wordmark" href={href.home()} aria-label={t('Andhbhakt ya Deshbhakt — home', 'अंधभक्त या देशभक्त — होम')}>
         <span lang="hi" aria-hidden="true">
-          हिसाब दो
+          अंधभक्त या देशभक्त
         </span>
         <BrandName className="h-wordmark__en" />
       </a>

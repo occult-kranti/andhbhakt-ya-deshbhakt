@@ -61,7 +61,7 @@ const topHosts = [...hosts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeC
 const years = rows.map((r) => Number(r.launched.slice(0, 4)));
 
 const readme = {
-  title: 'HISAAB DO: Paisa Kahan Gaya? The money ledger, 2000–2026',
+  title: 'Andhbhakt ya Deshbhakt: Paisa Kahan Gaya? The money ledger, 2000–2026',
   facts: [
     ['Facts as of', `${monthName(asOf)} (the as-of month of the bank items behind the rows: ${asOf})`],
     ['Rows', `${rows.length} measures, one per row on the Ledger sheet (${Math.min(...years)}–${Math.max(...years)})`],
@@ -81,7 +81,7 @@ const readme = {
     ],
     [
       'Sources',
-      'Every row carries its own source: source_label ("Publisher — title (date)") and source_url, a page that was fetched and states the core fact. Each row is built from HISAAB DO question-bank items (bank_items), which were fact-checked against fetched pages under the edition\'s charter; the ledger adds no new research, and every number in a row appears in its own items. The lanes worked from Union budget speeches and Economic Surveys (indiabudget.gov.in), PRS Legislative Research budget analyses, Finance Commission reports, the Rajya Sabha Standing Committee on Home Affairs (261st report, Disaster Management), PIB and PMO releases, CAG audits (read through reports of their tabling), court records (Indian Kanoon, LiveLaw), peer-reviewed studies, and news reports. Election results are the official results as the bank states them (ECI figures, through the cited outlet).',
+      'Every row carries its own source: source_label ("Publisher — title (date)") and source_url, a page that was fetched and states the core fact. Each row is built from Andhbhakt ya Deshbhakt question-bank items (bank_items), which were fact-checked against fetched pages under the edition\'s charter; the ledger adds no new research, and every number in a row appears in its own items. The lanes worked from Union budget speeches and Economic Surveys (indiabudget.gov.in), PRS Legislative Research budget analyses, Finance Commission reports, the Rajya Sabha Standing Committee on Home Affairs (261st report, Disaster Management), PIB and PMO releases, CAG audits (read through reports of their tabling), court records (Indian Kanoon, LiveLaw), peer-reviewed studies, and news reports. Election results are the official results as the bank states them (ECI figures, through the cited outlet).',
     ],
     [
       'Source hosts',

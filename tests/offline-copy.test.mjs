@@ -189,15 +189,18 @@ test('the quiz-page chrome still reads as a duel invitation in every language', 
 
 /* ------------------------------------------------------------- the build wiring, as written */
 
-test('the static build freezes APP_URL in and the workflow passes it to both build steps', () => {
+test('legacy hand-off remains available but Pages publishes the configured game directly', () => {
   const config = read('vite.config.static.ts');
   assert.match(config, /const appUrl = \(process\.env\.APP_URL \?\? ''\)\.trim\(\);/);
   assert.match(config, /'import\.meta\.env\.VITE_APP_URL': JSON\.stringify\(appUrl\)/);
 
   const workflow = read('.github/workflows/pages.yml');
-  const steps = workflow.split('      - name: ').filter((s) => /run: pnpm (seo:pages|build:static)/.test(s));
-  assert.equal(steps.length, 2, 'the quiz pages step and the static build step');
-  for (const step of steps) assert.match(step, /APP_URL: \$\{\{ vars\.APP_URL \}\}/, step.split('\n')[0]);
+  assert.match(workflow, /actions\/upload-pages-artifact@/);
+  assert.match(workflow, /actions\/deploy-pages@/);
+  assert.doesNotMatch(workflow, /vars\.APP_URL/);
+  assert.match(workflow, /VITE_HISAAB_SERVER_URL: https:\/\/[^\s]+\/hisaab-game/);
+  assert.match(workflow, /HISAAB_BASE: \/andhbhakt-ya-deshbhakt\//);
+  assert.match(workflow, /pnpm build:hisaab/);
 
   // The entry renders the card instead of the arena, and the card is the only thing on the page.
   const main = read('static/main.tsx');

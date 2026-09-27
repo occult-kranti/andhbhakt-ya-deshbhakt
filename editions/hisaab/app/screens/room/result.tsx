@@ -179,15 +179,15 @@ export function MatchResult({
     const line =
       verdict === 'win'
         ? vsBot
-          ? `Beat ${BOT_NAME} ${mine}–${theirs} on HISAAB DO.`
-          : `Won a ${fmt} duel ${mine}–${theirs} on HISAAB DO.`
+          ? `Beat ${BOT_NAME} ${mine}–${theirs} on Andhbhakt ya Deshbhakt.`
+          : `Won a ${fmt} duel ${mine}–${theirs} on Andhbhakt ya Deshbhakt.`
         : verdict === 'loss'
           ? vsBot
-            ? `Lost to ${BOT_NAME} ${mine}–${theirs} on HISAAB DO.`
-            : `Lost a ${fmt} duel ${mine}–${theirs} on HISAAB DO.`
+            ? `Lost to ${BOT_NAME} ${mine}–${theirs} on Andhbhakt ya Deshbhakt.`
+            : `Lost a ${fmt} duel ${mine}–${theirs} on Andhbhakt ya Deshbhakt.`
           : vsBot
-            ? `Drew with ${BOT_NAME} ${mine}–${theirs} on HISAAB DO.`
-            : `Drew a ${fmt} duel ${mine}–${theirs} on HISAAB DO.`;
+            ? `Drew with ${BOT_NAME} ${mine}–${theirs} on Andhbhakt ya Deshbhakt.`
+            : `Drew a ${fmt} duel ${mine}–${theirs} on Andhbhakt ya Deshbhakt.`;
     const disclosure = vsBot ? ' (The bot picks at random and can’t see the question.)' : '';
     setShared(
       await shareText([`${line}${disclosure} Har sawaal sourced.`, absoluteUrl(href.duel()), SHARE_FOOTER].join('\n')),

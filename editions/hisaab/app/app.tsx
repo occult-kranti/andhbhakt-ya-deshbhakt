@@ -1,5 +1,5 @@
 /**
- * editions/hisaab/app/app.tsx — the HISAAB DO app: providers + the shell.
+ * editions/hisaab/app/app.tsx — the Andhbhakt ya Deshbhakt app: providers + the shell.
  *
  *   LocaleProvider (@/app/use-locale)      the chrome's language, persisted per device
  *   └ FxProvider (@/components/fx)         particles, sound (silent until the first tap), haptics

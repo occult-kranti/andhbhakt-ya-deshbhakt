@@ -62,7 +62,7 @@ export const receiptLink = (item: BankItem) => url(href.taster(item.id));
  * legal status line with its as-of date when the item has one, and its OTHER SIDE clause when it has one.
  */
 export function receiptShareText(item: BankItem, variant: ReceiptShareVariant): string {
-  const lines = [`HISAAB DO · ${item.topic}`, item.question];
+  const lines = [`Andhbhakt ya Deshbhakt · ${item.topic}`, item.question];
   const status = statusWithAsOf(item);
   const other = otherSideLine(item, variant);
   if (variant === 'challenge') {
@@ -89,7 +89,7 @@ export function dailyGridText(input: { day: string; results: readonly boolean[];
   const date = `${Number(d)} ${monthLabel(`${y}-${m}`)}`;
   const right = input.results.filter(Boolean).length;
   return [
-    `HISAAB DO · Aaj Ka Hisaab · ${date}`,
+    `Andhbhakt ya Deshbhakt · Aaj Ka Hisaab · ${date}`,
     `${input.results.map((r) => (r ? '✅' : '❌')).join('')} ${right}/${input.results.length}`,
     `Label: ${input.label}`,
     `Har sawaal ka source hai. Khud check karo: ${url(href.aaj())}`,
@@ -98,7 +98,7 @@ export function dailyGridText(input: { day: string; results: readonly boolean[];
 
 /** The duel invite text (bible §8.4). */
 export function inviteText(code: string, opts: { format?: string } = {}): string {
-  return `Muqabla? ${opts.format ?? 'A duel'} on HISAAB DO. Room ${code}: ${url(href.friend(code))}`;
+  return `Muqabla? ${opts.format ?? 'A duel'} on Andhbhakt ya Deshbhakt. Room ${code}: ${url(href.friend(code))}`;
 }
 
 /** A WhatsApp share link for a text (wa.me; opens the app or WhatsApp Web). */
@@ -197,7 +197,7 @@ export async function shareReceipt(item: BankItem, variant: ReceiptShareVariant)
   } catch {
     return shareText(text);
   }
-  return shareImage(blob, `hisaab-do-${variant}-${item.id}.png`, text);
+  return shareImage(blob, `andhbhakt-ya-deshbhakt-${variant}-${item.id}.png`, text);
 }
 
 /** Share today's grid (text, by design). */
@@ -273,7 +273,7 @@ export async function shareCertificate(input: CertificateShareInput): Promise<Sh
     .en.toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
-  return shareImage(blob, `hisaab-do-certificate-${slug}.png`, text);
+  return shareImage(blob, `andhbhakt-ya-deshbhakt-certificate-${slug}.png`, text);
 }
 
 /** Share a P2P room invite (text + link). */

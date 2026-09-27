@@ -1,10 +1,7 @@
-HISAAB DO — release marker.
+Andhbhakt ya Deshbhakt — standalone beta release marker.
 
-Its presence tells .github/workflows/pages-hisaab.yml that this tree is releasable: the workflow
-builds the edition and publishes it to https://occult-kranti.github.io/fact-duel/hisaab/.
-Remove this file to stop publishing from a branch without touching the workflow.
-
-Released 26 Sep 2026 after: 940 bank questions validated (21 lanes, every lane independently
-verified, balance audit, 0 unreviewed answer giveaways); 845/845 tests; tsc clean; both builds
-green; the screen walker over 370 screens in 10 cells with 0 failures and 11/11 flows; five-lens UI
-review, fact audit, security review and code review with every P0/P1 fixed.
+The current user instruction authorizes publication from release/beta to
+https://occult-kranti.github.io/andhbhakt-ya-deshbhakt/.
+The product preserves the previously tested human-duel, local-photo certificate and satirical
+progression implementation. Current build and browser evidence is recorded by the release gate.
+A verified merge to main/master and beta publication are authorized by the latest launch instruction.

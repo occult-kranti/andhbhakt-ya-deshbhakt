@@ -1,3 +1,4 @@
+# Historical optional deployment; current game beta uses Pages + Supabase. Never runs on a push.
 # Deploys the SERVER build — the Worker with the D1-backed duel, wallet, ledger, accounts and ops
 # routes — to Cloudflare Workers. This is the deployment that carries the founder's own domain, and
 # the one AdSense reviews; the static GitHub Pages build (pages.yml) has no server — it is the
@@ -26,29 +27,9 @@
 #                                overrides the file — and CF_CUSTOM_DOMAIN (e.g. play.example.com)
 # Optional SECRETS (Worker env): OPS_TOKEN, SESSION_SECRET, GOOGLE_CLIENT_ID, MAIL_API_KEY,
 #                                MAIL_FROM, APP_ORIGIN — see cloudflare-env.d.ts for what each does.
-name: Deploy the Worker to Cloudflare
+name: Legacy Cloudflare deployment (manual only)
 
 on:
-  push:
-    branches: [main]
-    # Only what can change the served Worker. Docs, the deck and the marketing pages do not redeploy.
-    paths:
-      - 'app/**'
-      - 'lib/**'
-      - 'db/**'
-      - 'drizzle/**'
-      - 'scripts/**'
-      - 'components/**'
-      - 'hooks/**'
-      - 'public/**'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'vite.config.ts'
-      - 'next.config.ts'
-      - 'tsconfig.json'
-      - '.openai/hosting.json'
-      - 'deploy.config.json'
-      - '.github/workflows/deploy-worker.yml'
   workflow_dispatch:
 
 permissions:

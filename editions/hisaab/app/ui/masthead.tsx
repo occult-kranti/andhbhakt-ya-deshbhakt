@@ -16,10 +16,10 @@ export function Masthead({ day }: { day: string }) {
         <time dateTime={day}>{printedDate}</time>
         <span>{t('PLAY. QUESTION. VERIFY.', 'खेलो। पूछो। जाँचो।')}</span>
       </div>
-      <div className="h-masthead__name" role="img" aria-label="Hisaab Do">
+      <div className="h-masthead__name" role="img" aria-label="Andhbhakt ya Deshbhakt">
         <span className="h-masthead__side" lang="hi" aria-hidden="true">जनता का पैसा।<br />जनता का सवाल।</span>
         <BrandName className="h-masthead__title" />
-        <span className="h-masthead__seal" lang="hi" aria-hidden="true">हिसाब दो<br /><small>हर जवाब की रसीद</small></span>
+        <span className="h-masthead__seal" lang="hi" aria-hidden="true">अंधभक्त या देशभक्त<br /><small>हर जवाब की रसीद</small></span>
       </div>
       <p className="h-masthead__strap">{t('A quiz on public money, power & the paper trail.', 'जनता के पैसे, सत्ता और दस्तावेज़ों पर एक क्विज़।')}</p>
     </header>

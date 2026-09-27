@@ -1,6 +1,6 @@
 /** Real-browser certificate contract: local portrait, export, online progress and honour revocation. */
 import assert from 'node:assert/strict';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createServer } from 'vite';
 import { chromium } from 'playwright-core';
@@ -10,9 +10,9 @@ import { STORAGE_NS } from '../editions/hisaab/storage-ns.mjs';
 const out = resolve(process.argv[2] || 'outputs/certificate');
 mkdirSync(out, { recursive: true });
 process.env.VITE_HISAAB_SERVER_URL = 'https://certificate-test.invalid/game';
-const vite = await createServer({ configFile: 'vite.config.hisaab.ts', server: { host: '127.0.0.1', port: 0 } });
+const vite = await createServer({ configFile: 'vite.config.hisaab.ts', server: { host: '127.0.0.1', port: 0, fs: { allow: [process.cwd(), realpathSync('node_modules')] } } });
 await vite.listen();
-const base = `http://127.0.0.1:${vite.httpServer.address().port}/fact-duel/hisaab/`;
+const base = `http://127.0.0.1:${vite.httpServer.address().port}/andhbhakt-ya-deshbhakt/`;
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/tmp/hisaab-chromium-runtime/chromium', headless: true, args: ['--no-sandbox'] });
 const errors = [];
 try {
@@ -55,7 +55,7 @@ try {
   const honour = signed.waitForEvent('download');
   await signed.getByRole('button', { name: 'Save as image', exact: true }).click();
   await (await honour).saveAs(`${out}/honour-certificate.png`);
-  await signed.evaluate(async () => { const { online } = await import('/fact-duel/hisaab/online/runtime.ts'); online.forget(); });
+  await signed.evaluate(async () => { const { online } = await import('/andhbhakt-ya-deshbhakt/online/runtime.ts'); online.forget(); });
   await signed.waitForFunction(() => document.querySelector('.h-cert__art')?.getAttribute('aria-label') === '30% player portrait, 70% satirical caricature');
   assert.equal(await signed.locator('.h-certview__honourpick').count(), 0);
   assert.deepEqual(errors, []);

@@ -17,7 +17,7 @@ import { Button } from '../../ui/button';
 import { useLang } from '../../ui/lang';
 
 /** The public issue tracker of the repository the site is published from. */
-export const ISSUES_NEW_URL = 'https://github.com/occult-kranti/fact-duel/issues/new';
+export const ISSUES_NEW_URL = 'https://github.com/occult-kranti/andhbhakt-ya-deshbhakt/issues/new';
 /**
  * A corrections mailbox, if the owner publishes one (null = no mail button, and the page says there is
  * no private address yet). Only the owner sets this: it is printed on a public page.
@@ -38,7 +38,7 @@ export function reportText(input: { id: string; reason: string; details: string;
   const reason = REASONS.find((r) => r.id === input.reason)?.en ?? 'Something else';
   const title = `Correction: ${item ? item.id : input.id.trim() || 'a question'} — ${reason}`;
   const lines = [
-    `HISAAB DO correction report`,
+    `Andhbhakt ya Deshbhakt correction report`,
     ``,
     `Item: ${item ? item.id : input.id.trim() || '(not given)'}`,
   ];

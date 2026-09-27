@@ -301,7 +301,7 @@ function toBlob(canvas: HTMLCanvasElement): Promise<Blob> {
   return new Promise((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('png-failed'))), 'image/png'));
 }
 
-/** 'https://occult-kranti.github.io/fact-duel/hisaab/#q=hsc001' → without the scheme, for print. */
+/** 'https://occult-kranti.github.io/andhbhakt-ya-deshbhakt/#q=hsc001' → without the scheme, for print. */
 export const printableLink = (link: string) => link.replace(/^https?:\/\//, '');
 
 // ---- the receipt card ---------------------------------------------------------------------------------
@@ -578,25 +578,16 @@ function drawReceiptFrame(ctx: Ctx, t: Tokens, bottom: number, link: string) {
   // ground
   ctx.fillStyle = t.ground;
   ctx.fillRect(0, 0, CARD_W, CARD_H);
-  // wordmark (Devanagari above, Latin caps) and the tape band
-  ctx.font = fontOf(t, 'display', 700, 64);
+  // Long standalone title stays on two deliberate baselines; no header collision.
+  ctx.font = fontOf(t, 'display', 700, 43);
   ctx.fillStyle = t['syahi-text'];
-  ctx.fillText('हिसाब दो', M, 104);
-  const hiW = ctx.measureText('हिसाब दो').width;
-  ctx.font = fontOf(t, 'display', 700, 44);
-  setSpacing(ctx, 1);
+  ctx.fillText('अंधभक्त या देशभक्त', M, 74);
+  ctx.font = fontOf(t, 'display', 700, 39);
   ctx.fillStyle = t.ink;
-  ctx.fillText('HISAAB DO', M + hiW + 24, 100);
-  setSpacing(ctx, 0);
-  ctx.font = fontOf(t, 'mono', 700, 22);
-  setSpacing(ctx, 3);
-  ctx.fillStyle = t['ink-2'];
-  ctx.textAlign = 'right';
-  ctx.fillText('SHOW US THE ACCOUNTS', CARD_W - M, 98);
-  ctx.textAlign = 'left';
-  setSpacing(ctx, 0);
-  ctx.fillStyle = t.tape;
-  ctx.fillRect(M, 132, 180, 10);
+  ctx.fillText('ANDHBHAKT YA DESHBHAKT', M, 118);
+  ctx.font = fontOf(t, 'mono', 700, 20);
+  ctx.textAlign = 'right'; ctx.fillText('EVERY ANSWER', CARD_W - M, 78); ctx.fillText('A RECEIPT.', CARD_W - M, 107); ctx.textAlign = 'left';
+  ctx.fillStyle = t.tape; ctx.fillRect(M, 139, 180, 8);
 
   // the receipt panel: hard shadow, outline, zig-zag bottom (bible §5 h-receipt)
   const tooth = 32;
@@ -648,7 +639,7 @@ export async function renderReceiptCard(item: BankItem, variant: CardVariant, op
   const t = lightTokens();
   const sample = [item.question, ...item.options, item.status ?? '', otherSideLine(item, variant) ?? '', item.sourceLabel].join(' ');
   await loadFaces(t, [
-    ['display', 700, 'हिसाब दो HISAAB DO ABCD SOURCED'],
+    ['display', 700, 'अंधभक्त या देशभक्त Andhbhakt ya Deshbhakt ABCD SOURCED'],
     ['ui', 400, sample],
     ['ui', 600, `${item.question} ${item.options[item.correctIndex]} ${FOOTER}`],
     ['mono', 400, `${opts.link} as of 0123456789`],
@@ -747,7 +738,7 @@ export async function renderCertificateCard(input: CertificateCardInput): Promis
     certificateImage(mascotAsset(base)),
     input.portrait?.startsWith('data:image/jpeg;base64,') ? certificateImage(input.portrait) : Promise.resolve(null),
     loadFaces(t, [
-      ['display', 700, `${label.hi} ${latin} ${name.toUpperCase()} HISAAB DO.`],
+      ['display', 700, `${label.hi} ${latin} ${name.toUpperCase()} ANDHBHAKT YA DESHBHAKT.`],
       ['ui', 400, `${art.caption} ${label.aside ?? ''} has earned the label`],
       ['mono', 700, `CERTIFICATE OF LABELLING F.No. ${fno} ${stampText} ${input.footer} ${honourLine(honour)} ${input.site} 0123456789 ★`],
     ]),
@@ -757,7 +748,7 @@ export async function renderCertificateCard(input: CertificateCardInput): Promis
   const x = 86, w = 908;
   roundRect(ctx, 50, 50, 980, 1250, 24); ctx.fillStyle = t.syahi; ctx.fill();
   roundRect(ctx, 38, 38, 980, 1250, 24); ctx.fillStyle = t.receipt; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = t.line; ctx.stroke();
-  ctx.fillStyle = t.ink; ctx.font = fontOf(t, 'display', 700, 57); ctx.fillText('HISAAB DO.', x, 115);
+  ctx.fillStyle = t.ink; ctx.font = fontOf(t, 'display', 700, 39); ctx.fillText('ANDHBHAKT', x, 86); ctx.fillText('YA DESHBHAKT.', x, 124);
   ctx.font = fontOf(t, 'mono', 700, 20); ctx.textAlign = 'right'; ctx.fillText('CERTIFICATE OF LABELLING', x + w, 88); ctx.fillText(`F.No. ${fno}`, x + w, 116); ctx.textAlign = 'left';
   ctx.fillRect(x, 139, w, 3);
   // Fixed image strip: an exact 30:70 → 90:10 split, independent of the title or optional portrait.

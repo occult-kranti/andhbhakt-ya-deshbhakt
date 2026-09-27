@@ -26,7 +26,7 @@
 .h-masthead__title {
   font-family: var(--h-font-editorial);
   font-weight: 900;
-  font-size: clamp(38px, 10vw, 110px);
+  font-size: clamp(32px, 4.6vw, 70px);
   line-height: .95;
   letter-spacing: -.065em;
   white-space: nowrap;
@@ -44,10 +44,9 @@
   .h-masthead__strap { font-size: var(--h-fs-s); }
 }
 @media (min-width: 1100px) {
-  .h-masthead__name { justify-content: space-between; padding-block: var(--h-s-5); }
-  .h-masthead__side { display: block; font-size: var(--h-fs-m); font-weight: 600; line-height: 1.5; }
+  .h-masthead__name { justify-content: center; padding-block: var(--h-s-5); }
   .h-masthead__seal {
-    display: block;
+    display: none;
     padding: var(--h-s-2) var(--h-s-3);
     border: 3px double var(--h-syahi-text);
     color: var(--h-syahi-text);
@@ -59,4 +58,9 @@
     transform: rotate(-4deg);
   }
   .h-masthead__seal small { font-family: var(--h-font-ui); font-size: var(--h-fs-xs); }
+}
+@media (max-width: 599px) {
+  .h-masthead__title { display: grid; grid-template-columns: auto auto; column-gap: .24em; font-size: clamp(39px, 11.3vw, 62px); letter-spacing: -.06em; }
+  .h-masthead__title > :first-child { grid-column: 1 / -1; text-align: center; }
+  .h-masthead__title > :nth-child(2) { justify-self: end; }
 }

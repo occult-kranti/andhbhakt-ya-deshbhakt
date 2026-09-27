@@ -5,7 +5,7 @@ import './brand.css';
 export function BrandName({ className }: { className?: string }) {
   return (
     <span className={cx('h-brand-name', className)} lang="en" aria-hidden="true">
-      HISAAB DO<span className="h-brand-name__dot">.</span>
+      <span>Andhbhakt</span><span className="h-brand-name__join">ya</span><span>Deshbhakt<span className="h-brand-name__dot">.</span></span>
     </span>
   );
 }

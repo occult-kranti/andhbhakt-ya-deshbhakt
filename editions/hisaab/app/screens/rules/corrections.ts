@@ -64,7 +64,7 @@ export const CHANGELOG: readonly ChangeEntry[] = Object.freeze([
     date: '2026-09-26',
     title: 'Streak days need play',
     detail:
-      'Opening HISAAB DO no longer counts as a streak day. A day counts when you answer a question, open a receipt in the Vault for the first time, or keep a copy of one. Section 7 of this page said "a day counts when you play" while opening the app still counted; it now states the rule as the game applies it.',
+      'Opening Andhbhakt ya Deshbhakt no longer counts as a streak day. A day counts when you answer a question, open a receipt in the Vault for the first time, or keep a copy of one. Section 7 of this page said "a day counts when you play" while opening the app still counted; it now states the rule as the game applies it.',
   },
   {
     date: '2026-09-26',

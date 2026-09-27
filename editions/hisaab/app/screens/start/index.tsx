@@ -3,7 +3,7 @@
  * (it is optional, and only needed later for a certificate or a room).
  *
  * Phone: a full-height poster. The kicker F.No. 00/IN/<year> sits beside the EN/हिं toggle, then
- * हिसाब दो / SHOW US THE ACCOUNTS, the motto and three typed lines with real counts. Below it: the pitch
+ * अंधभक्त या देशभक्त / SHOW US THE ACCOUNTS, the motto and three typed lines with real counts. Below it: the pitch
  * (or, after the first receipt, the inline label card), ONE violet primary (Open today's file) and three
  * text links (a state, the money trail, a duel code). Footer: "No account. Stored on this device. Rules &
  * sources". Desktop (≥ 900px): the poster on a halftone patch with static TIJORI art (7 cols) | the

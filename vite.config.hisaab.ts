@@ -34,7 +34,7 @@ import { publicationThemeSource } from './scripts/hisaab-publication-theme.mjs';
 
 const repoRoot = path.dirname(fileURLToPath(import.meta.url));
 const editionRoot = path.join(repoRoot, 'editions/hisaab');
-const rawBase = process.env.HISAAB_BASE ?? '/fact-duel/hisaab/';
+const rawBase = process.env.HISAAB_BASE ?? '/andhbhakt-ya-deshbhakt/';
 const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 const advertising = adConfigFromEnv(process.env);
 /** Where the build goes: HISAAB_OUT (repo-relative or absolute), else dist-hisaab/. */

@@ -181,7 +181,7 @@ export default function HomeScreen(_props: ScreenProps) {
 
   return (
     <Page screen="home" className={cx('h-home', !resume && 'h-home--noresume')}>
-      <h1 className="h-sr">{t('Home — Hisaab Do', 'होम — हिसाब दो')}</h1>
+      <h1 className="h-sr">{t('Home — Andhbhakt ya Deshbhakt', 'होम — अंधभक्त या देशभक्त')}</h1>
       <Masthead day={today} />
       {!online || player.storageError ? (
         <div className="h-home__notes">

@@ -1,6 +1,6 @@
-# HISAAB DO — publication identity
+# Andhbhakt ya Deshbhakt — publication identity
 
-Preserve the existing editorial world: warm paper, dark ink, restrained violet, the HISAAB DO masthead and its full stop, ruled sections, compact metadata and generous space around questions. The source receipt is the central brand gesture. The detailed incumbent specification is `docs/hisaab/design-bible.md`; `theme/tokens.css` is the visual source of truth.
+Preserve the existing editorial world: warm paper, dark ink, restrained violet, the Andhbhakt ya Deshbhakt masthead and its violet full stop, ruled sections, compact metadata and generous space around questions. The source receipt is the central brand gesture. The detailed incumbent specification is `docs/hisaab/design-bible.md`; `theme/tokens.css` is the visual source of truth.
 
 Game, lobby, settings and competition surfaces are **Operate**: obvious next action, readable state, restrained motion, accessible touch targets and recoverable errors. Publication and source pages are **Read**. Marketing and investor surfaces are **Persuade**, with product evidence and labelled hypotheses rather than invented metrics.
 
@@ -18,3 +18,8 @@ Home is a duel desk with one primary human-duel action and a prominent dated Tod
 Certificates carry a warm paper field, bold player name, large earned label, source/expiry when currently verified online, and visible satire wording. Use the original six-pose mascot sprite as a consistent character across the nine ranks. Image-area allocation moves monotonically from 30:70 player/cartoon to 90:10; intermediate labels have distinct captions and medal marks. Do not place factual allegations in decorative art. Use a neutral initials portrait if no photo is supplied. Photo controls, preview and PNG actions must work on narrow screens and with reduced motion.
 
 Correct feedback reads “Waah Waah”. End-of-game celebrations are a brief flourish; the receipt stays readable. Loss copy acknowledges effort without pretending a loss is a victory. Public screens never promise the hidden title before it is earned and never expose bank inventory counts.
+
+
+## Standalone brand amendment
+
+The public name is “Andhbhakt ya Deshbhakt” (अंधभक्त या देशभक्त), served at https://occult-kranti.github.io/andhbhakt-ya-deshbhakt/. Use the complete name in page titles, sharing text and certificates. On narrow screens the masthead may wrap at “ya”; the compact top bar remains bilingual. Preserve warm paper, bold editorial lettering and violet punctuation. The long name must not collide with certificate file metadata, action controls or the source receipt. The latest standalone launch request authorizes verified beta publication and merging the release branch into main/master; the previous publication and merge holds are superseded.

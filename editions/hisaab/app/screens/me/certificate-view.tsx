@@ -66,7 +66,7 @@ export function CertificateView({ route }: { route: AppRoute }) {
       const link = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = link;
-      a.download = `hisaab-do-certificate-${label.en.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`;
+      a.download = `andhbhakt-ya-deshbhakt-certificate-${label.en.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`;
       document.body.appendChild(a);
       a.click();
       a.remove();

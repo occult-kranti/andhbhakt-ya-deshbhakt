@@ -844,7 +844,7 @@ function RoomLobby({
   }, [seated, peer, via]);
   const text =
     via === 'tab' || session.circleId
-      ? `Muqabla? ${f.name} on HISAAB DO. Room ${code}: ${invite}`
+      ? `Muqabla? ${f.name} on Andhbhakt ya Deshbhakt. Room ${code}: ${invite}`
       : inviteText(code, { format: f.name });
 
   const friendState: { text: string; icon: ReactNode; tone: 'wait' | 'ok' | 'ready' | 'off' } =

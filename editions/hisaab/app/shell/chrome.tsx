@@ -3,7 +3,7 @@
  *
  *   useChrome('none');          // a live room: no top bar, no nav (the room draws its round header)
  *   useChrome(countdown ? 'none' : null);   // null = the route's default (router.ts)
- *   useScreenTitle('Rajya Rounds');         // document.title = 'Rajya Rounds · HISAAB DO'
+ *   useScreenTitle('Rajya Rounds');         // document.title = 'Rajya Rounds · Andhbhakt ya Deshbhakt'
  *
  * The shell also hides the nav on its own while a ceremony is open.
  */
@@ -21,9 +21,9 @@ export function useChrome(mode: Chrome | null) {
   }, [mode, set]);
 }
 
-export const TITLE_SUFFIX = 'HISAAB DO';
+export const TITLE_SUFFIX = 'Andhbhakt ya Deshbhakt';
 
-/** Set document.title while mounted: '<title> · HISAAB DO'. */
+/** Set document.title while mounted: '<title> · Andhbhakt ya Deshbhakt'. */
 export function useScreenTitle(title: string | null | undefined) {
   useEffect(() => {
     if (!title) return;

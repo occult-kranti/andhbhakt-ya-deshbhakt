@@ -14,7 +14,7 @@
 import { STATES } from '../../../bank/schema.mjs';
 
 /** Default for checked-in Pages downloads; standalone builds may generate copies for their host. */
-export const DEFAULT_SITE = 'https://occult-kranti.github.io/fact-duel/hisaab/';
+export const DEFAULT_SITE = 'https://occult-kranti.github.io/andhbhakt-ya-deshbhakt/';
 export function publicationUrl(value = DEFAULT_SITE) {
   const url = new URL(value);
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash) {
@@ -90,7 +90,7 @@ export const CSV_COLUMNS = Object.freeze([
     '"yes" for a bundle whose parts have rows of their own (Karnataka\'s five guarantees, Telangana\'s six); its costs overlap theirs.',
   ],
   ['tags', (r) => r.tags.join('; '), 'Every money-trail mode the row\'s bank items carry.'],
-  ['bank_items', (r) => r.itemIds.join('; '), 'The HISAAB DO question-bank items the row is built from.'],
+  ['bank_items', (r) => r.itemIds.join('; '), 'The Andhbhakt ya Deshbhakt question-bank items the row is built from.'],
   [
     'play_links',
     (r) => r.itemIds.map((id) => `${SITE}#/q/${id}`).join(' '),

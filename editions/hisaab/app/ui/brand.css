@@ -1,6 +1,10 @@
 .h-brand-name {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .2em;
   font-family: var(--h-font-editorial);
   font-weight: 900;
   white-space: nowrap;
 }
+.h-brand-name__join { font-size: .68em; font-style: italic; font-weight: 600; }
 .h-brand-name__dot { color: var(--h-syahi-text); }

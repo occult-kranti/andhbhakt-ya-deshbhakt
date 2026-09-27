@@ -480,11 +480,12 @@ test('the audit itself catches a secrets reference in a step condition', () => {
   );
 });
 
-test('the deploy workflow is valid YAML and redeploys when deploy.config.json changes', () => {
+test('the legacy deploy workflow is valid YAML and requires an explicit manual dispatch', () => {
   const doc = workflow();
   const on = doc.on ?? doc[true];
   assert.ok('workflow_dispatch' in on, 'the founder can run it by hand');
-  assert.ok(on.push.paths.includes('deploy.config.json'));
+  assert.equal(on.push, undefined, 'the current beta must not automatically deploy the legacy Worker');
+  assert.equal(on.schedule, undefined);
   assert.equal(doc.jobs.deploy.if, "needs.preflight.outputs.configured == 'true'");
 });
 

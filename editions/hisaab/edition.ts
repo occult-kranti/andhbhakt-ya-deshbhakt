@@ -17,13 +17,13 @@ import { LABELS, labelFor, labelForLevel } from './engine/labels.mjs';
 import { DAILY_SIZE, dailyRoundId, dealDaily, localDay } from './engine/daily.mjs';
 import { ERAS, MONEY_MIN, MONEY_TAGS, ROUTE_KINDS, ROUTE_MIN, YEAR_MIN, YEAR_SPAN } from './engine/routes.mjs';
 
-/** The deployment base, frozen in by vite.config.hisaab.ts ('/fact-duel/hisaab/' by default). */
+/** The deployment base, frozen in by vite.config.hisaab.ts ('/andhbhakt-ya-deshbhakt/' by default). */
 declare const __HISAAB_BASE__: string;
 
 export const EDITION = Object.freeze({
   id: 'hisaab',
-  name: 'HISAAB DO',
-  nameDevanagari: 'हिसाब दो',
+  name: 'Andhbhakt ya Deshbhakt',
+  nameDevanagari: 'अंधभक्त या देशभक्त',
   tagline: 'Show us the accounts.',
   motto: 'Janta ka paisa. Janta ka sawaal.',
   mottoGloss: "The people's money. The people's question.",

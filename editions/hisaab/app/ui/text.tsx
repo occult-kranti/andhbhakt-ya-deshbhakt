@@ -1,7 +1,7 @@
 /**
  * ui/text.tsx — small typographic pieces every screen uses.
  *
- *   <Hi>हिसाब दो</Hi>                       Devanagari inside an English screen (lang="hi", untracked)
+ *   <Hi>अंधभक्त या देशभक्त</Hi>                       Devanagari inside an English screen (lang="hi", untracked)
  *   <Kicker>F.No. S/UP/06</Kicker>          mono caps kicker (12px — kickers only, never a sentence)
  *   <Mono>₹1.2 lakh crore</Mono>            typewriter numbers, codes, ₹ (Latin/digits only)
  */

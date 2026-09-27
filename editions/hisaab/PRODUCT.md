@@ -1,10 +1,10 @@
-# HISAAB DO
+# Andhbhakt ya Deshbhakt
 
-HISAAB DO is a bilingual browser quiz about Indian public money and public records. A short question leads to a locked answer and a dated, sourced receipt. Progress labels and the illustrated certificates are satire, never findings about a player's beliefs.
+Andhbhakt ya Deshbhakt is a bilingual browser quiz about Indian public money and public records. A short question leads to a locked answer and a dated, sourced receipt. Progress labels and the illustrated certificates are satire, never findings about a player's beliefs.
 
 ## Current instruction — 27 September 2026
 
-Work on `feat/hisaab-human-duels-certificates`, based on the existing HISAAB development branch. Push to GitHub only. Do not merge main/master, change the live frontend, deploy the database, or use ChatGPT Sites for implementation/publication in this task. GitHub Pages remains the frontend host and Supabase the separate multiplayer backend.
+This repository is the standalone Andhbhakt ya Deshbhakt product, on `release/beta`. The user authorized public deployment to https://occult-kranti.github.io/andhbhakt-ya-deshbhakt/ with the separate multiplayer backend. This instruction supersedes the earlier branch-only, do-not-deploy restriction inherited from the HISAAB development history. The latest launch instruction authorizes a verified merge to main/master and beta publication. GitHub Pages hosts the frontend; this task does not use ChatGPT Sites. Preserve the existing game, art and sourced content while replacing the public product name. Internal `hisaab` paths and stored-data keys remain stable implementation identifiers.
 
 Home immediately offers a human duel and today's file. A returning player can choose to open today's file on arrival; this never consents to a wager or starts a live timed round automatically. There is no real account login yet: the online profile is a device-bound guest session. Competitive entry points never create a bot or silently fill an empty queue. Untimed solo practice remains clearly labelled learning; friends and pass-and-play remain human alternatives.
 

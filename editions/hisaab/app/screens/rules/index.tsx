@@ -178,7 +178,7 @@ export default function RulesScreen({ route }: ScreenProps) {
         <div className="h-rules__col">
           <Sec s={S('what')}>
             <p>
-              HISAAB DO is a quiz about Indian public money — schemes, spending, scams, the institutions meant to catch them, elections, and who owns the news that told
+              Andhbhakt ya Deshbhakt is a quiz about Indian public money — schemes, spending, scams, the institutions meant to catch them, elections, and who owns the news that told
               you. <strong>Every answer closes with a receipt:</strong> the source, the legal status with its date, the other side, and who governed then.
             </p>
             <p>
@@ -405,8 +405,8 @@ export default function RulesScreen({ route }: ScreenProps) {
             <ul className="h-rules__ul">
               <li>
                 {progressionOptions().visitCreditsStreak
-                  ? 'A day counts when you open HISAAB DO.'
-                  : 'A day counts when you answer a question, open a receipt in the Vault for the first time, or keep a copy of one. Just opening HISAAB DO does not count.'}{' '}
+                  ? 'A day counts when you open Andhbhakt ya Deshbhakt.'
+                  : 'A day counts when you answer a question, open a receipt in the Vault for the first time, or keep a copy of one. Just opening Andhbhakt ya Deshbhakt does not count.'}{' '}
                 Each day of a streak pays {xpNum('streakPerDay')} XP × the day, up to {xpNum('streakPerDay') * xpNum('streakCap')} a day.
               </li>
               <li>Every 7 days of streak earns one CL (casual leave), up to 2 in hand. A missed day uses one automatically. We never remind you about a streak.</li>
