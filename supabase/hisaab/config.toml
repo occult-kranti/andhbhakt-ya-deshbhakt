@@ -1,0 +1,2 @@
+[functions.hisaab-game]
+verify_jwt = false

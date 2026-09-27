@@ -1,0 +1,55 @@
+{
+  "window": {
+    "start": "2026-09-27T01:42:45.564Z",
+    "end": "2026-09-27T01:45:17.178Z"
+  },
+  "source": "Supabase function_edge_logs; read-only aggregate query, no payloads or headers collected",
+  "metrics": [
+    {
+      "max_ms": 1084,
+      "min_ms": 356,
+      "p50_ms": 418,
+      "p95_ms": 934,
+      "region": "ap-south-1",
+      "requests": 102,
+      "status": "200"
+    },
+    {
+      "max_ms": 989,
+      "min_ms": 319,
+      "p50_ms": 455,
+      "p95_ms": 989,
+      "region": "ap-south-1",
+      "requests": 8,
+      "status": "400"
+    },
+    {
+      "max_ms": 1093,
+      "min_ms": 403,
+      "p50_ms": 446,
+      "p95_ms": 1093,
+      "region": "ap-south-1",
+      "requests": 4,
+      "status": "401"
+    },
+    {
+      "max_ms": 323,
+      "min_ms": 323,
+      "p50_ms": 323,
+      "p95_ms": 323,
+      "region": "ap-south-1",
+      "requests": 1,
+      "status": "413"
+    },
+    {
+      "max_ms": 1075,
+      "min_ms": 1075,
+      "p50_ms": 1075,
+      "p95_ms": 1075,
+      "region": "ap-south-1",
+      "requests": 1,
+      "status": "405"
+    }
+  ],
+  "limitation": "Aggregate durations cannot causally attribute per-request network or proxy delay."
+}

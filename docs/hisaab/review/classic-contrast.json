@@ -1,0 +1,899 @@
+{
+  "date": "2026-09-27",
+  "method": "Same 99 WCAG sRGB text and control comparisons as the Day/Night review. UI glyphs 3:1, readable text 4.5:1.",
+  "count": 99,
+  "failures": [],
+  "rows": [
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "ground",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#191813",
+      "ratio": 15.6089,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "ground-2",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#25231d",
+      "ratio": 13.7941,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "paper",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#292720",
+      "ratio": 13.1215,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "sheet",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#18251e",
+      "ratio": 13.9465,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "receipt",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#302d25",
+      "ratio": 12.0702,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "manila",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#3d3223",
+      "ratio": 10.9833,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-2",
+      "background": "ground",
+      "foregroundHex": "#c9c2b3",
+      "backgroundHex": "#191813",
+      "ratio": 10.0315,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-2",
+      "background": "ground-2",
+      "foregroundHex": "#c9c2b3",
+      "backgroundHex": "#25231d",
+      "ratio": 8.8652,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-2",
+      "background": "paper",
+      "foregroundHex": "#c9c2b3",
+      "backgroundHex": "#292720",
+      "ratio": 8.4329,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-2",
+      "background": "sheet",
+      "foregroundHex": "#c9c2b3",
+      "backgroundHex": "#18251e",
+      "ratio": 8.9631,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-2",
+      "background": "receipt",
+      "foregroundHex": "#c9c2b3",
+      "backgroundHex": "#302d25",
+      "ratio": 7.7573,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-2",
+      "background": "manila",
+      "foregroundHex": "#c9c2b3",
+      "backgroundHex": "#3d3223",
+      "ratio": 7.0587,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi-text",
+      "background": "ground",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#191813",
+      "ratio": 8.0064,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi-text",
+      "background": "ground-2",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#25231d",
+      "ratio": 7.0755,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi-text",
+      "background": "paper",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#292720",
+      "ratio": 6.7305,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi-text",
+      "background": "sheet",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#18251e",
+      "ratio": 7.1537,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi-text",
+      "background": "receipt",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#302d25",
+      "ratio": 6.1913,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi-text",
+      "background": "manila",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#3d3223",
+      "ratio": 5.6338,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "brass-text",
+      "background": "ground",
+      "foregroundHex": "#f5cd6a",
+      "backgroundHex": "#191813",
+      "ratio": 11.7007,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "brass-text",
+      "background": "ground-2",
+      "foregroundHex": "#f5cd6a",
+      "backgroundHex": "#25231d",
+      "ratio": 10.3403,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "brass-text",
+      "background": "paper",
+      "foregroundHex": "#f5cd6a",
+      "backgroundHex": "#292720",
+      "ratio": 9.8361,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "brass-text",
+      "background": "sheet",
+      "foregroundHex": "#f5cd6a",
+      "backgroundHex": "#18251e",
+      "ratio": 10.4546,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "brass-text",
+      "background": "receipt",
+      "foregroundHex": "#f5cd6a",
+      "backgroundHex": "#302d25",
+      "ratio": 9.0481,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "brass-text",
+      "background": "manila",
+      "foregroundHex": "#f5cd6a",
+      "backgroundHex": "#3d3223",
+      "ratio": 8.2333,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass-text",
+      "background": "ground",
+      "foregroundHex": "#5ee0a2",
+      "backgroundHex": "#191813",
+      "ratio": 10.7161,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass-text",
+      "background": "ground-2",
+      "foregroundHex": "#5ee0a2",
+      "backgroundHex": "#25231d",
+      "ratio": 9.4702,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass-text",
+      "background": "paper",
+      "foregroundHex": "#5ee0a2",
+      "backgroundHex": "#292720",
+      "ratio": 9.0084,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass-text",
+      "background": "sheet",
+      "foregroundHex": "#5ee0a2",
+      "backgroundHex": "#18251e",
+      "ratio": 9.5748,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass-text",
+      "background": "receipt",
+      "foregroundHex": "#5ee0a2",
+      "backgroundHex": "#302d25",
+      "ratio": 8.2867,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass-text",
+      "background": "manila",
+      "foregroundHex": "#5ee0a2",
+      "backgroundHex": "#3d3223",
+      "ratio": 7.5405,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail-text",
+      "background": "ground",
+      "foregroundHex": "#ff8a7f",
+      "backgroundHex": "#191813",
+      "ratio": 7.7822,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail-text",
+      "background": "ground-2",
+      "foregroundHex": "#ff8a7f",
+      "backgroundHex": "#25231d",
+      "ratio": 6.8774,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail-text",
+      "background": "paper",
+      "foregroundHex": "#ff8a7f",
+      "backgroundHex": "#292720",
+      "ratio": 6.542,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail-text",
+      "background": "sheet",
+      "foregroundHex": "#ff8a7f",
+      "backgroundHex": "#18251e",
+      "ratio": 6.9534,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail-text",
+      "background": "receipt",
+      "foregroundHex": "#ff8a7f",
+      "backgroundHex": "#302d25",
+      "ratio": 6.0179,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail-text",
+      "background": "manila",
+      "foregroundHex": "#ff8a7f",
+      "backgroundHex": "#3d3223",
+      "ratio": 5.476,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait-text",
+      "background": "ground",
+      "foregroundHex": "#ffc56e",
+      "backgroundHex": "#191813",
+      "ratio": 11.3964,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait-text",
+      "background": "ground-2",
+      "foregroundHex": "#ffc56e",
+      "backgroundHex": "#25231d",
+      "ratio": 10.0714,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait-text",
+      "background": "paper",
+      "foregroundHex": "#ffc56e",
+      "backgroundHex": "#292720",
+      "ratio": 9.5803,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait-text",
+      "background": "sheet",
+      "foregroundHex": "#ffc56e",
+      "backgroundHex": "#18251e",
+      "ratio": 10.1827,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait-text",
+      "background": "receipt",
+      "foregroundHex": "#ffc56e",
+      "backgroundHex": "#302d25",
+      "ratio": 8.8128,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait-text",
+      "background": "manila",
+      "foregroundHex": "#ffc56e",
+      "backgroundHex": "#3d3223",
+      "ratio": 8.0192,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi-ink",
+      "background": "syahi",
+      "foregroundHex": "#120c2b",
+      "backgroundHex": "#9e86ff",
+      "ratio": 6.5648,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass-ink",
+      "background": "pass",
+      "foregroundHex": "#06200f",
+      "backgroundHex": "#3ed68e",
+      "ratio": 9.1825,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail-ink",
+      "background": "fail",
+      "foregroundHex": "#2a0603",
+      "backgroundHex": "#ff6a5c",
+      "ratio": 6.6336,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait-ink",
+      "background": "wait",
+      "foregroundHex": "#2a1a00",
+      "backgroundHex": "#ffb547",
+      "ratio": 9.5911,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "tape-ink",
+      "background": "tape",
+      "foregroundHex": "#2a0603",
+      "backgroundHex": "#ff5a4e",
+      "ratio": 6.0618,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "brass-ink",
+      "background": "brass",
+      "foregroundHex": "#231800",
+      "backgroundHex": "#f2c14e",
+      "ratio": 10.4095,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "legal-ink",
+      "background": "legal",
+      "foregroundHex": "#e2deea",
+      "backgroundHex": "#2e2a3a",
+      "ratio": 10.521,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "marker",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#5e4d00",
+      "ratio": 7.2671,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "slot-a",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#2b2352",
+      "ratio": 12.5874,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "slot-b",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#16303d",
+      "ratio": 12.0977,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "slot-c",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#3a2f17",
+      "ratio": 11.5332,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "slot-d",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#3a1b28",
+      "ratio": 13.4864,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink",
+      "background": "syahi-soft",
+      "foregroundHex": "#f3f0e8",
+      "backgroundHex": "#2b2352",
+      "ratio": 12.5874,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass-text",
+      "background": "pass-soft",
+      "foregroundHex": "#5ee0a2",
+      "backgroundHex": "#173826",
+      "ratio": 7.7664,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-2",
+      "background": "pass-soft",
+      "foregroundHex": "#c9c2b3",
+      "backgroundHex": "#173826",
+      "ratio": 7.2702,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail-text",
+      "background": "fail-soft",
+      "foregroundHex": "#ff8a7f",
+      "backgroundHex": "#3d1a18",
+      "ratio": 6.7633,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-2",
+      "background": "fail-soft",
+      "foregroundHex": "#c9c2b3",
+      "backgroundHex": "#3d1a18",
+      "ratio": 8.7181,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait-text",
+      "background": "wait-soft",
+      "foregroundHex": "#ffc56e",
+      "backgroundHex": "#3a2a10",
+      "ratio": 8.866,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-2",
+      "background": "wait-soft",
+      "foregroundHex": "#c9c2b3",
+      "backgroundHex": "#3a2a10",
+      "ratio": 7.8041,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi-text",
+      "background": "syahi-soft",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#2b2352",
+      "ratio": 6.4566,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-2",
+      "background": "syahi-soft",
+      "foregroundHex": "#c9c2b3",
+      "backgroundHex": "#2b2352",
+      "ratio": 8.0897,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "manila-ink",
+      "background": "manila",
+      "foregroundHex": "#f6ebd3",
+      "backgroundHex": "#3d3223",
+      "ratio": 10.5678,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "manila-ink",
+      "background": "manila-2",
+      "foregroundHex": "#f6ebd3",
+      "backgroundHex": "#5c4a2c",
+      "ratio": 7.1805,
+      "minimum": 4.5
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-3",
+      "background": "ground",
+      "foregroundHex": "#8c8799",
+      "backgroundHex": "#191813",
+      "ratio": 5.1132,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "ink-3",
+      "background": "paper",
+      "foregroundHex": "#8c8799",
+      "backgroundHex": "#292720",
+      "ratio": 4.2983,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "focus",
+      "background": "ground",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#191813",
+      "ratio": 8.0064,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "line",
+      "background": "ground",
+      "foregroundHex": "#9a9383",
+      "backgroundHex": "#191813",
+      "ratio": 5.8196,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "focus",
+      "background": "ground-2",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#25231d",
+      "ratio": 7.0755,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "line",
+      "background": "ground-2",
+      "foregroundHex": "#9a9383",
+      "backgroundHex": "#25231d",
+      "ratio": 5.143,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "focus",
+      "background": "paper",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#292720",
+      "ratio": 6.7305,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "line",
+      "background": "paper",
+      "foregroundHex": "#9a9383",
+      "backgroundHex": "#292720",
+      "ratio": 4.8922,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "focus",
+      "background": "sheet",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#18251e",
+      "ratio": 7.1537,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "line",
+      "background": "sheet",
+      "foregroundHex": "#9a9383",
+      "backgroundHex": "#18251e",
+      "ratio": 5.1998,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "focus",
+      "background": "receipt",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#302d25",
+      "ratio": 6.1913,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "line",
+      "background": "receipt",
+      "foregroundHex": "#9a9383",
+      "backgroundHex": "#302d25",
+      "ratio": 4.5002,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "focus",
+      "background": "manila",
+      "foregroundHex": "#b3a1ff",
+      "backgroundHex": "#3d3223",
+      "ratio": 5.6338,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "line",
+      "background": "manila",
+      "foregroundHex": "#9a9383",
+      "backgroundHex": "#3d3223",
+      "ratio": 4.095,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi",
+      "background": "paper",
+      "foregroundHex": "#9e86ff",
+      "backgroundHex": "#292720",
+      "ratio": 5.2,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass",
+      "background": "paper",
+      "foregroundHex": "#3ed68e",
+      "backgroundHex": "#292720",
+      "ratio": 7.9796,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail",
+      "background": "paper",
+      "foregroundHex": "#ff6a5c",
+      "backgroundHex": "#292720",
+      "ratio": 5.3141,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait",
+      "background": "paper",
+      "foregroundHex": "#ffb547",
+      "backgroundHex": "#292720",
+      "ratio": 8.505,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "tape",
+      "background": "paper",
+      "foregroundHex": "#ff5a4e",
+      "backgroundHex": "#292720",
+      "ratio": 4.8561,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi",
+      "background": "manila",
+      "foregroundHex": "#9e86ff",
+      "backgroundHex": "#3d3223",
+      "ratio": 4.3527,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass",
+      "background": "manila",
+      "foregroundHex": "#3ed68e",
+      "backgroundHex": "#3d3223",
+      "ratio": 6.6793,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail",
+      "background": "manila",
+      "foregroundHex": "#ff6a5c",
+      "backgroundHex": "#3d3223",
+      "ratio": 4.4482,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait",
+      "background": "manila",
+      "foregroundHex": "#ffb547",
+      "backgroundHex": "#3d3223",
+      "ratio": 7.1191,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "tape",
+      "background": "manila",
+      "foregroundHex": "#ff5a4e",
+      "backgroundHex": "#3d3223",
+      "ratio": 4.0648,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi",
+      "background": "receipt",
+      "foregroundHex": "#9e86ff",
+      "backgroundHex": "#302d25",
+      "ratio": 4.7834,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass",
+      "background": "receipt",
+      "foregroundHex": "#3ed68e",
+      "backgroundHex": "#302d25",
+      "ratio": 7.3403,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail",
+      "background": "receipt",
+      "foregroundHex": "#ff6a5c",
+      "backgroundHex": "#302d25",
+      "ratio": 4.8884,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait",
+      "background": "receipt",
+      "foregroundHex": "#ffb547",
+      "backgroundHex": "#302d25",
+      "ratio": 7.8236,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "tape",
+      "background": "receipt",
+      "foregroundHex": "#ff5a4e",
+      "backgroundHex": "#302d25",
+      "ratio": 4.467,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "syahi",
+      "background": "sheet",
+      "foregroundHex": "#9e86ff",
+      "backgroundHex": "#18251e",
+      "ratio": 5.527,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "pass",
+      "background": "sheet",
+      "foregroundHex": "#3ed68e",
+      "backgroundHex": "#18251e",
+      "ratio": 8.4813,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "fail",
+      "background": "sheet",
+      "foregroundHex": "#ff6a5c",
+      "backgroundHex": "#18251e",
+      "ratio": 5.6482,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "wait",
+      "background": "sheet",
+      "foregroundHex": "#ffb547",
+      "backgroundHex": "#18251e",
+      "ratio": 9.0398,
+      "minimum": 3
+    },
+    {
+      "theme": "classic",
+      "foreground": "tape",
+      "background": "sheet",
+      "foregroundHex": "#ff5a4e",
+      "backgroundHex": "#18251e",
+      "ratio": 5.1614,
+      "minimum": 3
+    }
+  ]
+}

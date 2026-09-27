@@ -18,8 +18,27 @@ export const LABELS = Object.freeze(
     { band: 6, from: 30, to: 34, label: 'Urban Naxal (as per the forwards)', line: 'Reads CAG reports on the metro.' },
     { band: 7, from: 35, to: 39, label: 'Tukde-Tukde Gang', line: 'Counts crores in tukdas.' },
     { band: 8, from: 40, to: null, label: 'Certified Anti-National', line: 'Knows where the money went. Asks anyway.' },
-  ].map((rung) => Object.freeze(rung)),
+  ].map((rung) => Object.freeze({ ...rung, ordinal: rung.band === 8 ? 10 : rung.band + 1 })),
 );
+
+/**
+ * An earned competition honour occupies slot 9 without adding an XP band. Keep it out of LABELS:
+ * no locked row, teaser or local-XP unlock. Call only with the current server API qualification.
+ * This display validation is not authentication: the server owns rank, minimum matches and expiry.
+ * A grant must be re-read after a competition refresh; a displaced top-ten player loses the grant.
+ */
+export function activeCompetitionTitle(grant, now = Date.now()) {
+  if (!grant || typeof grant !== 'object' || !Number.isFinite(now)) return null;
+  const { title, source, rank, competitionId, awardedAt, expiresAt } = grant;
+  if (title !== 'desh-bhakt' || !['leaderboard', 'tournament'].includes(source)) return null;
+  if (!Number.isInteger(rank) || rank < 1 || rank > 10) return null;
+  if (typeof competitionId !== 'string' || !competitionId.trim() || competitionId.length > 128) return null;
+  if (!Number.isFinite(awardedAt) || !Number.isFinite(expiresAt) || awardedAt > now || expiresAt <= now || expiresAt <= awardedAt) return null;
+  return Object.freeze({
+    id: title, ordinal: 9, label: 'Desh Bhakt', labelHi: 'देश भक्त',
+    source, rank, competitionId, awardedAt, expiresAt,
+  });
+}
 
 /** The rung for a progression band (lib/progression.mjs `levelForXp(xp).band`), clamped to the ladder. */
 export function labelFor(band) {

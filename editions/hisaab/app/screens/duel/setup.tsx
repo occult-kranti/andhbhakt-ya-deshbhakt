@@ -41,6 +41,7 @@ import {
 } from './lib';
 import type { DuelMode } from '../room/lib';
 import './setup.css';
+import '../online/online.css';
 
 type Rank = { points: number; tier: string };
 
@@ -130,6 +131,10 @@ export function DuelSetup({ route }: { route: AppRoute }) {
         }
       />
 
+      <section className="h-online-launch" aria-label={t('Online beta', 'ऑनलाइन बीटा')}>
+        <div><p className="h-kicker">{t('THE LIVE EDITION · ONLINE BETA', 'लाइव संस्करण · ऑनलाइन बीटा')}</p><strong>{t('Same question. Real opponent.', 'एक सवाल। असली प्रतिद्वंद्वी।')}</strong><p>{t('Join a public table, invite a friend, or play a tournament. The server records the answers and score.', 'सार्वजनिक बैठक, दोस्त या टूर्नामेंट। जवाब और स्कोर सर्वर दर्ज करेगा।')}</p></div>
+        <Button href={href.online()}>{t('Play online', 'ऑनलाइन खेलें')}</Button>
+      </section>
       <div className="h-setup__grid">
         <fieldset className="h-setup__group">
           <legend className="h-setup__legend">{t('Opponent', 'सामने कौन')}</legend>

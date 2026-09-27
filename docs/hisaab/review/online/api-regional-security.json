@@ -1,0 +1,974 @@
+{
+  "startedAt": "2026-09-27T01:42:45.564Z",
+  "api": "https://wvupsqfevlrmhqfjreyx.supabase.co/functions/v1/hisaab-game",
+  "kind": "private-live-api",
+  "identities": [
+    {
+      "id": "544dd326-932e-4449-bcda-919a3006ae3a",
+      "nickname": "HISAAB_QA_muj5m2pp_A"
+    },
+    {
+      "id": "bcf20186-ae2b-48ba-8360-f29446dea8ab",
+      "nickname": "HISAAB_QA_muj5m2pp_B"
+    },
+    {
+      "id": "336e9a07-f47f-4ef3-a718-bcbd7364d3aa",
+      "nickname": "HISAAB_QA_muj5m2pp_C"
+    }
+  ],
+  "checks": [
+    {
+      "name": "HTTP and missing-token boundary",
+      "ok": true,
+      "ms": 6521,
+      "evidence": {
+        "missingToken": 401,
+        "method": 405,
+        "malformedJson": "BAD_JSON"
+      }
+    },
+    {
+      "name": "three independent disposable device identities",
+      "ok": true,
+      "ms": 2676,
+      "evidence": {
+        "count": 3,
+        "expiryDays": 30
+      }
+    },
+    {
+      "name": "friend lobby access and outsider isolation",
+      "ok": true,
+      "ms": 4895,
+      "evidence": {
+        "seats": 2,
+        "forbiddenActions": 4,
+        "thirdJoinRejected": true
+      }
+    },
+    {
+      "name": "private receipt, immutable release and forged timing rejection",
+      "ok": true,
+      "ms": 33048,
+      "evidence": {
+        "round": 1,
+        "duplicateBurst": 4,
+        "serverElapsedMs": 6032,
+        "immediateSharedResult": true
+      }
+    },
+    {
+      "name": "five-round game, concurrent answers and duplicate completion",
+      "ok": true,
+      "ms": 60627,
+      "evidence": [
+        {
+          "round": 2,
+          "simultaneousRequests": 8,
+          "receipts": 2,
+          "phase": "result"
+        },
+        {
+          "round": 3,
+          "simultaneousRequests": 8,
+          "receipts": 2,
+          "phase": "result"
+        },
+        {
+          "round": 4,
+          "simultaneousRequests": 8,
+          "receipts": 2,
+          "phase": "result"
+        },
+        {
+          "round": 5,
+          "simultaneousRequests": 8,
+          "receipts": 2,
+          "phase": "finished"
+        }
+      ]
+    },
+    {
+      "name": "bounded snapshot burst, reconnect and private-board exclusion",
+      "ok": true,
+      "ms": 14771,
+      "evidence": {
+        "concurrentReads": 8,
+        "onlineXp": 30,
+        "publicStanding": false
+      }
+    },
+    {
+      "name": "cloud circle privacy and personal group nickname",
+      "ok": true,
+      "ms": 10050,
+      "evidence": {
+        "members": 2,
+        "outsiderExcluded": true,
+        "groupNickname": true
+      }
+    },
+    {
+      "name": "last circle member leave races safely with a new join",
+      "ok": true,
+      "ms": 14182,
+      "evidence": {
+        "joinAccepted": false,
+        "acknowledgedMembershipLost": false
+      }
+    },
+    {
+      "name": "quit makes a new private room non-playable",
+      "ok": true,
+      "ms": 1896,
+      "evidence": {
+        "reason": "player-left",
+        "cancelled": true
+      }
+    }
+  ],
+  "requests": [
+    {
+      "action": "profile",
+      "status": 401,
+      "ms": 4976,
+      "code": "UNAUTHORIZED",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "profile",
+      "status": 405,
+      "ms": 1148,
+      "code": "METHOD",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "profile",
+      "status": 400,
+      "ms": 396,
+      "code": "BAD_JSON",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "session",
+      "status": 200,
+      "ms": 1171,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "session",
+      "status": 200,
+      "ms": 635,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "session",
+      "status": 200,
+      "ms": 868,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "create",
+      "status": 200,
+      "ms": 803,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "join",
+      "status": 200,
+      "ms": 496,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 400,
+      "ms": 1076,
+      "code": "FORBIDDEN",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "ready",
+      "status": 400,
+      "ms": 407,
+      "code": "FORBIDDEN",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 400,
+      "ms": 872,
+      "code": "FORBIDDEN",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "leave",
+      "status": 400,
+      "ms": 488,
+      "code": "FORBIDDEN",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "join",
+      "status": 400,
+      "ms": 752,
+      "code": "ROOM_FULL",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "ready",
+      "status": 200,
+      "ms": 515,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "ready",
+      "status": 200,
+      "ms": 3794,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 661,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 7893,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4862,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 978,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 478,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 484,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 5752,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 6480,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 6504,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4735,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 535,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 504,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "next",
+      "status": 200,
+      "ms": 519,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "next",
+      "status": 200,
+      "ms": 5565,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4748,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4750,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 486,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 490,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 5048,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 5131,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 5569,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 5582,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 5648,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 5655,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4052,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4095,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "next",
+      "status": 200,
+      "ms": 478,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "next",
+      "status": 200,
+      "ms": 501,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 471,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 473,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 479,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 482,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4319,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4375,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4386,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4437,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4447,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4463,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 442,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 482,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "next",
+      "status": 200,
+      "ms": 486,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "next",
+      "status": 200,
+      "ms": 540,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 498,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 757,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 481,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 509,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 7896,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 7936,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 7999,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 8011,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 8023,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 8027,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4966,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 5020,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "next",
+      "status": 200,
+      "ms": 457,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "next",
+      "status": 200,
+      "ms": 509,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 495,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 498,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 476,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 488,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4417,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4442,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4469,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4496,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4512,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "answer",
+      "status": 200,
+      "ms": 4530,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4431,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4505,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "profile",
+      "status": 200,
+      "ms": 488,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 466,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 479,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4645,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4681,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4716,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4717,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4737,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 4781,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "profile",
+      "status": 200,
+      "ms": 4338,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "leaderboards",
+      "status": 200,
+      "ms": 550,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "tournaments",
+      "status": 200,
+      "ms": 5134,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "leaderboards",
+      "status": 200,
+      "ms": 5160,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "circles",
+      "status": 200,
+      "ms": 8413,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "circles",
+      "status": 200,
+      "ms": 663,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "circles",
+      "status": 200,
+      "ms": 484,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "circles",
+      "status": 400,
+      "ms": 488,
+      "code": "FORBIDDEN",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "circles",
+      "status": 200,
+      "ms": 451,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "circles",
+      "status": 200,
+      "ms": 511,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "circles",
+      "status": 400,
+      "ms": 8960,
+      "code": "CIRCLE_NOT_FOUND",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "circles",
+      "status": 200,
+      "ms": 4274,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "circles",
+      "status": 200,
+      "ms": 495,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "create",
+      "status": 200,
+      "ms": 460,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "join",
+      "status": 200,
+      "ms": 479,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "leave",
+      "status": 200,
+      "ms": 501,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 455,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "deleteSession",
+      "status": 200,
+      "ms": 476,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "profile",
+      "status": 401,
+      "ms": 520,
+      "code": "UNAUTHORIZED",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "deleteSession",
+      "status": 200,
+      "ms": 484,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "profile",
+      "status": 401,
+      "ms": 487,
+      "code": "UNAUTHORIZED",
+      "region": "ap-south-1"
+    },
+    {
+      "action": "deleteSession",
+      "status": 200,
+      "ms": 468,
+      "code": null,
+      "region": "ap-south-1"
+    },
+    {
+      "action": "profile",
+      "status": 401,
+      "ms": 509,
+      "code": "UNAUTHORIZED",
+      "region": "ap-south-1"
+    }
+  ],
+  "cleanup": [
+    {
+      "id": "544dd326-932e-4449-bcda-919a3006ae3a",
+      "revoked": true
+    },
+    {
+      "id": "bcf20186-ae2b-48ba-8360-f29446dea8ab",
+      "revoked": true
+    },
+    {
+      "id": "336e9a07-f47f-4ef3-a718-bcbd7364d3aa",
+      "revoked": true
+    }
+  ],
+  "latency": {
+    "n": 102,
+    "p50Ms": 3794,
+    "p95Ms": 7936,
+    "maxMs": 8413,
+    "scope": "single test runner to deployed HTTP API; not multi-network fairness or a capacity benchmark"
+  },
+  "actionCounts": {
+    "profile": 8,
+    "session": 3,
+    "create": 2,
+    "join": 3,
+    "snapshot": 30,
+    "ready": 3,
+    "answer": 41,
+    "leave": 2,
+    "next": 8,
+    "leaderboards": 2,
+    "tournaments": 1,
+    "circles": 9,
+    "deleteSession": 3
+  },
+  "completedAt": "2026-09-27T01:45:17.178Z"
+}

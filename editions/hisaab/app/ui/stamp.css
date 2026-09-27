@@ -24,7 +24,7 @@
   pointer-events: none;
   user-select: none;
 }
-[data-theme='dark'] .h-stamp {
+:is([data-theme='dark'], [data-theme='classic']) .h-stamp {
   mix-blend-mode: screen;
 }
 .h-stamp--pass {
@@ -94,7 +94,7 @@
   }
 }
 /* A light subtree inside a dark page (the certificate export) multiplies again. */
-[data-theme='dark'] [data-theme='light'] .h-stamp {
+:is([data-theme='dark'], [data-theme='classic']) [data-theme='light'] .h-stamp {
   mix-blend-mode: multiply;
 }
 

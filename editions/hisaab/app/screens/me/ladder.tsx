@@ -75,7 +75,7 @@ export function Ladder({ band, dates, current }: LadderProps) {
           >
             <div className="h-rung__head">
               <span className="h-rung__no" aria-hidden="true">
-                {String(rung.band + 1).padStart(2, '0')}
+                {String(rung.ordinal).padStart(2, '0')}
               </span>
               <div className="h-rung__main">
                 <RungTitle rung={rung} big={state === 'current'} isHi={isHi} />

@@ -38,7 +38,7 @@ export const EDITION = Object.freeze({
 // ---------------------------------------------------------------------------------------------
 // Labels (charter §1): the engine's nine title bands, shown as the edition's nine rungs.
 
-export type Label = { band: number; from: number; to: number | null; label: string; line: string };
+export type Label = { band: number; ordinal: number; from: number; to: number | null; label: string; line: string };
 export const LADDER = LABELS as readonly Label[];
 export { labelFor, labelForLevel };
 

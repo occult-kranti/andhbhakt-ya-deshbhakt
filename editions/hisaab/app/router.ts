@@ -26,6 +26,7 @@ export type ScreenName =
   | 'aaj'
   | 'taster'
   | 'duel'
+  | 'online'
   | 'circles'
   | 'pass'
   | 'room'
@@ -95,6 +96,8 @@ const RULES: readonly Rule[] = [
   { pattern: new RegExp(`^/route/${ID}$`), name: 'route', keys: ['id'], tab: 'files' },
   { pattern: /^\/aaj$/, name: 'aaj', tab: 'home' },
   { pattern: new RegExp(`^/q/${ID}$`), name: 'taster', keys: ['id'], tab: 'home' },
+  { pattern: /^\/online$/, name: 'online', view: 'play', tab: 'duel' },
+  { pattern: /^\/online\/(standings|circles)$/, name: 'online', keys: ['view'], tab: 'duel' },
   { pattern: /^\/duel$/, name: 'duel', view: 'setup', tab: 'duel' },
   { pattern: /^\/circles$/, name: 'circles', tab: 'circles' },
   { pattern: /^\/circles\/([a-f0-9]{32})$/, name: 'circles', keys: ['id'], tab: 'circles' },
@@ -197,6 +200,7 @@ export const href = Object.freeze({
   route: (id: string) => `#/route/${encodeURIComponent(id)}`,
   aaj: () => '#/aaj',
   taster: (id: string) => `#/q/${encodeURIComponent(id)}`,
+  online: (view: 'play' | 'standings' | 'circles' = 'play', query?: Record<string, string>) => `#/online${view === 'play' ? '' : `/${view}`}${queryString(query)}`,
   duel: (query?: Record<string, string>) => `#/duel${queryString(query)}`,
   circles: (id?: string) => `#/circles${id ? `/${encodeURIComponent(id)}` : ''}`,
   /** The P2P lobby; with a code it opens the join form pre-filled. */

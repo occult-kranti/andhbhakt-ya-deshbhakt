@@ -96,6 +96,8 @@ export function MatchSettings({
           <select id={`${id}-theme`} value={theme.pref} onChange={(e) => theme.setTheme(e.target.value as ThemePref)}>
             <option value="light">{t('Day edition', 'दिन का संस्करण')}</option>
             <option value="dark">{t('Night edition', 'रात का संस्करण')}</option>
+            <option value="classic">{t('Classic edition', 'पुराना संस्करण')}</option>
+            <option value="rotate">{t('Rotate editions · daily', 'बदलता संस्करण · रोज़')}</option>
             <option value="system">{t('Match device', 'फ़ोन जैसा')}</option>
           </select>
         </label>

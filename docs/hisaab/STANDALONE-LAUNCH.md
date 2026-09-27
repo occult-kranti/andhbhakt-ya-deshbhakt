@@ -1,5 +1,7 @@
 # HISAAB DO: standalone launch and services
 
+> **27 September 2026 — historical static-release record.** The server expansion is documented in [SERVER-LAUNCH.md](./SERVER-LAUNCH.md), which supersedes this document's current-service and multiplayer architecture statements. Supabase project `wvupsqfevlrmhqfjreyx` is now reported **ACTIVE_HEALTHY**; the inactive observation below belongs to the earlier static release. The server game's deployment and verification status must be read from the server release record, not inferred from the static deployment IDs preserved here.
+
 Reviewed 27 September 2026. This edition has its own static deployment; the source remains on `claude/loving-pasteur-s8xwtf`. Do not merge it into `main`, replace the original FACT//DUEL hosting project, or change the original repository's root Pages domain. Jaanta Kya Hai is a separate game.
 
 ## What can launch now
@@ -30,7 +32,7 @@ No subscription, hosting upgrade, domain purchase, backend restore or new paid s
 
 ## The Supabase connection
 
-The connected account was inspected during this release. Its only visible project was reported **INACTIVE**. A connected plugin is not a live database integration. The game does not currently call that project, and no schema, Auth setting, billing plan or project lifecycle state was changed. The project may belong to another application, so its data and ownership must be identified before reuse.
+At the time of this earlier static release, the connected account's only visible project was reported **INACTIVE**. The static build did not call that project, and that release changed no schema, Auth setting, billing plan or lifecycle state. This is historical context: the subsequent server expansion inspected the project as **ACTIVE_HEALTHY** and is described in [SERVER-LAUNCH.md](./SERVER-LAUNCH.md).
 
 Supabase is a reasonable choice for durable profiles and authenticated circles, once an active project is selected. It does not supply the missing application behavior just by adding a URL/key to the client.
 

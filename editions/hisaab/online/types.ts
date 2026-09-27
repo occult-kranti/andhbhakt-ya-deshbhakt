@@ -1,0 +1,19 @@
+export type Words = { en: string; hi?: string };
+export type PlayerSession = { id: string; nickname: string; expiresAt: number; onlineXp?: number };
+export type OnlinePlayer = { id: string; nickname: string; ready: boolean; answered: boolean; score: number };
+export type OnlineReceipt = { choice: number | null; correct: boolean; correctIndex: number; elapsedMs: number; xp: number; explanation: Words; sourceUrl?: string };
+export type OnlineMatch = {
+  id: string; code: string; mode: 'private' | 'ranked' | 'tournament';
+  phase: 'waiting' | 'countdown' | 'question' | 'result' | 'finished' | 'cancelled';
+  round: number; roundCount: number; startsAt: number; deadlineAt: number; nextAt?: number;
+  serverNow: number; selfId: string; players: OnlinePlayer[];
+  question: null | { id: string; prompt: Words; options: Words[]; category: string };
+  receipt: OnlineReceipt | null;
+  result: null | { correctIndex: number; explanation: Words; sourceUrl?: string; winnerId: string | null; answers: (OnlineReceipt & { playerId: string })[] };
+  winnerId: string | null; reason?: string;
+};
+export type TitleGrant = { title: string; source: 'leaderboard' | 'tournament'; rank: number; awardedAt: number; expiresAt: number; competitionId: string; name?: string };
+export type BoardRow = { rank: number; id: string; nickname: string; matches: number; wins: number; points: number; correct: number; elapsedMs: number; title: TitleGrant | null };
+export type Board = { period: string; startsAt: number; endsAt: number; rows: BoardRow[]; self: BoardRow | null; minimumMatches?: number };
+export type Tournament = { id: string; name: string; startsAt: number; endsAt: number; status: string; format: string; minimumMatches: number };
+export type ServerCircle = { id: string; code: string; name: string; kind: 'friends' | 'family'; nickname: string; members: { id: string; nickname: string }[] };

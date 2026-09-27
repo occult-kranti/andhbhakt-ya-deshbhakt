@@ -1,0 +1,246 @@
+{
+  "startedAt": "2026-09-27T01:41:23.995Z",
+  "api": "https://wvupsqfevlrmhqfjreyx.supabase.co/functions/v1/hisaab-game",
+  "kind": "private-live-api",
+  "identities": [
+    {
+      "id": "4ed5d36b-f2ba-4881-a069-461739959ac3",
+      "nickname": "HISAAB_QA_muj5kbrv_A"
+    },
+    {
+      "id": "790dbef5-b750-40f4-8d37-dd19213fa52a",
+      "nickname": "HISAAB_QA_muj5kbrv_B"
+    },
+    {
+      "id": "aa227caf-11aa-495d-a67c-e92fb97ada2b",
+      "nickname": "HISAAB_QA_muj5kbrv_C"
+    }
+  ],
+  "checks": [
+    {
+      "name": "HTTP and missing-token boundary",
+      "ok": true,
+      "ms": 7527,
+      "evidence": {
+        "missingToken": 401,
+        "method": 405,
+        "malformedJson": "BAD_JSON"
+      }
+    },
+    {
+      "name": "three independent disposable device identities",
+      "ok": true,
+      "ms": 2460,
+      "evidence": {
+        "count": 3,
+        "expiryDays": 30
+      }
+    },
+    {
+      "name": "friend lobby access and outsider isolation",
+      "ok": true,
+      "ms": 5904,
+      "evidence": {
+        "seats": 2,
+        "forbiddenActions": 4,
+        "thirdJoinRejected": true
+      }
+    },
+    {
+      "name": "private receipt, immutable release and forged timing rejection",
+      "ok": false,
+      "ms": 8504,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'question'\n- 'countdown'\n"
+    }
+  ],
+  "requests": [
+    {
+      "action": "profile",
+      "status": 401,
+      "ms": 7139,
+      "code": "UNAUTHORIZED",
+      "region": "us-west-1"
+    },
+    {
+      "action": "profile",
+      "status": 405,
+      "ms": 183,
+      "code": "METHOD",
+      "region": "us-west-1"
+    },
+    {
+      "action": "profile",
+      "status": 400,
+      "ms": 204,
+      "code": "BAD_JSON",
+      "region": "us-west-1"
+    },
+    {
+      "action": "session",
+      "status": 200,
+      "ms": 675,
+      "code": null,
+      "region": "us-east-2"
+    },
+    {
+      "action": "session",
+      "status": 200,
+      "ms": 567,
+      "code": null,
+      "region": "us-west-1"
+    },
+    {
+      "action": "session",
+      "status": 200,
+      "ms": 1216,
+      "code": null,
+      "region": "us-west-1"
+    },
+    {
+      "action": "create",
+      "status": 200,
+      "ms": 1187,
+      "code": null,
+      "region": "us-west-1"
+    },
+    {
+      "action": "join",
+      "status": 200,
+      "ms": 1056,
+      "code": null,
+      "region": "us-west-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 400,
+      "ms": 915,
+      "code": "FORBIDDEN",
+      "region": "us-west-1"
+    },
+    {
+      "action": "ready",
+      "status": 400,
+      "ms": 545,
+      "code": "FORBIDDEN",
+      "region": "us-west-1"
+    },
+    {
+      "action": "answer",
+      "status": 400,
+      "ms": 544,
+      "code": "FORBIDDEN",
+      "region": "us-west-1"
+    },
+    {
+      "action": "leave",
+      "status": 400,
+      "ms": 1084,
+      "code": "FORBIDDEN",
+      "region": "us-west-1"
+    },
+    {
+      "action": "join",
+      "status": 400,
+      "ms": 572,
+      "code": "ROOM_FULL",
+      "region": "us-west-1"
+    },
+    {
+      "action": "ready",
+      "status": 200,
+      "ms": 579,
+      "code": null,
+      "region": "us-west-1"
+    },
+    {
+      "action": "ready",
+      "status": 200,
+      "ms": 4745,
+      "code": null,
+      "region": "us-west-1"
+    },
+    {
+      "action": "snapshot",
+      "status": 200,
+      "ms": 3757,
+      "code": null,
+      "region": "us-west-1"
+    },
+    {
+      "action": "deleteSession",
+      "status": 200,
+      "ms": 563,
+      "code": null,
+      "region": "us-west-1"
+    },
+    {
+      "action": "profile",
+      "status": 401,
+      "ms": 576,
+      "code": "UNAUTHORIZED",
+      "region": "us-west-1"
+    },
+    {
+      "action": "deleteSession",
+      "status": 200,
+      "ms": 536,
+      "code": null,
+      "region": "us-west-1"
+    },
+    {
+      "action": "profile",
+      "status": 401,
+      "ms": 1064,
+      "code": "UNAUTHORIZED",
+      "region": "us-west-1"
+    },
+    {
+      "action": "deleteSession",
+      "status": 200,
+      "ms": 1072,
+      "code": null,
+      "region": "us-west-1"
+    },
+    {
+      "action": "profile",
+      "status": 401,
+      "ms": 540,
+      "code": "UNAUTHORIZED",
+      "region": "us-west-1"
+    }
+  ],
+  "cleanup": [
+    {
+      "id": "4ed5d36b-f2ba-4881-a069-461739959ac3",
+      "revoked": true
+    },
+    {
+      "id": "790dbef5-b750-40f4-8d37-dd19213fa52a",
+      "revoked": true
+    },
+    {
+      "id": "aa227caf-11aa-495d-a67c-e92fb97ada2b",
+      "revoked": true
+    }
+  ],
+  "failure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'question'\n- 'countdown'\n",
+  "latency": {
+    "n": 11,
+    "p50Ms": 1056,
+    "p95Ms": 4745,
+    "maxMs": 4745,
+    "scope": "single test runner to deployed HTTP API; not multi-network fairness or a capacity benchmark"
+  },
+  "actionCounts": {
+    "profile": 6,
+    "session": 3,
+    "create": 1,
+    "join": 2,
+    "snapshot": 2,
+    "ready": 3,
+    "answer": 1,
+    "leave": 1,
+    "deleteSession": 3
+  },
+  "completedAt": "2026-09-27T01:41:52.741Z"
+}

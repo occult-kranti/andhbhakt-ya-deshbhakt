@@ -8,7 +8,7 @@
  * The ONE violet action is Done. Confirmations are inline ("Exported ✓"), never toasts.
  */
 import { useId, useState, useSyncExternalStore, type ReactNode } from 'react';
-import { BellOff, BookOpen, Check, Download, Flag, History, Moon, Smartphone, Sun, Trash2, Volume2 } from 'lucide-react';
+import { BellOff, BookOpen, Check, Download, Flag, History, Moon, Newspaper, RefreshCw, Smartphone, Sun, Trash2, Volume2 } from 'lucide-react';
 import { useJuice } from '@/components/fx';
 import { getPrefs, setPref, subscribePrefs, type MotionPref } from '@/lib/fx/prefs';
 import { budget, useBudgetSnapshot } from '../../budget';
@@ -141,7 +141,7 @@ export default function SettingsScreen(_: ScreenProps) {
         />
       </Group>
 
-      <Group id="h-set-theme" title={t('Theme', 'थीम')}>
+      <Group id="h-set-theme" title={t('Theme', 'थीम')} hint={t('Rotate picks a different edition each day, when you next open the game. It stays put during your visit.', 'बदलता संस्करण रोज़ खेल दोबारा खोलने पर बदलता है। खेलते समय वही रहता है।')}>
         <Choice<ThemePref>
           legend={t('Theme', 'थीम')}
           value={theme.pref}
@@ -149,10 +149,12 @@ export default function SettingsScreen(_: ScreenProps) {
           options={[
             { id: 'light', label: t('Day edition', 'दिन का संस्करण'), sub: t('Light', 'हल्की'), icon: <Sun size={20} strokeWidth={2.4} /> },
             { id: 'dark', label: t('Night edition', 'रात का संस्करण'), sub: t('Dark', 'गहरी'), icon: <Moon size={20} strokeWidth={2.4} /> },
+            { id: 'classic', label: t('Classic edition', 'पुराना संस्करण'), sub: t('The original dark palette', 'पहले वाली गहरी थीम'), icon: <Newspaper size={20} strokeWidth={2.4} /> },
+            { id: 'rotate', label: t('Rotate editions', 'बदलता संस्करण'), sub: t('Day, Night, Classic · daily', 'दिन, रात, पुराना · रोज़'), icon: <RefreshCw size={20} strokeWidth={2.4} /> },
             {
               id: 'system',
               label: t('Match phone', 'फ़ोन जैसी'),
-              sub: t(`Now ${theme.resolved === 'dark' ? 'dark' : 'light'}`, `अभी ${theme.resolved === 'dark' ? 'गहरी' : 'हल्की'}`),
+              sub: t('Follows your device appearance', 'फ़ोन की थीम के अनुसार'),
               icon: <Smartphone size={20} strokeWidth={2.4} />,
             },
           ]}
@@ -236,7 +238,7 @@ export default function SettingsScreen(_: ScreenProps) {
       <Group
         id="h-set-data"
         title={t('Data', 'डेटा')}
-        hint={t('Everything is stored on this device. No account, no server: nothing about you leaves it unless you share it.', 'सब कुछ इसी फ़ोन पर। न खाता, न सर्वर: आप शेयर न करें तो कुछ बाहर नहीं जाता।')}
+        hint={t('Solo progress stays on this device. Online beta stores your nickname, matches and circle memberships on the game server.', 'अकेले खेलने की प्रगति इसी फ़ोन पर रहती है। ऑनलाइन बीटा में आपका उपनाम, मैच और मंडली की सदस्यता गेम सर्वर पर सेव होते हैं।')}
       >
         {player.storageError ? <InlineNote tone="wait">{player.storageError}</InlineNote> : null}
         {!player.persistent ? (

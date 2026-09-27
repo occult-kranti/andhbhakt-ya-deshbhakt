@@ -315,6 +315,7 @@ export function fileNo(route: Pick<Route, 'kind' | 'code' | 'state'>): string {
 
 export type LabelDisplay = Readonly<{
   band: number;
+  ordinal: number;
   /** Devanagari (for the poster line; wrap it in lang="hi"). */
   hi: string;
   /** Latin, as written in the charter (display it uppercase with CSS). */
@@ -365,7 +366,7 @@ const LABEL_EXTRA: ReadonlyArray<{ hi: string; en: string; aside?: string; aside
 export function labelDisplay(band: number): LabelDisplay {
   const rung = labelFor(band) as Label;
   const extra = LABEL_EXTRA[rung.band];
-  return Object.freeze({ band: rung.band, from: rung.from, to: rung.to, line: rung.line, ...extra });
+  return Object.freeze({ band: rung.band, ordinal: rung.ordinal, from: rung.from, to: rung.to, line: rung.line, ...extra });
 }
 /** A label's one-liner in the reader's language: English, or its Devanagari twin in the Hindi locale. */
 export function labelLine(label: LabelDisplay, isHi: boolean): string {

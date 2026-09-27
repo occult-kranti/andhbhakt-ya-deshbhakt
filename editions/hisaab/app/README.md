@@ -58,7 +58,7 @@ and fails on overflow, small targets or text, console errors and failed requests
 - Global helpers from `base.css`: `.h-sr` (visually hidden), `.h-kicker`, `.h-mono`, `.h-tnum`,
   `.h-display`, `.h-meta`, `.h-link` / `.h-link--tap`, `.h-stack`, `.h-row`, `.h-grid` (set `--h-gap`,
   `--h-min`), `.h-hi`. The `--fx-1…5` particle palette is re-inked to manila/syahi/tape/paper/brass.
-- `<html>` carries `data-theme="light|dark"` (always the resolved theme), `data-theme-pref`,
+- `<html>` carries `data-theme="light|dark|classic"` (always the resolved theme), `data-theme-pref`,
   `data-motion="reduced"` (Effects = Reduced or Off), `data-effects="full|reduced|off"`, `lang`,
   and `data-chrome="full|top|none"`.
 - Put an animated stamp inside a container with class **`h-stamp-stage`** (clips sideways): the slam's
@@ -109,7 +109,7 @@ notification budget; a query change is not a new visit.
 - `useChrome(mode | null)` (`shell/chrome.tsx`): override the route's chrome while mounted — e.g. the
   duel lobby's 3·2·1 calls `useChrome('none')`; `null` restores the default.
 - `useScreenTitle('Rajya Rounds')` → `document.title = 'Rajya Rounds · HISAAB DO'`.
-- `useTheme()` (`shell/theme.ts`): `{ pref: 'light'|'dark'|'system', resolved, setTheme }` — for Settings.
+- `useTheme()` (`shell/theme.ts`): `{ pref: 'light'|'dark'|'classic'|'rotate'|'system', resolved, setTheme }` — for Settings.
 - **Player**: `useAppPlayer()` (`shell/player.tsx`) is the app's one `usePlayer()` (profile, progression,
   journal, dispatch, fold, exportAll, clear, …; see ENGINE §10). **Never call `usePlayer()` in a
   screen** (a second instance double-counts the analytics heartbeat). To file a duel room to the

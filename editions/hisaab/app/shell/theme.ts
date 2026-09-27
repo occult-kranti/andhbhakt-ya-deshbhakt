@@ -1,18 +1,20 @@
 /**
- * shell/theme.ts — Light ("Day edition") / Dark ("Night edition") / Match phone.
- *
- *   const { pref, resolved, setTheme } = useTheme();   // pref: 'light' | 'dark' | 'system'
+ * shell/theme.ts — Day / Night / Classic / Rotate editions / Match phone.
  *
  * The choice is stored per device under STORAGE.theme (never a literal key). <html data-theme> is
- * always the RESOLVED theme ('light' | 'dark'), so CSS needs one selector; `data-theme-pref` keeps the
+ * always the RESOLVED theme ('light' | 'dark' | 'classic'); `data-theme-pref` keeps the
  * choice. "Match phone" follows prefers-color-scheme live. main.tsx calls applyStoredTheme() before
  * the first render so there is no flash of the wrong theme.
  */
 import { useSyncExternalStore } from 'react';
 import { STORAGE } from '@/lib/storage-names.mjs';
+import { rotatingEdition, themePreference } from '../../theme/preference.mjs';
 
-export type ThemePref = 'light' | 'dark' | 'system';
-export type Theme = 'light' | 'dark';
+export type ThemePref = 'light' | 'dark' | 'classic' | 'rotate' | 'system';
+export type Theme = 'light' | 'dark' | 'classic';
+
+// Freeze the daily rotation for this visit. Midnight never repaints an active question.
+const visitEdition = rotatingEdition(Date.now()) as Theme;
 
 const listeners = new Set<() => void>();
 let pref: ThemePref | null = null;
@@ -21,7 +23,7 @@ let installed = false;
 function read(): ThemePref {
   try {
     const v = localStorage.getItem(STORAGE.theme);
-    return v === 'light' || v === 'dark' || v === 'system' ? v : 'system';
+    return themePreference(v) as ThemePref;
   } catch {
     return 'system';
   }
@@ -30,6 +32,7 @@ function read(): ThemePref {
 const media = () => (typeof matchMedia === 'function' ? matchMedia('(prefers-color-scheme: dark)') : null);
 
 export function resolveTheme(p: ThemePref): Theme {
+  if (p === 'rotate') return visitEdition;
   if (p !== 'system') return p;
   return media()?.matches ? 'dark' : 'light';
 }
@@ -83,9 +86,9 @@ export function applyStoredTheme() {
 }
 
 export function setTheme(next: ThemePref) {
-  pref = next;
+  pref = themePreference(next) as ThemePref;
   try {
-    localStorage.setItem(STORAGE.theme, next);
+    localStorage.setItem(STORAGE.theme, pref);
   } catch {
     /* storage blocked: the choice lasts for this visit */
   }

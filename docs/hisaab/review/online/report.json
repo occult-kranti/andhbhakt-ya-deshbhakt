@@ -1,0 +1,19 @@
+{
+  "evidence": "API-fixture UI checks; not real service or latency evidence",
+  "checks": [
+    "online hub 320 light",
+    "server circles 320 light",
+    "online hub 1280 dark",
+    "server circles 1280 dark",
+    "online hub 320 classic",
+    "server circles 320 classic",
+    "private lobby 320",
+    "live question 320",
+    "immediate private own receipt without opponent verdict",
+    "receipt 320",
+    "reload recovers locked server room",
+    "terminal standings navigation clears room",
+    "accessible settings and confirmed leave"
+  ],
+  "errors": []
+}

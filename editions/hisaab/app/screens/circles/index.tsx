@@ -47,6 +47,7 @@ function CircleHub({ invite, snapshot, source, missing }: { invite: string; snap
   }
   return <Page width="wide" screen="circles" className="h-circles">
     <ScreenHeader kicker="THE CIRCLE EDITION" titleHi="अपनों की बैठक" title={t('Your people. Your circle.', 'अपनों की बैठक।')} lead={t('A friends table. A family corner. Same questions, your own nicknames.', 'दोस्तों की टोली या परिवार की बैठक। वही सवाल, अपने उपनाम।')} />
+    <Button href={href.online('circles')}>{t('Open server circles · Online beta', 'सर्वर मंडलियाँ खोलें · ऑनलाइन बीटा')}</Button>
     {missing && <InlineNote tone="wait">{t('This circle is not saved on this browser. Join with its invite link.', 'यह मंडली इस ब्राउज़र में नहीं है। इसके निमंत्रण लिंक से जुड़ें।')}</InlineNote>}
     {snapshot.error && <p role="alert" className="h-circles__notice">{snapshot.error}</p>}
     <div className="h-circles__layout">

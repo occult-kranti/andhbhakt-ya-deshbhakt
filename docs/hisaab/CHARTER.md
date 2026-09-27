@@ -52,6 +52,34 @@ fact-check of every source.
 
 ## 1. What we are building
 
+### Server competition amendment — 27 September 2026
+
+The owner subsequently requested online server-refereed play, competitions and a hidden ninth
+label. These requirements supersede the earlier static-only limits for the new **Online beta**
+mode, while preserving every existing solo and casual mode:
+
+- Use the connected Supabase project through HISAAB-only tables and functions. Do not modify
+  unrelated applications using that project. Server timestamps, answer locks and transactions
+  determine online outcomes; browser XP and claimed client times never determine rankings.
+- Add public matchmaking, private friend rooms, daily and weekly tables, tournament play and
+  centrally stored circles with personal group nicknames. Distinguish guest device identities from
+  verified accounts. No paid entry, cash prizes, hidden bot fills or automatic rematch queues.
+- Reserve presentation slot **9** for **Desh Bhakt**, a temporary top-ten competition honour. Keep
+  it entirely out of unearned ladders and public marketing teasers. Server eligibility, current rank
+  and competition expiry determine whether it appears. The existing final permanent label becomes
+  presentation slot **10**; its XP threshold and all nine earned progression bands stay unchanged.
+- Preserve Day and Night. Restore the preceding palette as Classic and provide optional daily
+  edition rotation that remains fixed during a visit, including across live rounds.
+- Be precise about fairness: server authority prevents a client from assigning its own score, but
+  does not remove network delay, guest-identity abuse, collusion or lookup of the public learning
+  bank. This release is recreational online beta; broader competition needs measured operations
+  and stronger abuse controls. Display the actual timing policy and do not promise cheat-proof play.
+- Keep the independent HISAAB hosting identity and branch. Do not merge `main`, overwrite the
+  original game's Site, publish social messages, buy services or enable advertising as a side effect.
+
+See `SERVER-LAUNCH.md` and the server implementation for exact competition periods, qualifying
+matches, time rules, guest data handling and the evidence collected before publication.
+
 A second edition of the Jaanta Hai Kya (JHK) quiz-duel engine, about the last 5–12 years of Indian
 public life: government schemes, subsidies and benefits, where public money went, the scams and
 frauds around it, the people and institutions involved, and who owns the news that told you about

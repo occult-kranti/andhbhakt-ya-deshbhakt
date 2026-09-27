@@ -9,8 +9,8 @@
 # over when it rebuilds the root, so the two deploys can run in either order. Both share the
 # `pages` concurrency group, so they queue rather than race.
 #
-# Like the JHK static build there is no server here: bot duels, routes, the daily and the vault run
-# in the browser; friend duels are peer-to-peer (WebRTC) and say so on screen.
+# Solo and casual modes run in the browser. The separately deployed HISAAB Supabase service
+# referees Online beta; the public endpoint is configuration, never a service-role credential.
 name: Deploy HISAAB DO to Pages
 
 on:
@@ -89,6 +89,7 @@ jobs:
       - name: Build the edition
         env:
           HISAAB_BASE: /${{ github.event.repository.name }}/hisaab/
+          VITE_HISAAB_SERVER_URL: https://wvupsqfevlrmhqfjreyx.supabase.co/functions/v1/hisaab-game
         run: |
           pnpm build:hisaab
           test -f dist-hisaab/index.html

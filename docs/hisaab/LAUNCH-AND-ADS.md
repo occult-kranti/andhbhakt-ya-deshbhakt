@@ -1,5 +1,7 @@
 # HISAAB DO: domain launch and optional advertising
 
+> **27 September 2026 — static-release instructions superseded for server play.** Use [SERVER-LAUNCH.md](./SERVER-LAUNCH.md) for the active Supabase server architecture, exact competition rules, required services and verification gates. The static deployment guidance below is retained as the earlier release record; its “no backend required” statements describe that release only. Supabase is now reported **ACTIVE_HEALTHY**. Server publication remains subject to the release evidence recorded separately. Advertising remains off, and the advertising guardrails below continue to apply.
+
 Release scope: `claude/loving-pasteur-s8xwtf`, separate HISAAB edition. Updated 26 September 2026.
 
 For the independent hosted release, exact service requirements, Supabase status and the browser-data migration boundary, see [STANDALONE-LAUNCH.md](./STANDALONE-LAUNCH.md).
