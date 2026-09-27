@@ -1,5 +1,5 @@
 /* ==========================================================================
-   HISAAB DO — "LAL FEETA" design tokens (docs/hisaab/design-bible.md §3–§6)
+   HISAAB DO — "LAL FEETA / DAILY EDITION" design tokens (docs/hisaab/design-bible.md §3–§6)
    A sarkari file, reprinted as a pop poster: manila covers, red tape,
    stamp-pad violet ink, typed file numbers, receipts — under loud
    Devanagari + Latin display type.
@@ -10,8 +10,8 @@
      icon/shape/word twin (bible §7).
    - `-text` variants are for words on paper/ground; `-ink` is the text
      colour ON a solid fill of that accent; `-soft` is a fill tint.
-   - Contrast: 66 text/background pairs x 2 themes pass (>= 4.5:1 text,
-     >= 3:1 UI and stamps) — results in bible §3.4; re-check any change
+   - Contrast: 47 current text/background pairs x 2 themes pass (>= 4.5:1 text);
+     results in bible §13 / review/editorial-redesign.md; re-check any change
      with the snippet in the skill.
    Theme switch: <html data-theme="light|dark">, or on any subtree. With no
    attribute the OS preference decides (the media block mirrors the dark one).
@@ -22,21 +22,21 @@
   color-scheme: light;
 
   /* ---- Grounds & surfaces: "Daftar by day" (office by day) ------------- */
-  --h-ground: #e8ece1; /* page: pale noting-sheet grey-green, never cream */
-  --h-ground-2: #dce2d2; /* sunken wells, secondary bands, option tab */
-  --h-paper: #fbfbf6; /* primary card: photocopy white */
-  --h-sheet: #e2efd8; /* noting sheet (explanations, rules) — has the red margin rule */
-  --h-receipt: #ffffff; /* thermal receipt, certificate, share card */
-  --h-manila: #e6c78c; /* file cover: modes, routes, state files (tappable objects) */
-  --h-manila-2: #d4ac62; /* file tab / spine / pressed file */
+  --h-ground: #f2eddf; /* warm newsprint */
+  --h-ground-2: #e6decd; /* sunken wells, secondary bands, option tab */
+  --h-paper: #fffaf0; /* primary card: photocopy white */
+  --h-sheet: #e9eddf; /* noting sheet (explanations, rules) — has the red margin rule */
+  --h-receipt: #fffdf7; /* thermal receipt, certificate, share card */
+  --h-manila: #ede0bd; /* file cover: modes, routes, state files (tappable objects) */
+  --h-manila-2: #dac79f; /* file tab / spine / pressed file */
   --h-manila-ink: #1f1608; /* text on manila */
 
   /* ---- Ink ----------------------------------------------------------------- */
-  --h-ink: #17131f; /* carbon ink: primary text, object outlines */
-  --h-ink-2: #45414f; /* secondary text (>= 4.5:1 on every light surface incl. manila) */
+  --h-ink: #252219; /* carbon ink: primary text, object outlines */
+  --h-ink-2: #565044; /* secondary text (>= 4.5:1 on every light surface incl. manila) */
   --h-ink-3: #75717f; /* tertiary: placeholders, disabled glyphs, meta — UI-only (>= 3:1) */
-  --h-line: #17131f; /* 2px object outline (files, buttons, options) */
-  --h-hair: #b9c0b0; /* decorative dividers, receipt leaders — never the only boundary */
+  --h-line: #39352c; /* 2px object outline (files, buttons, options) */
+  --h-hair: #c8c0af; /* decorative dividers, receipt leaders — never the only boundary */
   --h-shadow-ink: #17131f; /* hard offset shadow colour */
   --h-scrim: rgb(23 19 31 / 0.55); /* behind sheets and ceremonies */
 
@@ -88,11 +88,11 @@
   --h-perf: 14px; /* receipt zig-zag tooth width (mask size) */
 
   /* ---- Radii --------------------------------------------------------------- */
-  --h-r-xs: 4px; /* file-cover corner under the tab */
-  --h-r-s: 8px; /* chips, stamps, inputs */
-  --h-r-m: 12px; /* buttons, answer options */
-  --h-r-l: 16px; /* files, cards */
-  --h-r-xl: 24px; /* sheets, ceremony card, certificate */
+  --h-r-xs: 2px; /* file-cover corner under the tab */
+  --h-r-s: 3px; /* chips, stamps, inputs */
+  --h-r-m: 4px; /* buttons, answer options */
+  --h-r-l: 5px; /* files, cards */
+  --h-r-xl: 8px; /* sheets, ceremony card, certificate */
   --h-r-pill: 999px;
 
   /* ---- Borders & shadows (hard, printed; blur only on overlays) ------------ */
@@ -102,6 +102,7 @@
   --h-shadow-float: 0 18px 40px rgb(23 19 31 / 0.22); /* sheets, toasts, ceremonies only */
 
   /* ---- Type families ----------------------------------------------------- */
+  --h-font-editorial: Georgia, 'Times New Roman', serif, 'Mukta'; /* generic serif first; Mukta fills Devanagari glyphs */
   --h-font-display: 'Akshar Variable', 'Akshar', 'Mukta', system-ui, sans-serif;
   --h-font-ui: 'Mukta', 'Noto Sans Devanagari', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --h-font-mono: 'Sometype Mono', ui-monospace, 'Mukta', monospace; /* Latin + ₹ only; Devanagari falls to Mukta */
@@ -148,9 +149,9 @@
   --h-maxw: 1200px; /* desktop content max */
   --h-read: 62ch; /* prose measure */
   --h-col-play: 560px; /* live question column on desktop */
-  --h-top-h: 56px;
+  --h-top-h: 64px;
   --h-nav-h: 64px; /* bottom bar (phone) — plus env(safe-area-inset-bottom) */
-  --h-rail-w: 88px; /* left rail (>= 900px) */
+  --h-rail-w: 92px; /* left rail (>= 900px) */
   --h-tap: 44px; /* minimum target */
   --h-answer-h: 60px; /* answer option min height */
   --h-tab-w: 52px; /* answer option letter/shape tab */
@@ -188,20 +189,20 @@
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --h-ground: #121019; /* carbon paper at night */
-  --h-ground-2: #1c1926;
-  --h-paper: #221e2d;
+  --h-ground: #191813; /* carbon paper at night */
+  --h-ground-2: #25231d;
+  --h-paper: #292720;
   --h-sheet: #18251e;
-  --h-receipt: #2a2635;
+  --h-receipt: #302d25;
   --h-manila: #3d3223; /* lamp-lit file cover */
   --h-manila-2: #5c4a2c;
   --h-manila-ink: #f6ebd3;
 
   --h-ink: #f3f0e8;
-  --h-ink-2: #bcb7c8;
+  --h-ink-2: #c9c2b3;
   --h-ink-3: #8c8799;
-  --h-line: #8e88a0; /* outlines stay >= 3:1 on ground, paper, receipt and manila */
-  --h-hair: #3a3548;
+  --h-line: #9a9383; /* outlines stay >= 3:1 on ground, paper, receipt and manila */
+  --h-hair: #4b463b;
   --h-shadow-ink: #05040a;
   --h-scrim: rgb(5 4 10 / 0.7);
 
@@ -250,19 +251,19 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
-    --h-ground: #121019;
-    --h-ground-2: #1c1926;
-    --h-paper: #221e2d;
+    --h-ground: #191813;
+    --h-ground-2: #25231d;
+    --h-paper: #292720;
     --h-sheet: #18251e;
-    --h-receipt: #2a2635;
+    --h-receipt: #302d25;
     --h-manila: #3d3223;
     --h-manila-2: #5c4a2c;
     --h-manila-ink: #f6ebd3;
     --h-ink: #f3f0e8;
-    --h-ink-2: #bcb7c8;
+    --h-ink-2: #c9c2b3;
     --h-ink-3: #8c8799;
-    --h-line: #8e88a0;
-    --h-hair: #3a3548;
+    --h-line: #9a9383;
+    --h-hair: #4b463b;
     --h-shadow-ink: #05040a;
     --h-scrim: rgb(5 4 10 / 0.7);
     --h-syahi: #9e86ff;
@@ -310,9 +311,9 @@
   --h-noted: var(--h-syahi); /* NOTED / RECEIVED / ISSUED — neutral official stamp */
   --h-focus-ring: 0 0 0 2px var(--h-ground), 0 0 0 5px var(--h-focus);
   --h-shadow-0: 0 0 0 var(--h-shadow-ink); /* pressed */
-  --h-shadow-1: 2px 2px 0 var(--h-shadow-ink);
-  --h-shadow-2: 4px 4px 0 var(--h-shadow-ink); /* files, primary buttons */
-  --h-shadow-3: 6px 6px 0 var(--h-shadow-accent); /* certificate, today's file */
+  --h-shadow-1: 1px 1px 0 var(--h-shadow-ink);
+  --h-shadow-2: 2px 2px 0 var(--h-shadow-ink); /* files, primary buttons */
+  --h-shadow-3: 4px 4px 0 var(--h-shadow-accent); /* certificate, today's file */
 }
 
 /* Devanagari needs room for matras above and below the line. */

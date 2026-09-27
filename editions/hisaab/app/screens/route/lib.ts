@@ -8,28 +8,25 @@
  * the two small hooks at the end.
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { CONFIDENCE, CONFIDENCE_ORDER } from '@/lib/expeditions.mjs';
 import { routesOfKind, type Card, type Route } from '../../../edition';
 import {
   CARTOGRAM,
   CARTOGRAM_CENTRE,
-  CONFIDENCE_DISPLAY,
   formatNumber,
   SECTOR_NAMES_HI,
   stateName,
   stateNameHi,
   xpLogWords,
   type BankItem,
-  type ConfidenceId,
 } from '../../data';
 import { href } from '../../router';
 import { shareOutcomeWords, type ShareOutcome } from '../../share';
 
 // ---- profile shapes (usePlayer's profile is untyped; these are the fields this lane reads) ------------
 
-export type RunAnswer = { choice: number; confidence: ConfidenceId };
+export type RunAnswer = { choice: number; elapsedMs?: number | null };
 export type Run = { id: string; cards: Card[]; startedAt: number; cursor: number; answers: RunAnswer[] };
-export type Tally = Record<ConfidenceId, { n: number; correct: number }>;
+export type Tally = Record<'steady' | 'bold' | 'called', { n: number; correct: number }>;
 export type RunResult = { runId: string; at: number; score: number; correct: number; bold: number; stakes?: Tally };
 export type JourneyRecord = {
   run: Run | null;
@@ -48,7 +45,7 @@ export type JournalRound = {
   at: number;
   factId: string;
   correct?: boolean;
-  confidence?: ConfidenceId | null;
+  elapsedMs?: number | null;
   chose?: string | null;
 };
 export type Journal = { rounds?: JournalRound[]; facts?: Record<string, { firstAt?: number | null } | undefined> } | null | undefined;
@@ -59,7 +56,7 @@ export type Progression = { xp?: number; log?: LogEntry[]; streak?: Streak } | n
 /** Six cards per route: the engine hard-codes it (ENGINE §14). */
 export const RUN_CARDS = 6;
 /** The run score band (lib/expeditions.mjs MIN_SCORE / MAX_SCORE). */
-export const MAX_RUN_SCORE = 24;
+export const MAX_RUN_SCORE = 6;
 
 // ---- round ids --------------------------------------------------------------------------------------
 
@@ -83,67 +80,15 @@ export function choiceOf(round: JournalRound | undefined, options: readonly stri
 
 // ---- points, calibration ---------------------------------------------------------------------------
 
-const TIERS = CONFIDENCE as Record<ConfidenceId, { correct: number; wrong: number }>;
-
-/** Points a confidence call earned on one card (Shayad +2/0 · Lagta hai +3/−1 · Pakka +4/−3). */
-export function callPoints(confidence: ConfidenceId | null | undefined, correct: boolean): number | null {
-  if (!confidence || !Object.hasOwn(TIERS, confidence)) return null;
-  return TIERS[confidence][correct ? 'correct' : 'wrong'];
-}
-
-/** '+4' / '−3' / '0' with a real minus sign. */
+/** Signed score for receipt displays. */
 export const signed = (n: number) => (n > 0 ? `+${formatNumber(n)}` : n < 0 ? `−${formatNumber(Math.abs(n))}` : '0');
-
-export const confidenceName = (id: ConfidenceId | null | undefined, isHi = false) => {
-  const c = CONFIDENCE_DISPLAY.find((d) => d.id === id);
-  return c ? (isHi ? c.hi : c.en) : '';
-};
-
-/** Per-call tally for answered cards (the same count lib/expeditions.mjs runTally makes). */
-export function tallyOf(cards: readonly Card[], answers: readonly RunAnswer[]): Tally {
-  const t: Tally = { steady: { n: 0, correct: 0 }, bold: { n: 0, correct: 0 }, called: { n: 0, correct: 0 } };
-  answers.forEach((a, i) => {
-    if (!a || !Object.hasOwn(t, a.confidence) || !cards[i]) return;
-    t[a.confidence].n += 1;
-    if (a.choice === cards[i].correctIndex) t[a.confidence].correct += 1;
-  });
-  return t;
-}
-
-/**
- * The calibration line at a finish (bible §11.13): "Pakka calls: 2 of 3 landed. Shayad kept you safe
- * on 2." Only true statements: every clause is read off the tally.
- */
-export function calibrationLine(t: Tally, isHi = false): string {
-  const parts: string[] = [];
-  for (const id of [...(CONFIDENCE_ORDER as ConfidenceId[])].reverse()) {
-    const { n, correct } = t[id];
-    if (!n) continue;
-    const name = confidenceName(id, isHi);
-    if (id === 'steady') {
-      const safe = n - correct;
-      parts.push(
-        safe > 0
-          ? isHi
-            ? `${name} ने ${safe} बार बचाया।`
-            : `${name} kept you safe on ${safe}.`
-          : isHi
-            ? `${name}: ${n} में ${correct} सही।`
-            : `${name} calls: ${correct} of ${n} right.`,
-      );
-    } else {
-      parts.push(isHi ? `${name}: ${n} में ${correct} सही बैठे।` : `${name} calls: ${correct} of ${n} landed.`);
-    }
-  }
-  return parts.join(' ');
-}
 
 // ---- XP, read back from the progression log ------------------------------------------------------
 
 /** The edition's words for a progression log line (one mapping for every screen: data.xpLogWords). */
 const xpWords = (e: LogEntry) => xpLogWords(e);
 
-export type XpLine = { xp: number; note: string };
+export type XpLine = { xp: number; note: string; answerXp?: number };
 
 /**
  * What one action paid: every progression log line written at that action's timestamp (the answer,
@@ -151,10 +96,11 @@ export type XpLine = { xp: number; note: string };
  */
 export function xpAt(log: readonly LogEntry[] | undefined, at: number | null | undefined): XpLine | null {
   if (!log || typeof at !== 'number') return null;
-  const lines = log.filter((e) => e && e.at === at && Number.isFinite(e.xp) && e.xp > 0);
+  const lines = log.filter((e) => e && e.at === at && Number.isFinite(e.xp) && e.xp >= 0);
   if (!lines.length) return null;
   return {
     xp: lines.reduce((s, e) => s + e.xp, 0),
+    answerXp: lines.filter(e => ['discovery', 'expedition-answer'].includes(e.kind)).reduce((sum, e) => sum + e.xp, 0),
     note: lines
       .slice()
       .reverse()

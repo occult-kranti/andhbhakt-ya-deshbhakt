@@ -42,7 +42,9 @@ export function TopBar({ inert }: { inert?: boolean }) {
         <span lang="hi" aria-hidden="true">
           हिसाब दो
         </span>
+        <span className="h-wordmark__en" lang="en" aria-hidden="true">HISAAB DO</span>
       </a>
+      <span className="h-top__edition">{t('THE PEOPLE’S ACCOUNT', 'जनता का हिसाब')}</span>
       <span className="h-top__spacer" />
       <a
         className="h-levelchip"

@@ -254,3 +254,24 @@
   box-shadow: var(--h-focus-ring);
   outline: none;
 }
+
+/* Daily Edition: light printed chrome, the original Hindi mark retained. */
+.h-top { background: var(--h-paper); border-bottom: 3px double var(--h-line); }
+.h-wordmark { gap: 8px; }
+.h-wordmark > span { background: none; }
+.h-wordmark__en { display: none; font-family: var(--h-font-editorial); font-size: 17px; letter-spacing: -.04em; }
+.h-top__edition { display: none; font-family: var(--h-font-mono); font-size: var(--h-fs-2xs); color: var(--h-ink-2); }
+.h-levelchip__lv { border-radius: var(--h-r-xs); border-width: 1px; background: var(--h-ground); color: var(--h-ink); }
+.h-nav__list { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.h-nav__item[aria-current='page'] { background: var(--h-syahi-soft); }
+.h-nav__item svg { width: 21px; height: 21px; stroke-width: 1.8; }
+@media (min-width: 600px) {
+  .h-wordmark__en { display: inline; padding-left: var(--h-s-3); border-left: 1px solid var(--h-hair); }
+}
+@media (min-width: 900px) {
+  .h-top { padding-inline: var(--h-s-6); }
+  .h-top__edition { display: inline; margin-left: var(--h-s-4); }
+  .h-nav { background: var(--h-ground); border-right: 1px solid var(--h-line); }
+  .h-nav__list { grid-template-columns: 1fr; grid-auto-rows: 72px; }
+  .h-nav__label { font-size: var(--h-fs-xs); }
+}

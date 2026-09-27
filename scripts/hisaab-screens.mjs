@@ -409,7 +409,7 @@ async function waitLive(page, timeout = 20000) {
  * Play a bot/P2P match in the arena to its result: answer every live question with option `pick`,
  * tap "Next round" / "See the verdict" on each receipt. `onLive` / `onReceipt` run once, first time.
  */
-async function playMatch(page, { onLive, onReceipt, pick = 0, timeout = 90000 } = {}) {
+async function playMatch(page, { onLive, onReceipt, pick = 0, timeout = 210000 } = {}) {
   const t0 = Date.now();
   let liveSeen = 0;
   let receiptSeen = 0;
@@ -543,7 +543,8 @@ async function runCell(browser, vp, theme, locale) {
       await go(page, '#/route/state-up');
       await page.waitForSelector('.h-qcard .h-opt:not([disabled])', { timeout: 12000 });
       await step('route-card', { full: false });
-      await page.locator('.h-conf__opt').nth(2).click().catch(() => {});
+      if (await page.locator('.h-conf__opt').count()) throw new Error('Retired confidence controls are visible');
+      await page.locator('.h-stopwatch__time').waitFor({ state: 'visible' });
       await answerCard(page, 0);
       await sleep(1300);
       await step('route-receipt');
@@ -839,6 +840,7 @@ async function main() {
     for (const [vp, theme, locale] of cells) {
       const t0 = Date.now();
       await runCell(browser, vp, theme, locale);
+      writeFileSync(join(out, 'report.json'), JSON.stringify(report, null, 2));
       const c = report.cells.at(-1);
       const fails = c.steps.reduce((s, x) => s + x.fails.length, 0);
       const errs = c.steps.reduce((s, x) => s + (x.errors?.length ?? 0), 0);

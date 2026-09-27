@@ -13,7 +13,7 @@
  * never a ceremony. Silent: no sound until the first tap, no toasts, no WebGL (the tijori art is 2D).
  */
 import { useEffect, useMemo } from 'react';
-import { Coins, Grid3x3, KeyRound } from 'lucide-react';
+import { Coins, Grid3x3, KeyRound, Users } from 'lucide-react';
 import { SECTOR_LIST, STATE_CODES } from '../../data';
 import { todaysFive } from '../../../edition';
 import { href, type ScreenProps } from '../../router';
@@ -23,7 +23,7 @@ import { Button } from '../../ui/button';
 import { cx } from '../../ui/cx';
 import { useLang } from '../../ui/lang';
 import { Page } from '../../ui/page';
-import { Poster } from '../../ui/poster';
+import { Masthead } from '../../ui/masthead';
 import { dailyStatus, receiptStats } from '../home/home-data';
 import { usePressCue } from '../home/press-cue';
 import { isFreshProfile, markStartShown } from './first-run';
@@ -68,10 +68,11 @@ export default function StartScreen(_props: ScreenProps) {
 
   return (
     <Page screen="start" className="h-start">
+      <Masthead day={daily.day} />
       <div className="h-start__root" onPointerDown={onPointerDown}>
         <section className="h-start__poster" aria-labelledby="h-start-title">
           <div className="h-start__head">
-            <p className="h-kicker h-start__fno">F.No. 00/IN/{year}</p>
+            <p className="h-kicker h-start__fno">{t('THE PUBLIC-MONEY QUIZ', 'जनता के पैसे का क्विज़')} · {year}</p>
             <div className="h-start__lang" role="group" aria-label={t('Language', 'भाषा')}>
               <button
                 type="button"
@@ -95,7 +96,10 @@ export default function StartScreen(_props: ScreenProps) {
             </div>
           </div>
           <div className="h-start__patch" id="h-start-title">
-            <Poster as="h1" hi="हिसाब दो" en="Show us the accounts" swipe="accounts" className="h-start__title" />
+            <h1 className="h-start__editorial" lang={isHi ? 'hi' : 'en'}>
+              {t('Big claims.', 'बड़े-बड़े दावे।')}<br />
+              <em>{t('Show us the receipts.', 'रसीद तो दिखाओ।')}</em>
+            </h1>
           </div>
           {isHi ? (
             <p className="h-start__motto h-start__motto--hi" lang="hi">
@@ -112,8 +116,9 @@ export default function StartScreen(_props: ScreenProps) {
               <li key={line}>{line}</li>
             ))}
           </ol>
-          <div className="h-start__art" role="img" aria-label={tijoriLabel(receipts, locale)}>
-            <TijoriArt count={receipts} />
+          <div className="h-start__artifact">
+            <div className="h-start__art" role="img" aria-label={tijoriLabel(receipts, locale)}><TijoriArt count={receipts} /></div>
+            <p className="h-start__caption">{t('Collect facts. Keep the receipts. Form your own opinion.', 'तथ्य जुटाओ। रसीद सँभालो। अपनी राय ख़ुद बनाओ।')}</p>
           </div>
         </section>
 
@@ -122,8 +127,9 @@ export default function StartScreen(_props: ScreenProps) {
             <LabelCard xp={xp} intro headingId="h-start-action" />
           ) : (
             <div className="h-start__pitch">
+              <p className="h-kicker">{t('START WITH TODAY’S EDITION', 'आज की फ़ाइल से शुरू करो')}</p>
               <h2 className="h-start__h2" id="h-start-action" lang={isHi ? 'hi' : undefined}>
-                {t('Account? Zaroorat nahi. Seedha sawaal.', 'अकाउंट? ज़रूरत नहीं। सीधा सवाल।')}
+                {t('Five questions. Every answer has a source.', 'पाँच सवाल। हर जवाब का स्रोत।')}
               </h2>
               <p className="h-start__sub">
                 {t(
@@ -136,7 +142,18 @@ export default function StartScreen(_props: ScreenProps) {
           <Button variant="primary" block href={primary.to} className="h-start__go">
             {primary.label}
           </Button>
+          <div className="h-start__xp" aria-label={t('XP for correct answers', 'सही जवाब के XP')}>
+            <span><strong>30 XP</strong>{t('under 8s', '8 से॰ से कम')}</span>
+            <span><strong>20 XP</strong>{t('under 15s', '15 से॰ से कम')}</span>
+            <span><strong>10 XP</strong>{t('15s or more', '15 से॰ या ज़्यादा')}</span>
+          </div>
           <ul className="h-start__links">
+            <li>
+              <a className="h-start__link" href="#/circles">
+                <Users aria-hidden="true" size={20} strokeWidth={1.8} />
+                <span>{t('Create a friends or family circle', 'दोस्तों या परिवार का सर्कल बनाओ')}</span>
+              </a>
+            </li>
             <li>
               <a className="h-start__link" href={href.files('states')}>
                 <Grid3x3 aria-hidden="true" size={20} strokeWidth={2.2} />

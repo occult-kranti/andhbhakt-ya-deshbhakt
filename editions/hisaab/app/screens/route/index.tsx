@@ -22,7 +22,7 @@ import { validExpeditionCards } from '@/lib/expeditions.mjs';
 import { dayKey } from '@/lib/journal.mjs';
 import { routeById, type Card, type Route } from '../../../edition';
 import { useBudget, useHoldToasts } from '../../budget';
-import { itemForCard, type ConfidenceId } from '../../data';
+import { itemForCard } from '../../data';
 import { goBack, href, navigate, queryString, type ScreenProps } from '../../router';
 import { useChrome, useScreenTitle } from '../../shell/chrome';
 import { useAppPlayer } from '../../shell/player';
@@ -36,7 +36,6 @@ import { CardResult, PlayBar, PlayHeader, QuestionCard, revealResult, useLockCue
 import { LabelCard } from '../start/label-card';
 import { RouteFinish } from './finish';
 import {
-  callPoints,
   cardKicker,
   fileNo,
   hubHref,
@@ -107,7 +106,6 @@ function RoutePlayer({ route, done }: { route: Route; done: string | null }) {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [dealError, setDealError] = useState(false);
   const [pending, setPending] = useState<Pending | null>(null);
-  const [confidence, setConfidence] = useState<ConfidenceId>('steady');
   const [fresh, setFresh] = useState<ReadonlySet<string>>(() => new Set());
   const [tapeCut, setTapeCut] = useState<'no' | 'snapping' | 'cut'>('no');
   const [busy, setBusy] = useState(false);
@@ -161,7 +159,7 @@ function RoutePlayer({ route, done }: { route: Route; done: string | null }) {
   const card = cards?.[cursor] ?? null;
   const stored = open?.answers[cursor] ?? null;
   const pend = pending && pending.runId === runId && pending.index === cursor ? pending : null;
-  const answer: RunAnswer | null = stored ?? (pend ? { choice: pend.choice, confidence: pend.confidence } : null);
+  const answer: RunAnswer | null = stored ?? (pend ? { choice: pend.choice, elapsedMs: pend.elapsedMs } : null);
   const item = useMemo(() => itemForCard(card), [card]);
   const sealed = !record?.first && !open;
 
@@ -187,15 +185,14 @@ function RoutePlayer({ route, done }: { route: Route; done: string | null }) {
     setTapeCut((s) => (s === 'snapping' ? 'cut' : s));
   }, []);
 
-  const choose = async (choice: number) => {
+  const choose = async (choice: number, elapsedMs: number) => {
     if (!card || !cards || !runId || answer || busy) return;
     const right = choice === card.correctIndex;
-    const call = confidence;
     const index = cursor;
     const key = `${runId}:${index}`;
     const cutting = sealed && index === 0;
     setFilingError(false);
-    setPending({ runId, index, choice, confidence: call });
+    setPending({ runId, index, choice, elapsedMs });
     if (before === 0 && firstKey === null) setFirstKey(key);
     setFresh((s) => new Set(s).add(key));
     setRevealKey(key);
@@ -214,7 +211,10 @@ function RoutePlayer({ route, done }: { route: Route; done: string | null }) {
           previousRunId: recordRef.current?.run?.id ?? null,
           cards,
         });
-      await player.dispatch({ type: 'journey-answer', routeId: route.id, runId, index, choice, confidence: call });
+      await player.dispatch({ type: 'journey-answer', routeId: route.id, runId, index, choice, elapsedMs });
+    } catch {
+      setFilingError(true);
+      setPending(null);
     } finally {
       setBusy(false);
     }
@@ -241,11 +241,10 @@ function RoutePlayer({ route, done }: { route: Route; done: string | null }) {
     } finally {
       setBusy(false);
     }
-    setConfidence('steady');
     setRevealKey(null);
     setConfirmFold(false);
     if (last) {
-      setJustFinished({ runId: open.id, wasFirst: !before?.first, prevBest: before?.first ? (before.bestScore ?? null) : null });
+      setJustFinished({ runId: open.id, wasFirst: !before?.first, prevBest: before?.first ? (before.best?.correct ?? null) : null });
       navigate(`${href.route(route.id)}${queryString({ done: open.id })}`, { replace: true });
       window.scrollTo({ top: 0 });
       return;
@@ -323,7 +322,7 @@ function RoutePlayer({ route, done }: { route: Route; done: string | null }) {
   );
   const scored = [...answers.slice(0, cursor), ...(answer ? [answer] : [])];
   const score = scored.length
-    ? scored.reduce((s, a, i) => s + (callPoints(a.confidence, a.choice === cards[i]?.correctIndex) ?? 0), 0)
+    ? scored.reduce((s, a, i) => s + Number(a.choice === cards[i]?.correctIndex), 0)
     : null;
   // Once cut, the tape stays mounted (its halves have fallen and faded) for the rest of card 1, so the
   // strip keeps its height and the receipt the player was scrolled to does not jump.
@@ -373,9 +372,8 @@ function RoutePlayer({ route, done }: { route: Route; done: string | null }) {
             kicker={cardKicker(card, item, isHi)}
             chosen={answer ? answer.choice : null}
             revealed={!!answer}
-            onChoose={(i) => void choose(i)}
-            confidence={answer ? answer.confidence : confidence}
-            onConfidence={setConfidence}
+            onChoose={(i, ms) => void choose(i, ms)}
+            elapsedMs={answer?.elapsedMs}
             busy={busy && !answer}
             stemId={STEM_ID}
           />
@@ -389,7 +387,7 @@ function RoutePlayer({ route, done }: { route: Route; done: string | null }) {
                 card={card}
                 item={item}
                 choice={answer.choice}
-                confidence={answer.confidence}
+                elapsedMs={answer.elapsedMs}
                 fresh={isFresh}
                 receiptNo={stored ? receiptOrdinal(profile?.journal, card.factId) : null}
                 xp={stored ? xpForRound(rounds, profile?.progression?.log, roundId) : null}

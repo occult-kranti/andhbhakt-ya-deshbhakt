@@ -1,0 +1,4 @@
+.h-stopwatch{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--h-s-2,8px) var(--h-s-3,12px);border-block:1px solid var(--h-hair);padding:10px 0;color:var(--h-ink-2);margin-block:12px}
+.h-stopwatch__label{font-size:var(--h-fs-xs);font-weight:600}
+.h-stopwatch__time{font-family:var(--h-font-mono);font-size:var(--h-fs-m,18px);font-variant-numeric:tabular-nums;color:var(--h-ink);min-width:6ch}
+.h-stopwatch__bands{font-size:var(--h-fs-xs);line-height:1.5;flex-basis:100%}

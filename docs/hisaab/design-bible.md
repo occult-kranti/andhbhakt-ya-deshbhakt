@@ -699,3 +699,13 @@ package; fontTools 4.66 glyph and feature inspection (₹ U+20B9 location, `tnum
 (numbers quoted here); the gamification-advisor gates N1–N14; the Emblems and Names (Prevention of Improper Use)
 Act 1950 and the State Emblem of India (Prohibition of Improper Use) Act 2005 (why no emblem, and
 why the certificate says "not a government document").
+
+## 13. Daily Edition update — 27 September 2026
+
+The user's requested old newspaper/magazine direction supersedes the original restrictions against cream, editorial serif headlines and newspaper rules in §§1, 3 and 4. This is an evolution of LAL FEETA: retain Hindi identity, syahi, manila file objects, stamps, receipts, tijori, quiet question surfaces and all modes. Do not copy a real publication's nameplate or introduce party/media marks.
+
+Ground: `#f2eddf`; paper: `#fffaf0`; primary ink: `#252219`; secondary ink: `#565044`. Dark ground: `#191813`; dark paper: `#292720`; secondary ink: `#c9c2b3`. Accent and verdict systems retain their semantic roles. Compact 2/3/4/5/8px corner tokens and 1/2/4px printed shadows replace the previous rounded poster defaults. `--h-font-editorial` is a system serif stack used only for selected English titles; Hindi and body/answer copy keep the original font system.
+
+The first-run page and home share an original masthead with a local edition date. Home leads with the daily file, then the reader's desk and circles, with all record files, money routes, quests, tijori and duel modes preserved. The six-item navigation adds Circles. Speed XP is disclosed as 30 under 8 seconds, 20 from 8 to under 15 seconds and 10 at 15 seconds or more for a correct answer. The confidence selector is retired for this edition.
+
+The independent color check covers 47 readable pairs per theme. All exceed 4.5:1: minimum light 4.9187, dark 5.4760. See `review/editorial-redesign.md` for the updated pair table, references, review scope and final runtime evidence. Previous §3.4 measurements describe the preceding palette and should not be used for the current ground colors.

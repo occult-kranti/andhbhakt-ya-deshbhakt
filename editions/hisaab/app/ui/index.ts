@@ -21,7 +21,6 @@ export { ToastHost } from './toast';
 export { CeremonyHost } from './ceremony';
 export { Skeleton } from './skeleton';
 export { Poster, type PosterProps } from './poster';
-export { ConfidenceSwitch, type ConfidenceSwitchProps, type ConfidenceId } from './confidence-switch';
 export { Page, ScreenHeader, EmptyState, ErrorState, InlineNote, type PageProps, type ScreenHeaderProps } from './page';
 export { Hi, Kicker, Mono, SrOnly } from './text';
 export { useLang, type Locale } from './lang';

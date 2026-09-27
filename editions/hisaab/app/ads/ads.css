@@ -1,0 +1,21 @@
+/* Separate advertising from newspaper content. No sticky, overlay or game-adjacent inventory. */
+.h-ad-space {
+  margin: 160px auto 56px;
+  padding: 24px 0;
+  width: 100%;
+  max-width: 728px;
+  border-block: 1px solid var(--h-hair);
+  contain: layout;
+}
+.h-ad-space__label {
+  margin: 0 0 12px;
+  color: var(--h-ink-2);
+  font: 12px/1.5 var(--h-font-mono, monospace);
+  letter-spacing: .06em;
+  text-align: center;
+}
+.h-ad-space__unit { display: block; width: 100%; height: 280px; }
+.h-publication-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; padding: 24px 4px; border-top: 1px solid var(--h-hair); }
+.h-publication-links a, .h-publication-links button { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; justify-content: center; color: var(--h-ink-2); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+.h-publication-links button { border: 0; padding: 0; background: transparent; cursor: pointer; }
+.h-publication-links :focus-visible { outline: 3px solid var(--h-syahi); outline-offset: 4px; }

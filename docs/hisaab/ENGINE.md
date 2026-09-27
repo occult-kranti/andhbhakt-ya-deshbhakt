@@ -1,5 +1,13 @@
 # HISAAB DO — engine guide
 
+> Current edition amendment (27 September 2026): `STOPWATCH-SCORING.md` supersedes the older
+> confidence/XP/duration descriptions in this historical engine guide. `lib/edition-rules.mjs`
+> retains JHK defaults; `editions/hisaab/engine/scoring.mjs` is the HISAAB-only alias.
+> Circles are implemented in `editions/hisaab/circles/{model,store,live}.mjs`, routed at
+> `#/circles` and `#/circles/:id`, with namespaced browser storage and optional live peer presence.
+> `LAUNCH-AND-ADS.md` documents the default-off advertising module and standalone-domain build.
+
+
 For the UI engineers building the edition's screens. This covers what the engine gives you, how to
 drive it, and what not to break. The charter (`CHARTER.md`) takes precedence over this file.
 

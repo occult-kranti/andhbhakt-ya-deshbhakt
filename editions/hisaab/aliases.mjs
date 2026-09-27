@@ -19,6 +19,7 @@ export const EDITION_ALIASES = Object.freeze(
     { from: 'lib/wallet-client.ts', to: 'lib/wallet-client-static.ts', why: 'device wallet only, no /api/wallet' },
     { from: 'lib/presence-client.ts', to: 'lib/presence-client-static.ts', why: 'no live counts without a server' },
     // The edition's own.
+    { from: 'lib/edition-rules.mjs', to: 'editions/hisaab/engine/scoring.mjs', why: 'stopwatch XP and 30-second friend/bot rounds' },
     { from: 'lib/profile-sync.ts', to: 'editions/hisaab/engine/profile-sync-static.ts', why: 'no /api/auth or /api/profile on Pages' },
     { from: 'lib/server/bank.mjs', to: 'editions/hisaab/server/bank.mjs', why: 'the civics bank' },
     { from: 'lib/content.mjs', to: 'editions/hisaab/engine/content.mjs', why: "domain 'civics'; TOPIC_DOMAINS = the 13 sectors" },

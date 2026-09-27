@@ -125,3 +125,8 @@
   outline: none;
   box-shadow: var(--h-focus-ring);
 }
+
+@media (hover: hover) {
+  .h-btn:not(:disabled):not([aria-disabled='true']):hover { box-shadow: var(--h-shadow-0); transform: translate(1px, 1px); }
+  .h-btn--ghost:not(:disabled):hover { background: var(--h-ground-2); }
+}

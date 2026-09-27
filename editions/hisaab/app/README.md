@@ -176,9 +176,21 @@ const live = useLiveRound();              // true while a round is live
 | `xpLogWords(entry, t?)`, `XpLogEntry` | a progression log line in the edition's words ('Card 2 right', 'New receipt', 'Quest: …') — the engine's labels are JHK's |
 | `BOT_NAME` ('Babu-Bot · BOT'), `BOT_LINE`, `seatName(player)`, `ANONYMOUS` | the bot is always labelled BOT |
 | `babuRank(tier)`, `BABU_RANKS`, `BABU_RANK_LADDER` | LDC → Section Officer → Under Secretary → Joint Secretary → Secretary |
-| `CONFIDENCE_DISPLAY` | Shayad +2/0 · Lagta hai +3/−1 · Pakka +4/−3 (engine ids and points) |
 | `enactedLine(e)`, `pollLine(item)`, `govtText(govt)` | money-trail rows: "Name · Role · Party"; "MP Assembly 2023 · 160 days before polling · BJP won 163 of 230" |
 | `normalizePersonName`, `isBankPerson`, `mentionsBankPerson`, `certificateName(name)`, `NAME_MAX` | a name that is (or contains) anyone in the bank's `people`/`enactedBy` prints "Anonymous Janta" |
+
+## Stopwatch scoring (`engine/scoring.mjs`)
+
+The edition exports `XP_BANDS`, `answerXp(correct, elapsedMs)` and `createStopwatch()`.
+Correct answers earn 30 XP below 8 seconds, 20 XP from 8 to below 15 seconds, and 10 XP at
+15 seconds or later; wrong answers earn 0. Exactly 8 and 15 seconds belong to the lower XP
+bands. Missing legacy timing never qualifies for a speed bonus. File and daily cards have no
+deadline; bot and friend duels use 30 seconds per question. Due reviews retain their learning
+rewards and Pass & Play retains its independent match score. Progression bonuses remain separately
+recorded; they are not part of the base stopwatch answer reward.
+
+The profile's `duelPerformance()` reads actual progression counters for settled duel accuracy and
+fastest correct time. It does not invent historical stopwatch times or include file/daily answers.
 
 ## Routes, including the money trail (`edition.ts`)
 
@@ -204,7 +216,6 @@ money trail — `kind` `'distribution' | 'relief' | 'pre-election'` (from item `
 | `FileCard` | `fno`, `title`, `titleHi?`, `meta?`, `icon?`, `state: 'sealed' \| 'open' \| 'cleared'`, `progress?: { value, max, label, copy? }`, `tape?`, `tapeSnapping?`, `emphasis?` (shadow-3), `seed?`, `clearedText?`, `children?`, `href` \| `onClick`, `current?`, `ariaLabel?` — whole card is the link; nothing interactive inside. The CLEARED stamp sits in the bottom-right corner at size `l` (≥ 24px on manila) |
 | `Tape` | `state: 'idle' \| 'snapping'`, `placement: 'card' \| 'edge'`, `onSnapped?` |
 | `Option` / `OptionList` | `OptionList { options, chosen, correctIndex (ONLY after the result), onChoose, disabled, keys (1–4 / A–D), label }`; `Option { index, label, state }`; `optionState(i, chosen, correct)`; states idle · locked · correct · wrong-chosen · correct-unchosen · other. Live-surface safe (no mount animation). The 1–4 / A–D keys stand down while a modal dialog is open |
-| `ConfidenceSwitch` | `value: 'steady' \| 'bold' \| 'called'`, `onChange`, `disabled?`, `legend?` |
 | `Stamp` | `kind: 'pass' \| 'fail' \| 'wait' \| 'noted'`, `seed` (item id → tilt), `text?`, `size: 's' \| 'm' \| 'l'` (l on manila), `animate?` (never on the live surface), `label?` |
 | `Receipt` | `item` (BankItem), `receiptNo?`, `xp?`, `xpNote?`, `otherSide?`, `printing?`, `extra?`. Rows: RECEIPT # · XP / SOURCE (chip + label ↗) / STATUS (legal block + as of) / OTHER SIDE / GOVT THEN / ENACTED BY / RESULT (outcome + poll line) |
 | `NotingSheet` | `children`, `title?`, `collapsible?` + `summary?` ("Read the noting"), `defaultOpen?`, `hand?` (one Kalam line; font lazy) |

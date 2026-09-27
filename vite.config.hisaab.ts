@@ -28,11 +28,13 @@ import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig, type Plugin } from 'vite';
 import { EDITION_ALIASES } from './editions/hisaab/aliases.mjs';
+import { adConfigFromEnv, adsTxt } from './editions/hisaab/app/ads/policy.mjs';
 
 const repoRoot = path.dirname(fileURLToPath(import.meta.url));
 const editionRoot = path.join(repoRoot, 'editions/hisaab');
 const rawBase = process.env.HISAAB_BASE ?? '/fact-duel/hisaab/';
 const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+const advertising = adConfigFromEnv(process.env);
 /** Where the build goes: HISAAB_OUT (repo-relative or absolute), else dist-hisaab/. */
 const outDir = process.env.HISAAB_OUT ? path.resolve(repoRoot, process.env.HISAAB_OUT) : path.join(repoRoot, 'dist-hisaab');
 
@@ -57,6 +59,21 @@ function editionAliases(): Plugin {
   };
 }
 
+/** Account verification makes no ad requests; ads.txt belongs only at a dedicated site's root. */
+function publicationAds(): Plugin {
+  return {
+    name: 'hisaab-publication-ads',
+    transformIndexHtml() {
+      if (!adsTxt(advertising)) return [];
+      return [{ tag: 'meta', attrs: { name: 'google-adsense-account', content: advertising.client }, injectTo: 'head' }];
+    },
+    generateBundle() {
+      const text = adsTxt(advertising);
+      if (text && base === '/') this.emitFile({ type: 'asset', fileName: 'ads.txt', source: text });
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => ({
   root: editionRoot,
   base,
@@ -66,6 +83,7 @@ export default defineConfig(({ mode }) => ({
   define: {
     'process.env.NODE_ENV': JSON.stringify(mode === 'development' ? 'development' : 'production'),
     __HISAAB_BASE__: JSON.stringify(base),
+    __HISAAB_ADS__: JSON.stringify(advertising),
   },
   resolve: {
     alias: [
@@ -73,7 +91,7 @@ export default defineConfig(({ mode }) => ({
       { find: /^@\//, replacement: `${repoRoot}/` },
     ],
   },
-  plugins: [editionAliases(), react()],
+  plugins: [editionAliases(), react(), publicationAds()],
   server: { fs: { allow: [repoRoot] } },
   build: {
     outDir,

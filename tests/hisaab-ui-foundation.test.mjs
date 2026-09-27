@@ -487,11 +487,7 @@ test('data: source chips, status lines, labels, the BOT label and the certificat
   assert.equal(data.seatName({ kind: 'human', name: 'Riya' }), 'Riya');
   assert.equal(data.babuRank('gold'), 'Under Secretary');
   assert.equal(data.babuRank(undefined), 'LDC');
-  assert.deepEqual(data.CONFIDENCE_DISPLAY.map((c) => [c.id, c.en, c.points]), [
-    ['steady', 'Shayad', '+2/0'],
-    ['bold', 'Lagta hai', '+3/−1'],
-    ['called', 'Pakka', '+4/−3'],
-  ]);
+  assert.equal('CONFIDENCE_DISPLAY' in data, false, 'removed choices are not exported for screens');
 
   assert.equal(data.LADDER_DISPLAY.length, 9);
   assert.equal(data.labelDisplay(0).hi, 'अंधभक्त');

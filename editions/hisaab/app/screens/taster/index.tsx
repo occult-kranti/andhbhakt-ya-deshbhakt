@@ -108,6 +108,7 @@ function Taster({ item }: { item: BankItem }) {
   const storedChoice = choiceOf(stored, card.options);
 
   const [pending, setPending] = useState<number | null>(null);
+  const [pendingMs, setPendingMs] = useState<number | null>(null);
   const [fresh, setFresh] = useState(false);
   const [busy, setBusy] = useState(false);
   const [landing] = useState(openedFromLink);
@@ -125,14 +126,17 @@ function Taster({ item }: { item: BankItem }) {
   const answered = choice !== null;
   useHoldToasts(player.loaded && !answered);
 
-  const choose = async (i: number) => {
+  const choose = async (i: number, elapsedMs: number) => {
     if (answered || busy || !player.loaded) return;
     setPending(i);
+    setPendingMs(elapsedMs);
     setFresh(true);
     cues(i === card.correctIndex);
     setBusy(true);
     try {
-      await player.dispatch({ type: 'practice', fact: card, choice: i, roundId });
+      await player.dispatch({ type: 'practice', fact: card, choice: i, elapsedMs, roundId });
+    } catch {
+      setPending(null);
     } finally {
       setBusy(false);
     }
@@ -168,7 +172,8 @@ function Taster({ item }: { item: BankItem }) {
             kicker={cardKicker(card, item, isHi)}
             chosen={choice}
             revealed={answered}
-            onChoose={(i) => void choose(i)}
+            onChoose={(i, ms) => void choose(i, ms)}
+            elapsedMs={stored?.elapsedMs ?? pendingMs}
             busy={busy && !answered}
           />
         </div>
@@ -180,6 +185,7 @@ function Taster({ item }: { item: BankItem }) {
                 card={card}
                 item={item}
                 choice={choice}
+                elapsedMs={stored?.elapsedMs ?? pendingMs}
                 fresh={fresh}
                 receiptNo={stored ? receiptOrdinal(journal, item.id) : null}
                 xp={stored ? xpForRound(rounds, profile?.progression?.log, roundId) : null}

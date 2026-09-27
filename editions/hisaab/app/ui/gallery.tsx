@@ -12,7 +12,6 @@ import { FilePile, Tarazu, Thappa, Tijori } from '../three';
 import { Button } from './button';
 import { Certificate } from './certificate';
 import { Chip, GovtChip, LegalStatus, SourceChip } from './chip';
-import { ConfidenceSwitch, type ConfidenceId } from './confidence-switch';
 import { FileCard } from './file-card';
 import { Meter } from './meter';
 import { NotingSheet } from './noting-sheet';
@@ -36,7 +35,6 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 export default function Gallery({ route }: ScreenProps) {
   const budget = useBudget();
-  const [call, setCall] = useState<ConfidenceId>('bold');
   const [chosen, setChosen] = useState<number | null>(null);
   const withStatus = BANK_ITEMS.find((q) => q.status && q.status.length > 150) ?? BANK_ITEMS[0];
   const plain = itemById('hsc001') ?? BANK_ITEMS[1];
@@ -96,7 +94,6 @@ export default function Gallery({ route }: ScreenProps) {
             <Option index={0} label="Everything else" state="other" />
           </div>
         </div>
-        <ConfidenceSwitch value={call} onChange={setCall} />
       </Section>
 
       <Section title="Stamps">
@@ -111,7 +108,7 @@ export default function Gallery({ route }: ScreenProps) {
 
       <Section title="Receipt + noting">
         <div className="h-gal__two">
-          <Receipt item={withStatus} receiptNo={215} xp={32} xpNote="base 20 · fast +15 · combo ×1.25" />
+          <Receipt item={withStatus} receiptNo={215} xp={30} xpNote="Correct · under 8 seconds" />
           <div className="h-stack">
             <NotingSheet hand="Noted. Pl. forward.">
               <p>{withStatus.explanation}</p>

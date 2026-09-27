@@ -14,7 +14,7 @@
  *
  * Nothing is written to a profile: two people share one device (ENGINE §12).
  */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ExternalLink, RotateCcw, X } from 'lucide-react';
 import { useJuice } from '@/components/fx';
 import { passAndPlayView, reducePassAndPlay, startPassAndPlay } from '../../../p2p/pass-and-play.mjs';
@@ -29,6 +29,8 @@ import { LegalStatus } from '../../ui/chip';
 import { cx } from '../../ui/cx';
 import { useLang } from '../../ui/lang';
 import { NotingSheet } from '../../ui/noting-sheet';
+import { Stopwatch } from '../../ui/stopwatch';
+import { createStopwatch } from '../../../engine/scoring.mjs';
 import { OptionList } from '../../ui/option';
 import { ErrorState, Page, ScreenHeader } from '../../ui/page';
 import { Receipt } from '../../ui/receipt';
@@ -180,8 +182,8 @@ function PassSetup({
         titleHi="पास एंड प्ले"
         title="Pass & Play"
         lead={t(
-          'Two players, one phone, no timer. Nothing is recorded — two people share this device.',
-          'दो खिलाड़ी, एक फ़ोन, कोई टाइमर नहीं। कुछ दर्ज नहीं होता — दो लोग एक डिवाइस पर हैं।',
+          'Two players, one phone, no deadline. Times are shown for this game only; no profile XP.',
+          'दो खिलाड़ी, एक फ़ोन, कोई समय सीमा नहीं। समय सिर्फ़ इस खेल में दिखेगा; प्रोफ़ाइल XP नहीं।',
         )}
       />
       <form
@@ -268,7 +270,14 @@ function PassGame({
   const juice = useJuice();
   const view = passAndPlayView(game) as unknown as View;
   const [asking, setAsking] = useState(false);
-  const act = (a: { type: 'ready' } | { type: 'answer'; choice: number } | { type: 'next' }) =>
+  const clock = useMemo(() => createStopwatch(), [view.roundIndex, view.turn]);
+  useLayoutEffect(() => {
+    if (view.phase !== 'answer') return;
+    let b = 0;
+    const a = requestAnimationFrame(() => { b = requestAnimationFrame(() => clock.start()); });
+    return () => { cancelAnimationFrame(a); cancelAnimationFrame(b); };
+  }, [clock, view.phase]);
+  const act = (a: { type: 'ready' } | { type: 'answer'; choice: number; answerTimeMs?: number } | { type: 'next' }) =>
     setGame(reducePassAndPlay(game, a) as unknown as PassState);
   useQuietRound(view.phase === 'pass');
   useHoldToasts(true);
@@ -351,17 +360,21 @@ function PassGame({
         <h1 className="h-pass__stem" id="h-pass-stem" lang="en">
           {q.question}
         </h1>
+        <Stopwatch clock={clock} practice />
         <OptionList
           options={q.options}
           onChoose={(i) => {
+            if (clock.locked) return;
+            const answerTimeMs = clock.lock();
+            if (answerTimeMs === null) return;
             juice.sound('select');
             juice.haptic('light');
-            act({ type: 'answer', choice: i });
+            act({ type: 'answer', choice: i, answerTimeMs });
           }}
           label={t('Answers', 'जवाब')}
         />
         <p className="h-pass__muted">
-          {t('No timer — take your time. First tap locks.', 'कोई टाइमर नहीं — आराम से। पहला टैप लॉक।')}
+          {t('No deadline — take your time. First tap locks.', 'कोई समय सीमा नहीं — आराम से। पहला टैप लॉक।')}
         </p>
       </section>
     );
@@ -430,13 +443,14 @@ function PassReveal({ game, view, onNext }: { game: PassState; view: View; onNex
           />
           <ul className="h-pass__picks">
             {[0, 1].map((i) => {
-              const a = view.answers[i] as { choice: number; correct: boolean } | null;
+              const a = view.answers[i] as { choice: number; correct: boolean; answerTimeMs?: number } | null;
               return (
                 <li key={i} className="h-pass__pick">
                   <span className="h-pass__pickname">{view.names[i]}</span>
                   {a ? <PickMark choice={a.choice} /> : null}
                   <span className={a?.correct ? 'h-pass__v h-pass__v--pass' : 'h-pass__v h-pass__v--fail'}>
                     {a?.correct ? t('✓ right', '✓ सही') : t('✕ wrong', '✕ ग़लत')}
+                    {typeof a?.answerTimeMs === 'number' ? ` · ${(Math.floor(a.answerTimeMs / 100) / 10).toFixed(1)} s` : ''}
                   </span>
                   <span className="h-stamp-stage">
                     <Stamp

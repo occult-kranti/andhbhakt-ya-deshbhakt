@@ -3,7 +3,7 @@
  *
  * A long-read noting sheet: a TOC dropdown on phones, a sticky TOC beside a 62ch column from 900px.
  * Every number in "The game, in numbers" is read from the engine (lib/progression.mjs XP, the duel
- * formats, the tie window, the rank tiers, the confidence points) — never retyped — so this page
+ * formats, the tie window, the rank tiers, the stopwatch bands) — never retyped — so this page
  * cannot drift from what the game pays (N6). `?s=<section>` scrolls to a section (`?s=report&id=` also
  * pre-fills the report form). The ONE violet action is "Report an error in a question".
  */
@@ -11,12 +11,12 @@ import { useEffect, useMemo, useRef } from 'react';
 import { Flag } from 'lucide-react';
 import { ACHIEVEMENTS, progressionOptions, QUEST_TEMPLATES } from '@/lib/progression.mjs';
 import { DUEL_FORMATS, EDITION } from '../../../edition';
+import { XP_BANDS } from '../../../engine/scoring.mjs';
 import {
   BABU_RANK_LADDER,
   BANK_ITEMS,
   BOT_LINE,
   BOT_NAME,
-  CONFIDENCE_DISPLAY,
   formatNumber,
   LADDER_DISPLAY,
   SOURCE_KIND_TEXT,
@@ -24,6 +24,7 @@ import {
 } from '../../data';
 import { href, navigate, type ScreenProps } from '../../router';
 import { useScreenTitle } from '../../shell/chrome';
+import { PublicationLinks } from '../../ads/ad-slot';
 import { Button } from '../../ui/button';
 import { Chip, SourceChip } from '../../ui/chip';
 import { useLang } from '../../ui/lang';
@@ -44,7 +45,7 @@ const SECTIONS: readonly Section[] = [
   { id: 'balance', en: '5. Balance', hi: '5. संतुलन' },
   { id: 'distractors', en: '6. Wrong options never smear', hi: '6. ग़लत विकल्प किसी को बदनाम नहीं करते' },
   { id: 'game', en: '7. The game, in numbers', hi: '7. खेल, अंकों में' },
-  { id: 'privacy', en: '8. Privacy: no server of ours', hi: '8. निजता: हमारा कोई सर्वर नहीं' },
+  { id: 'privacy', en: '8. Privacy and connections', hi: '8. निजता और कनेक्शन' },
   { id: 'art', en: '9. What we never draw', hi: '9. हम क्या कभी नहीं बनाते' },
   { id: 'corrections', en: '10. Corrections and changes', hi: '10. सुधार और बदलाव' },
   { id: 'report', en: '11. Report an error', hi: '11. ग़लती बताओ' },
@@ -68,7 +69,6 @@ const pct = (n: number, total: number) => {
   const p = Math.round((n / total) * 100);
   return p === 0 ? '<1' : String(p);
 };
-const signed = (n: number) => (n > 0 ? `+${n}` : n < 0 ? `−${Math.abs(n)}` : '0');
 const xpNum = (key: string) => Number(XP_TABLE[key]);
 const xpBy = (key: string, mode: string) => Number((XP_TABLE[key] as Record<string, number>)[mode]);
 /** The Stamp Register's rewards, read from the engine's achievement table (N6: never retyped). */
@@ -318,35 +318,39 @@ export default function RulesScreen({ route }: ScreenProps) {
               </tbody>
             </table>
 
+            <h3 className="h-rules__h3">{t('Stopwatch answer XP', 'स्टॉपवॉच से जवाब का XP')}</h3>
+            <p>The stopwatch starts when the question is shown and stops on your first answer. A correct answer earns:</p>
+            <table className="h-rules__table">
+              <thead><tr><th scope="col">Answer time</th><th scope="col">Answer XP</th></tr></thead>
+              <tbody>
+                {XP_BANDS.map((band) => <tr key={band.xp}><td>{band.label}</td><td className="h-mono">+{band.xp}</td></tr>)}
+                <tr><td>Wrong or unanswered</td><td className="h-mono">0</td></tr>
+              </tbody>
+            </table>
+            <p>
+              Exactly 8 seconds earns {XP_BANDS[1].xp} XP; exactly 15 seconds earns {XP_BANDS[2].xp} XP. These are answer rewards.
+              Separate receipt, file, match, Surprise Audit, streak, quest and Stamp Register bonuses appear in Activity.
+              An old saved answer without a recorded time does not qualify for a speed bonus.
+            </p>
+
             <h3 className="h-rules__h3">{t('Files (Rajya, Sector, Kiska Media?, Forward Court, the money trail)', 'फ़ाइलें')}</h3>
             <ul className="h-rules__ul">
-              <li>Six cards, no timer; the first answer locks. Cards run simple → expert → extreme.</li>
+              <li>Six cards with a stopwatch and no deadline; the first answer locks. Cards run simple → expert → extreme.</li>
+              <li>The first time you answer a card in a file, it can earn stopwatch answer XP. Cards already answered in a file earn no more answer XP, even in another file.</li>
               <li>
-                Before you answer, make a confidence call. It changes your file score, not your XP:{' '}
-                {CONFIDENCE_DISPLAY.map((c, i) => (
-                  <span key={c.id}>
-                    <strong>{c.en}</strong> {signed(c.correct)} right / {signed(c.wrong)} wrong{i < CONFIDENCE_DISPLAY.length - 1 ? ' · ' : ''}
-                  </span>
-                ))}
-                . Six cards score between −18 and 24.
+                Your file score is the number of correct answers out of six, separate from stopwatch XP.
+                A replay can improve your recorded best score without paying answer XP again.
               </li>
               <li>
-                XP per card: {xpNum('expeditionCorrect')} right, {xpNum('expeditionWrong')} wrong — the first time you meet a card. A card you have met before pays{' '}
-                {xpNum('expeditionRepeat')}.
+                Clearing a file for the first time adds {xpNum('expeditionComplete')} completion XP and {xpNum('expeditionStamp')} stamp XP.
+                Repeated file completions add no completion XP.
               </li>
-              <li>
-                Finishing a file: {xpNum('expeditionComplete')} XP + {xpNum('expeditionScorePoint')} per point scored; the first clear adds {xpNum('expeditionStamp')}.
-                A replay pays only for beating your best.
-              </li>
-              <li>Calibration on your profile counts your first answer to each card in a file, by the call you made.</li>
             </ul>
 
             <h3 className="h-rules__h3">{t("Aaj Ka Hisaab and one-card links", 'आज का हिसाब')}</h3>
             <ul className="h-rules__ul">
-              <li>Five questions a day, the same for everyone on the same date, in the same order. No countdown: a new file appears at midnight.</li>
-              <li>
-                XP: {xpNum('discoveryCorrect')} right, {xpNum('discovery')} otherwise, once per card per day.
-              </li>
+              <li>Five questions a day, the same for everyone on the same local date, in the same order. The stopwatch has no deadline; a new file appears at local midnight.</li>
+              <li>Aaj uses the stopwatch answer bands once for each card in that day’s file. One-card links use the same bands; reopening a saved answer does not pay it twice.</li>
             </ul>
 
             <h3 className="h-rules__h3">{t('Duels', 'मुक़ाबले')}</h3>
@@ -362,20 +366,20 @@ export default function RulesScreen({ route }: ScreenProps) {
               </li>
               <li>
                 The verdict: a right answer beats a wrong one. If both are right, the faster wins — unless the two are within {(EDITION.tieMs / 1000).toFixed(2)} s,
-                which is a tie. Time runs from the moment the question is on your screen. Options are never reshuffled mid-round.
+                which is a tie. Each device measures from when its question is shown; the stopwatch is not a precision comparison between devices. Options are never reshuffled mid-round.
               </li>
               <li>
                 <strong>{BOT_NAME}</strong>: {BOT_LINE} It picks one of the four options at random and answers at a random moment between 1 s and half a second
                 before the clock ends. It is always labelled BOT, and there is no hidden difficulty setting.
               </li>
               <li>
-                XP per round: {xpNum('roundCorrectBot')} for a right answer against Babu-Bot, {xpNum('roundCorrectHuman')} against a person, {xpNum('roundWrong')} for a
-                miss; +{xpNum('speedFast')} if right in under 2 s, +{xpNum('speedQuick')} under 4 s; × 1 / 1.3 / 1.6 for simple / expert / extreme; × 1.25, 1.5, 1.75,
-                2 for 2, 3, 4, 5 right in a row.
+                A correct round earns the stopwatch answer XP above against either Babu-Bot or a friend; a wrong answer earns 0 answer XP.
+                The duel closes each question after its deadline. File and daily questions have no deadline.
               </li>
               <li>
-                <strong>Surprise Audit</strong>: some rounds pay double (about 1 in 6) or triple (about 1 in 36). Round 1's audit, if any, shows on its own receipt;
-                every later round's audit is announced on the receipt before it. Never on the question.
+                <strong>Surprise Audit</strong> is a separate bonus on selected duel rounds: a ×2 audit adds one extra answer reward;
+                a ×3 audit adds two. It never changes your base stopwatch band, and a wrong answer earns no audit bonus.
+                The audit appears on the result receipt; from round 2 onward it is announced on the preceding receipt too.
               </li>
               <li>
                 XP per match: a win pays {xpBy('matchWin', 'quick')} / {xpBy('matchWin', 'trilogy')} / {xpBy('matchWin', 'gauntlet')} (Quick Draw / Triple Threat /
@@ -401,10 +405,13 @@ export default function RulesScreen({ route }: ScreenProps) {
               <li>A rematch or the next duel is always your tap. Nothing starts on its own.</li>
             </ul>
 
+            <h3 className="h-rules__h3">{t('Pass & Play', 'पास एंड प्ले')}</h3>
+            <p>Two players share one phone, handing it over between turns. There is no timer. A right answer beats a wrong one; both right is a shared round with no point. Pass & Play keeps its own match score and does not write XP to either player’s profile.</p>
+
             <h3 className="h-rules__h3">{t('Receipts and the Stamp Register', 'रसीदें और स्टैम्प रजिस्टर')}</h3>
             <ul className="h-rules__ul">
               <li>
-                A new receipt — a question you meet for the first time, in any mode — pays {xpNum('fact')} XP. The first time you answer it without a clock (Aaj, a
+                A new receipt — a question you collect for the first time outside Pass & Play — pays {xpNum('fact')} XP. The first time you answer it outside a duel (Aaj, a
                 file, a one-card link or Dobara Jaanch) pays {xpNum('recall')} more.
               </li>
               <li>
@@ -436,10 +443,12 @@ export default function RulesScreen({ route }: ScreenProps) {
           <Sec s={S('privacy')}>
             <ul className="h-rules__ul">
               <li>
-                <strong>No account, no server of ours.</strong> Your progress, name and settings are stored in this browser on this device only. Export them, or delete them,
-                in Settings.
+                <strong>No gameplay account required.</strong> Your progress, name and settings stay in this browser on this device.
+                Export or delete your progress in Settings. Clearing browser storage removes local data.
               </li>
-              <li>The game makes no requests to anyone while you play solo. The fonts are part of the site. Following a source link, opening WhatsApp or GitHub are your taps.</li>
+              <li>The browser requests the site and its assets from the hosting provider; the fonts are included in those assets. Solo gameplay does not upload your answers or progress to a gameplay server. Opening sources, WhatsApp or GitHub connects to those services when you choose.</li>
+              <li>Advertising is off in the default release. If enabled later, labeled ads are limited to the home and receipt archive footers after an eligible consent choice. They do not appear in questions, live rounds, circles or result receipts, and never award XP. The Privacy page explains ad data and controls.</li>
+              <li><strong>Circles</strong> save your per-circle nickname and people met on this device; choosing Connect shares that nickname and your self-reported device XP with online peers through the same peer-to-peer connections. Anyone holding the invite can join. There is no central member list or verified leaderboard; leaving removes your browser’s copy, not the invite.</li>
               <li>
                 <strong>Duel a Friend</strong> is peer-to-peer. The two browsers find each other through public Nostr relays, which carry only the connection setup,
                 protected by the room code; after that the browsers talk directly. Your name (or “Anonymous Janta”) and your answers and times go to the other
@@ -447,7 +456,7 @@ export default function RulesScreen({ route }: ScreenProps) {
               </li>
               <li>
                 To connect directly, your browser asks public STUN servers (Google’s and Cloudflare’s) for its internet address, and the other player’s browser
-                learns that address — as with any video call. The relays see your address and a scrambled room id. Nothing reaches us.
+                learns that address — as with any video call. The relays see your address and a scrambled room id. There is no central gameplay account service.
               </li>
               <li>
                 Friend duels are casual and trust-based: each browser reports its own answer time, and a modified browser could lie. There are no stakes and no
@@ -456,6 +465,7 @@ export default function RulesScreen({ route }: ScreenProps) {
               <li>Share cards are drawn on your phone and handed to your own share sheet; nothing is uploaded.</li>
               <li>We never send notifications: no push, no e-mail, no badges.</li>
             </ul>
+            <PublicationLinks />
           </Sec>
 
           <Sec s={S('art')}>

@@ -2,7 +2,7 @@
  * screens/me/profile.tsx — Profile "Me" (design bible §11.14, notification rules §9).
  *
  * Phone: the ladder is the hero (current rung expanded with the band meter, the certificate thumbnail,
- * the name field and the ONE violet action, Share certificate) → stats → calibration → Stamp Register
+ * the name field and the ONE violet action, Share certificate) → stats → duel performance → Stamp Register
  * → Activity. Desktop (≥ 900px): ladder (5 cols) | certificate preview (7 cols), the rest below.
  * Quiet: this screen raises nothing; every number updates in place.
  */
@@ -23,7 +23,7 @@ import { useLang } from '../../ui/lang';
 import { Link } from '../../router';
 import { countReceipts } from '../receipts/lib';
 import { Ladder } from './ladder';
-import { babuRankView, calibration, filesCleared, promotionDates, shortDate, stampRegister, useMediaQuery, usePlayerName, type ProgressionLike, type RegisterEntry } from './lib';
+import { babuRankView, duelPerformance, filesCleared, promotionDates, shortDate, stampRegister, useMediaQuery, usePlayerName, type ProgressionLike, type RegisterEntry } from './lib';
 import { CertThumb } from './cert-thumb';
 import { NameField } from './name-field';
 import './me.css';
@@ -84,7 +84,7 @@ export function Profile() {
   const sectors = filesCleared(player.profile?.journeys, ['sector']);
   const others = filesCleared(player.profile?.journeys, ['media', 'forward', 'distribution', 'relief', 'pre-election', 'year']);
   const rank = babuRankView(prog);
-  const calib = calibration(prog);
+  const performance = duelPerformance(prog);
   const register = stampRegister(prog);
   const earnedEntries = register.entries.filter((e) => e.at !== null);
   const waiting = register.entries.filter((e) => e.at === null);
@@ -282,52 +282,31 @@ export function Profile() {
         </div>
       </section>
 
-      <section className="h-me__section" aria-labelledby="h-me-calib">
-        <h2 className="h-me__h2" id="h-me-calib">
-          <Target size={20} strokeWidth={2.4} aria-hidden="true" /> {t('Calibration', 'अंदाज़े की जाँच')}
+      <section className="h-me__section" aria-labelledby="h-me-performance">
+        <h2 className="h-me__h2" id="h-me-performance">
+          <Target size={20} strokeWidth={2.4} aria-hidden="true" /> {t('Your duel record', 'आपके मुक़ाबलों का रिकॉर्ड')}
         </h2>
         <p className="h-me__lead">
-          {t(
-            'Your confidence calls on first answers in files. Pakka should land more often than Shayad — if it does, you are calibrated.',
-            'फ़ाइलों में पहले जवाब पर आपके भरोसे के दाँव। पक्का, शायद से ज़्यादा बार सही होना चाहिए।',
-          )}
+          {t('Recorded duel rounds on this device. Daily and file answers are not included.', 'इसी फ़ोन पर दर्ज मुक़ाबले। आज के सवाल और फ़ाइलों के जवाब इनमें शामिल नहीं हैं।')}
         </p>
-        {calib.calls ? (
-          <>
-            <ul className="h-calib">
-              {[...calib.rows].reverse().map((r) => (
-                <li key={r.id} className="h-calib__row">
-                  <span className="h-calib__name">
-                    {r.en} <span className="h-mono h-calib__pts">{r.points}</span>
-                  </span>
-                  <span className="h-calib__val">
-                    {r.n ? (
-                      <>
-                        <span className="h-mono">
-                          {r.correct} {t('of', 'में से')} {r.n}
-                        </span>{' '}
-                        {t('landed', 'सही')}
-                      </>
-                    ) : (
-                      t('No calls yet', 'अभी कोई नहीं')
-                    )}
-                  </span>
-                  <Meter value={r.correct} max={Math.max(1, r.n)} label={`${r.en}: ${r.correct} of ${r.n} landed`} as="span" className="h-calib__meter" />
-                </li>
-              ))}
-            </ul>
-            <p className="h-me__fine">
-              {t('Net', 'कुल')}:{' '}
-              <span className="h-mono">
-                {calib.points > 0 ? '+' : calib.points < 0 ? '−' : ''}
-                {Math.abs(calib.points)}
-              </span>{' '}
-              {t(`points across ${calib.calls} first answers.`, `अंक, ${calib.calls} पहले जवाबों में।`)}
-            </p>
-          </>
+        {performance.rounds ? (
+          <div className="h-me__stats">
+            <Stat
+              icon={<Target size={18} strokeWidth={2.4} />}
+              k={t('Accuracy', 'सही जवाब')}
+              v={<span className="h-mono">{performance.accuracy}%</span>}
+              sub={t(`${formatNumber(performance.correct)} correct in ${formatNumber(performance.rounds)} rounds`, `${formatNumber(performance.rounds)} राउंड में ${formatNumber(performance.correct)} सही`)}
+            />
+            <Stat
+              icon={<Target size={18} strokeWidth={2.4} />}
+              k={t('Fastest correct answer', 'सबसे तेज़ सही जवाब')}
+              v={performance.fastestCorrectMs === null ? '—' : <span className="h-mono">{(performance.fastestCorrectMs / 1000).toFixed(2)} s</span>}
+              sub={performance.fastestCorrectMs === null ? t('No recorded correct-answer time yet', 'अभी सही जवाब का समय दर्ज नहीं हुआ') : t('Your recorded best', 'आपका दर्ज सबसे अच्छा समय')}
+            />
+          </div>
         ) : (
           <p className="h-me__empty">
-            {t('No calls yet. Pick Shayad, Lagta hai or Pakka on any file card.', 'अभी कोई दाँव नहीं। किसी भी फ़ाइल कार्ड पर शायद, लगता है या पक्का चुनो।')}
+            {t('Play a duel to start your accuracy and pace record.', 'सही जवाब और रफ़्तार का रिकॉर्ड शुरू करने के लिए एक मुक़ाबला खेलो।')}
           </p>
         )}
       </section>

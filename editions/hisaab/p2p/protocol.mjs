@@ -36,7 +36,7 @@ import { MemoryRoomStore } from '../../../lib/duel-memory-store.mjs';
 import { chooseDeck, normalizeConfig, MODE_DURATION } from '../../../lib/server/room-engine.mjs';
 import { QUESTIONS } from '../server/bank.mjs';
 
-export const P2P_PROTOCOL = 'hisaab-duel/1';
+export const P2P_PROTOCOL = 'hisaab-duel/2';
 
 export const P2P_TRUST = Object.freeze({
   label: 'Casual · trust-based',

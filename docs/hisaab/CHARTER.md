@@ -6,6 +6,32 @@
 Owner of this document: the team lead. Every agent working on the edition reads it first. When this
 file and any other instruction disagree, this file wins; flag the conflict in your report.
 
+## Current product amendment — 27 September 2026
+
+The owner requested this edition update on `claude/loving-pasteur-s8xwtf`; **do not merge it into
+`main`**. The following changes supersede the older confidence and visual specifications below
+and in the original design working card:
+
+- Replace the Shayad / Lagta hai / Pakka choice with a stopwatch. Correct answers earn base answer
+  XP of 30 below 8,000 ms; 20 from 8,000 through 14,999… ms; 10 at 15,000 ms and above. Wrong
+  answers earn zero base answer XP. Existing separately named progression rewards remain explicit.
+- Keep every game mode and the sourced receipt, ladder, Vault, money ledger, bilingual UI, theme,
+  settings, sharing, and reduced-motion support. Daily/files have no answer deadline. Duels use a
+  30-second answer window; Pass & Play remains casual and does not award either person's profile.
+- Add friends/family circles with private invite links and a personal nickname for each circle.
+  Stored membership is on the device; connected peers are live, self-reported, and casual. Do not
+  imply a central account, verified leaderboard, offline message service, or guaranteed NAT traversal.
+- Develop the existing file-and-receipt identity with original newspaper/magazine elements: cream
+  paper, ink, restrained violet, editorial headings, rules, and clear columns. This authorizes serif
+  Latin editorial headings and sharper page geometry; preserve readable Hindi and quiet questions.
+- Prepare optional labeled AdSense placements below non-playing content. Ads are off by default,
+  never inside a question or ahead of its receipt, and cannot activate without real publisher
+  configuration and required approval/consent. Domain setup and ad activation are separate tasks.
+
+The evidence, privacy, bot-labeling, storage-isolation, and no-secrets requirements still apply.
+The question bank is preserved in this product update; its historical audits are not a fresh
+fact-check of every source.
+
 ## 1. What we are building
 
 A second edition of the Jaanta Hai Kya (JHK) quiz-duel engine, about the last 5–12 years of Indian

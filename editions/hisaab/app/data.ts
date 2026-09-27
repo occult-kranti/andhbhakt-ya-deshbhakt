@@ -7,7 +7,6 @@
  * the BOT label, the certificate name rule) lives here once, so no screen re-implements it.
  * Loads in node too (tests/hisaab-ui-foundation.test.mjs): no JSX, no DOM.
  */
-import { CONFIDENCE, CONFIDENCE_ORDER } from '@/lib/expeditions.mjs';
 import { RANK_TIERS, XP } from '@/lib/progression.mjs';
 import { BANK } from '../bank/index.mjs';
 import { GOVTS, SECTORS, STATES } from '../bank/schema.mjs';
@@ -518,30 +517,6 @@ export const babuRank = (tier: string | null | undefined) => BABU_RANKS[tier ?? 
 /** The engine's tiers with the edition's names, low to high. */
 export const BABU_RANK_LADDER = Object.freeze(
   (RANK_TIERS as ReadonlyArray<{ id: string; min: number }>).map((t) => Object.freeze({ id: t.id, min: t.min, label: babuRank(t.id) })),
-);
-
-// ---- confidence calls (bible §2.1) --------------------------------------------------------------
-
-export type ConfidenceId = 'steady' | 'bold' | 'called';
-export type ConfidenceDisplay = Readonly<{ id: ConfidenceId; en: string; hi: string; correct: number; wrong: number; points: string }>;
-const SIGNED = (n: number) => (n > 0 ? `+${n}` : n < 0 ? `−${Math.abs(n)}` : '0');
-const CONFIDENCE_NAMES: Record<ConfidenceId, { en: string; hi: string }> = {
-  steady: { en: 'Shayad', hi: 'शायद' },
-  bold: { en: 'Lagta hai', hi: 'लगता है' },
-  called: { en: 'Pakka', hi: 'पक्का' },
-};
-/** Shayad / Lagta hai / Pakka with the engine's own points (lib/expeditions.mjs CONFIDENCE). */
-export const CONFIDENCE_DISPLAY: readonly ConfidenceDisplay[] = Object.freeze(
-  (CONFIDENCE_ORDER as readonly ConfidenceId[]).map((id) => {
-    const tier = (CONFIDENCE as Record<ConfidenceId, { correct: number; wrong: number }>)[id];
-    return Object.freeze({
-      id,
-      ...CONFIDENCE_NAMES[id],
-      correct: tier.correct,
-      wrong: tier.wrong,
-      points: `${SIGNED(tier.correct)}/${SIGNED(tier.wrong)}`,
-    });
-  }),
 );
 
 // ---- the money trail (charter §3a, §4b) -------------------------------------------------------

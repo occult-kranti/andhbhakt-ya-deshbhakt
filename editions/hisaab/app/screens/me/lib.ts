@@ -1,14 +1,14 @@
 /**
  * screens/me/lib.ts — read-only helpers for the Profile, the certificate and (shared inside the Me
  * lane) the Receipts Vault and Settings: the player's own name, promotion dates, the Stamp Register,
- * calibration, file tallies and a media-query hook. No JSX; nothing here writes the profile.
+ * duel performance, file tallies and a media-query hook. No JSX; nothing here writes the profile.
  */
 import { useSyncExternalStore } from 'react';
 import { STORAGE } from '@/lib/storage-names.mjs';
 import { ACHIEVEMENTS, levelForXp, rankForPoints, XP } from '@/lib/progression.mjs';
 import { expeditionStatus } from '@/lib/expeditions.mjs';
 import { ROUTES, UNREACHABLE_ACHIEVEMENTS, type Route } from '../../../edition';
-import { ACHIEVEMENT_WORDS, babuRank, CONFIDENCE_DISPLAY, LADDER_DISPLAY, type ConfidenceId } from '../../data';
+import { ACHIEVEMENT_WORDS, babuRank, LADDER_DISPLAY } from '../../data';
 
 // ---- the player's name (optional; never pre-filled with anything but their own) ---------------------
 
@@ -75,7 +75,6 @@ export type ProgressionLike = {
   achievements: Record<string, number>;
   rank: { points: number; tier: string; best: string; floor: number };
   counters: { matches: number; wins: number; stamps: number; facts: number; bestCombo: number; byMode: Record<string, { played: number; wins: number }> } & Record<string, unknown>;
-  conviction?: { steady: { n: number; correct: number }; bold: { n: number; correct: number }; called: { n: number; correct: number } };
   log: LogEntry[];
 };
 
@@ -173,23 +172,16 @@ export function stampRegister(prog: ProgressionLike | null | undefined): { entri
   return { entries, hiddenLeft };
 }
 
-// ---- calibration (Shayad / Lagta hai / Pakka, first answers in files) -----------------------------------
+// ---- recorded duel performance ----------------------------------------------------------------------
 
-export type CalibrationRow = Readonly<{ id: ConfidenceId; en: string; hi: string; points: string; n: number; correct: number }>;
-
-/** Per confidence call: how many first-time file answers were made at it, and how many landed. */
-export function calibration(prog: ProgressionLike | null | undefined): { rows: CalibrationRow[]; calls: number; points: number } {
-  const c = prog?.conviction;
-  const rows = CONFIDENCE_DISPLAY.map((d) => {
-    const tally = c?.[d.id] ?? { n: 0, correct: 0 };
-    return Object.freeze({ id: d.id, en: d.en, hi: d.hi, points: d.points, n: tally.n, correct: tally.correct });
-  });
-  const calls = rows.reduce((n, r) => n + r.n, 0);
-  const points = CONFIDENCE_DISPLAY.reduce((sum, d) => {
-    const r = rows.find((x) => x.id === d.id)!;
-    return sum + d.correct * r.correct + d.wrong * (r.n - r.correct);
-  }, 0);
-  return { rows, calls, points };
+/** Settled duel counters only. Untimed files, daily cards and missing legacy times are not inferred. */
+export function duelPerformance(prog: ProgressionLike | null | undefined) {
+  const count = (value: unknown) => typeof value === 'number' && Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
+  const rounds = count(prog?.counters?.rounds);
+  const correct = Math.min(rounds, count(prog?.counters?.correct));
+  const time = prog?.counters?.fastestCorrectMs;
+  const fastestCorrectMs = correct > 0 && typeof time === 'number' && Number.isFinite(time) && time >= 0 ? time : null;
+  return { rounds, correct, accuracy: rounds ? Math.round(correct / rounds * 100) : null, fastestCorrectMs };
 }
 
 // ---- files cleared ------------------------------------------------------------------------------------

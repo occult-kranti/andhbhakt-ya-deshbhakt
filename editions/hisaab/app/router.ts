@@ -26,6 +26,7 @@ export type ScreenName =
   | 'aaj'
   | 'taster'
   | 'duel'
+  | 'circles'
   | 'pass'
   | 'room'
   | 'receipts'
@@ -36,7 +37,7 @@ export type ScreenName =
   | 'not-found';
 
 /** Which bottom-bar / rail item is current for a screen. */
-export type NavTab = 'home' | 'files' | 'duel' | 'receipts' | 'me' | null;
+export type NavTab = 'home' | 'files' | 'duel' | 'circles' | 'receipts' | 'me' | null;
 
 /**
  * How much shell chrome a screen gets by default (a screen can change it at run time with
@@ -95,6 +96,8 @@ const RULES: readonly Rule[] = [
   { pattern: /^\/aaj$/, name: 'aaj', tab: 'home' },
   { pattern: new RegExp(`^/q/${ID}$`), name: 'taster', keys: ['id'], tab: 'home' },
   { pattern: /^\/duel$/, name: 'duel', view: 'setup', tab: 'duel' },
+  { pattern: /^\/circles$/, name: 'circles', tab: 'circles' },
+  { pattern: /^\/circles\/([a-f0-9]{32})$/, name: 'circles', keys: ['id'], tab: 'circles' },
   { pattern: /^\/duel\/friend$/, name: 'duel', view: 'friend', tab: 'duel' },
   { pattern: /^\/duel\/pass$/, name: 'pass', tab: 'duel', chrome: 'none' },
   { pattern: /^\/room$/, name: 'room', tab: 'duel', chrome: 'none' },
@@ -195,6 +198,7 @@ export const href = Object.freeze({
   aaj: () => '#/aaj',
   taster: (id: string) => `#/q/${encodeURIComponent(id)}`,
   duel: (query?: Record<string, string>) => `#/duel${queryString(query)}`,
+  circles: (id?: string) => `#/circles${id ? `/${encodeURIComponent(id)}` : ''}`,
   /** The P2P lobby; with a code it opens the join form pre-filled. */
   friend: (code?: string) => `#/duel/friend${queryString({ code })}`,
   pass: () => '#/duel/pass',

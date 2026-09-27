@@ -400,41 +400,6 @@
   margin-top: var(--h-s-2);
 }
 
-/* ---- calibration ---------------------------------------------------------------------------- */
-.h-calib {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: var(--h-s-2);
-  max-width: 640px;
-}
-.h-calib__row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--h-s-1) var(--h-s-3);
-  align-items: center;
-  padding: var(--h-s-2) var(--h-s-3);
-  border: var(--h-bw) solid var(--h-line);
-  border-radius: var(--h-r-m);
-  background: var(--h-paper);
-}
-.h-calib__name {
-  font-weight: var(--h-wght-ui-strong);
-}
-.h-calib__pts {
-  margin-left: var(--h-s-1);
-  font-size: var(--h-fs-xs);
-  color: var(--h-ink-2);
-}
-.h-calib__val {
-  font-size: var(--h-fs-xs);
-  text-align: right;
-}
-.h-calib__meter {
-  grid-column: 1 / -1;
-}
-
 /* ---- Stamp Register + Activity -------------------------------------------------------------- */
 .h-me__pair {
   display: grid;

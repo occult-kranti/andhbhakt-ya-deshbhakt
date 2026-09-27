@@ -3,7 +3,7 @@
  * 88px at ≥ 900px. Five items: Home, Files, Duel, Receipts, Me. Current = syahi text + a 3px bar.
  * Hidden in live rooms, pass-and-play and while a ceremony is open.
  */
-import { CircleUser, FolderOpen, House, ReceiptText, Scale } from 'lucide-react';
+import { CircleUser, FolderOpen, House, ReceiptText, Scale, Users } from 'lucide-react';
 import type { NavTab } from '../router';
 import { href } from '../router';
 import { useLang } from '../ui/lang';
@@ -12,6 +12,7 @@ const ITEMS = [
   { id: 'home', en: 'Home', hi: 'होम', to: href.home(), Icon: House },
   { id: 'files', en: 'Files', hi: 'फ़ाइलें', to: href.files(), Icon: FolderOpen },
   { id: 'duel', en: 'Duel', hi: 'मुक़ाबला', to: href.duel(), Icon: Scale },
+  { id: 'circles', en: 'Circles', hi: 'सर्कल', to: '#/circles', Icon: Users },
   { id: 'receipts', en: 'Receipts', hi: 'रसीदें', to: href.receipts(), Icon: ReceiptText },
   { id: 'me', en: 'Me', hi: 'मैं', to: href.me(), Icon: CircleUser },
 ] as const;

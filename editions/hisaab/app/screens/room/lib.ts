@@ -237,6 +237,7 @@ const mult = (n: number) => `×${Number.isInteger(n) ? n : n.toFixed(2).replace(
 /** A round's XP words from the engine's own table: "base 20 · fast +15 · expert ×1.3 · combo ×1.25 · Surprise Audit ×2". */
 function roundParts(e: LogEntry, correct: boolean, bot: boolean): string[] {
   const m = e.meta ?? {};
+  if (m.scoring === 'stopwatch-v1') return [`answer ${e.xp} XP`, ...(typeof m.elapsedMs === 'number' ? [`${(m.elapsedMs / 1000).toFixed(1)} s`] : [])];
   const parts = [`base ${correct ? (bot ? XP.roundCorrectBot : XP.roundCorrectHuman) : XP.roundWrong}`];
   const ms = typeof m.elapsedMs === 'number' ? m.elapsedMs : null;
   if (correct && ms !== null) {
@@ -274,9 +275,10 @@ export function xpForRound(
   const rounds = sameWrite.filter((x) => x.kind === 'round');
   const facts = rounds.length === 1 ? sameWrite.filter((x) => x.kind === 'fact' && x.xp > 0) : [];
   const factXp = facts.reduce((s, x) => s + x.xp, 0);
+  const audit = sameWrite.filter(x => x.meta?.bonus === 'surprise-audit' && x.meta?.matchId === matchId && x.meta?.index === index).reduce((sum, x) => sum + x.xp, 0);
   return {
-    xp: e.xp + factXp,
-    parts: [...roundParts(e, correct, bot), ...(factXp ? [`new receipt +${formatNumber(factXp)}`] : [])],
+    xp: e.xp + factXp + audit,
+    parts: [...roundParts(e, correct, bot), ...(audit ? [`Surprise Audit bonus +${audit} XP`] : []), ...(factXp ? [`new receipt +${formatNumber(factXp)}`] : [])],
   };
 }
 

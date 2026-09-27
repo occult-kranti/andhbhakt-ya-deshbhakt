@@ -12,7 +12,7 @@
  * Never "come back" or streak-risk copy. A fresh profile is sent to the first-run poster once a session.
  */
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
-import { CalendarDays, Check, ChevronRight, Flame, FolderOpen, Scale, Share2, WifiOff, X } from 'lucide-react';
+import { ArrowUpRight, CalendarDays, Check, ChevronRight, Flame, FolderOpen, Scale, Share2, Users, WifiOff, X } from 'lucide-react';
 import { dayKey } from '@/lib/journal.mjs';
 import { dailyQuests } from '@/lib/progression.mjs';
 import { ROUTES, standing, todaysFive } from '../../../edition';
@@ -28,8 +28,9 @@ import { cx } from '../../ui/cx';
 import { FileCard } from '../../ui/file-card';
 import { useLang } from '../../ui/lang';
 import { Meter } from '../../ui/meter';
+import { Masthead } from '../../ui/masthead';
+import { AdSlot, PublicationLinks } from '../../ads/ad-slot';
 import { InlineNote, Page } from '../../ui/page';
-import { Poster } from '../../ui/poster';
 import { Skeleton } from '../../ui/skeleton';
 import { isFreshProfile, startShown } from '../start/first-run';
 import { LabelCard } from '../start/label-card';
@@ -188,6 +189,7 @@ export default function HomeScreen(_props: ScreenProps) {
   return (
     <Page screen="home" className={cx('h-home', !resume && 'h-home--noresume')}>
       <h1 className="h-sr">{t('Home — Hisaab Do', 'होम — हिसाब दो')}</h1>
+      <Masthead day={today} />
       {!online || player.storageError ? (
         <div className="h-home__notes">
           {!online ? (
@@ -203,15 +205,15 @@ export default function HomeScreen(_props: ScreenProps) {
         </div>
       ) : null}
       <div className="h-home__root" onPointerDown={onPointerDown}>
+        <section className="h-home__today" aria-label={t("Today's file", 'आज की फ़ाइल')}>
+          <p className="h-home__sectionline"><span>{t('01 / THE DAILY FILE', '01 / आज की फ़ाइल')}</span><span>{t('5 QUESTIONS', '5 सवाल')}</span></p>
+          <h2 className="h-home__headline">{t('Read between the headlines.', 'सुर्खियों के पीछे का हिसाब।')}</h2>
+          <p className="h-home__standfirst">{t('Public money. Big claims. Five questions with the sources to back them up.', 'जनता का पैसा। बड़े दावे। पाँच सवाल — हर जवाब के साथ उसका स्रोत।')}</p>
+          <TodayCard day={daily.day} status={status} primary={primary === 'today'} band={s.band} />
+        </section>
+
         <section className="h-home__who" aria-labelledby="h-home-label">
-          <Poster
-            className="h-home__poster"
-            as="p"
-            size="l"
-            hi="जनता का पैसा।"
-            en="Janta ka sawaal."
-            swipe="sawaal"
-          />
+          <p className="h-home__sectionline"><span>{t('YOUR READER’S DESK', 'आपकी डेस्क')}</span></p>
           <LabelCard
             xp={xp}
             intro={s.band === 0 && s.level <= 1}
@@ -220,8 +222,14 @@ export default function HomeScreen(_props: ScreenProps) {
           />
         </section>
 
-        <section className="h-home__today" aria-label={t("Today's file", 'आज की फ़ाइल')}>
-          <TodayCard day={daily.day} status={status} primary={primary === 'today'} band={s.band} />
+        <section className="h-home__circles" aria-labelledby="h-home-circles">
+          <div className="h-home__circlemark" aria-hidden="true"><Users size={30} strokeWidth={1.5} /></div>
+          <div className="h-home__circlecopy">
+            <p className="h-kicker">{t('FRIENDS & FAMILY', 'दोस्त और परिवार')}</p>
+            <h2 id="h-home-circles">{t('Same circle. Different opinions.', 'अपना सर्कल। सबकी अपनी राय।')}</h2>
+            <p>{t('Make a circle, choose your nickname and bring the debate home.', 'अपना सर्कल बनाओ, अपना निकनेम चुनो और दोस्तों या परिवार को बुलाओ।')}</p>
+          </div>
+          <Button variant="paper" href="#/circles" icon={<ArrowUpRight size={18} />}>{t('Your circles', 'आपके सर्कल')}</Button>
         </section>
 
         {resume ? (
@@ -246,6 +254,8 @@ export default function HomeScreen(_props: ScreenProps) {
           <DuelStrip primary={primary === 'duel'} tier={player.progression?.rank?.tier} />
         </section>
       </div>
+      <AdSlot placement="home-footer" screen="home" />
+      <PublicationLinks />
     </Page>
   );
 }
@@ -370,7 +380,7 @@ function TodayCard({
           )}
         />
       ) : (
-        <span className="h-home__ready">{t('Aaj ka hisaab ready hai.', 'आज का हिसाब तैयार है।')}</span>
+        <span className="h-home__ready">{t('Correct answers: under 8s · 30 XP / under 15s · 20 XP / 15s+ · 10 XP', 'सही जवाब: 8 सेकंड से कम · 30 XP / 15 से कम · 20 XP / 15 या ज़्यादा · 10 XP')}</span>
       )}
       <span className="h-home__actions">
         {status.done ? (

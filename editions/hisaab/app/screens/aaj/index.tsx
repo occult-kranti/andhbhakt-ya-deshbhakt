@@ -16,7 +16,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { CalendarDays, Check, Flame, Share2, X } from 'lucide-react';
 import { dailyRoundId, standing, todaysFive, type Card } from '../../../edition';
 import { useHoldToasts } from '../../budget';
-import { bandProgress, formatNumber, goalCopy, itemForCard, labelDisplay, labelLine, type ConfidenceId } from '../../data';
+import { answerXp } from '../../../engine/scoring.mjs';
+import { bandProgress, formatNumber, goalCopy, itemForCard, labelDisplay, labelLine } from '../../data';
 import { goBack, href, type ScreenProps } from '../../router';
 import { shareDailyGrid } from '../../share';
 import { useChrome, useScreenTitle } from '../../shell/chrome';
@@ -31,7 +32,6 @@ import { Meter } from '../../ui/meter';
 import { Kicker } from '../../ui/text';
 import { CardResult, PlayBar, PlayHeader, QuestionCard, revealResult, useLockCues, useNextKey, type SegmentState } from '../route/card';
 import {
-  callPoints,
   cardKicker,
   choiceOf,
   newFileLine,
@@ -49,8 +49,8 @@ import { ReceiptStrip } from '../route/receipt-strip';
 import { LabelCard } from '../start/label-card';
 import './aaj.css';
 
-type DailyAnswer = { choice: number | null; correct: boolean; confidence: ConfidenceId | null };
-type Pending = { index: number; choice: number; confidence: ConfidenceId };
+type DailyAnswer = { choice: number | null; correct: boolean; elapsedMs: number | null };
+type Pending = { index: number; choice: number; elapsedMs: number };
 
 const STEM_ID = 'h-aaj-stem';
 
@@ -70,13 +70,12 @@ export default function AajScreen(_: ScreenProps) {
   const rounds = useMemo(() => roundsById(journal), [journal]);
   const answers: (DailyAnswer | null)[] = cards.map((c, i) => {
     const r = rounds.get(dailyRoundId(day, i));
-    return r ? { choice: choiceOf(r, c.options), correct: r.correct === true, confidence: r.confidence ?? null } : null;
+    return r ? { choice: choiceOf(r, c.options), correct: r.correct === true, elapsedMs: r.elapsedMs ?? null } : null;
   });
   const firstOpen = answers.findIndex((a) => !a);
 
   const [index, setIndex] = useState<number | 'done' | null>(null);
   const [pending, setPending] = useState<Pending | null>(null);
-  const [confidence, setConfidence] = useState<ConfidenceId>('steady');
   const [fresh, setFresh] = useState<ReadonlySet<number>>(() => new Set());
   const [busy, setBusy] = useState(false);
   const [revealAt, setRevealAt] = useState<number | null>(null);
@@ -107,22 +106,23 @@ export default function AajScreen(_: ScreenProps) {
   const stored = typeof index === 'number' ? answers[index] : null;
   const pend = pending && pending.index === index ? pending : null;
   const answer = stored
-    ? { choice: stored.choice ?? pend?.choice ?? null, confidence: stored.confidence }
+    ? { choice: stored.choice ?? pend?.choice ?? null, elapsedMs: stored.elapsedMs }
     : pend
-      ? { choice: pend.choice, confidence: pend.confidence as ConfidenceId | null }
+      ? { choice: pend.choice, elapsedMs: pend.elapsedMs }
       : null;
 
-  const choose = async (choice: number) => {
+  const choose = async (choice: number, elapsedMs: number) => {
     if (!card || answer || busy || typeof index !== 'number') return;
-    const call = confidence;
-    setPending({ index, choice, confidence: call });
+    setPending({ index, choice, elapsedMs });
     if (before === 0 && firstAt === null) setFirstAt(index);
     setFresh((s) => new Set(s).add(index));
     setRevealAt(index);
     cues(choice === card.correctIndex);
     setBusy(true);
     try {
-      await player.dispatch({ type: 'practice', fact: card, choice, confidence: call, roundId: dailyRoundId(day, index) });
+      await player.dispatch({ type: 'practice', fact: card, choice, elapsedMs, roundId: dailyRoundId(day, index) });
+    } catch {
+      setPending(null);
     } finally {
       setBusy(false);
     }
@@ -144,7 +144,6 @@ export default function AajScreen(_: ScreenProps) {
         break;
       }
     if (n === -1) n = answers.findIndex((a, k) => !a && k !== index);
-    setConfidence('steady');
     setRevealAt(null);
     setIndex(n === -1 ? 'done' : n);
     window.scrollTo({ top: 0 });
@@ -198,9 +197,8 @@ export default function AajScreen(_: ScreenProps) {
             kicker={cardKicker(card, item, isHi)}
             chosen={answer ? answer.choice : null}
             revealed={!!answer}
-            onChoose={(c) => void choose(c)}
-            confidence={answer?.confidence ?? confidence}
-            onConfidence={setConfidence}
+            onChoose={(c, ms) => void choose(c, ms)}
+            elapsedMs={answer?.elapsedMs}
             busy={busy && !answer}
             stemId={STEM_ID}
           />
@@ -214,7 +212,7 @@ export default function AajScreen(_: ScreenProps) {
                 card={card}
                 item={item}
                 choice={answer.choice}
-                confidence={answer.confidence}
+                elapsedMs={answer.elapsedMs}
                 fresh={fresh.has(i)}
                 receiptNo={stored ? receiptOrdinal(journal, card.factId) : null}
                 xp={stored ? xpForRound(rounds, profile?.progression?.log, dailyRoundId(day, i)) : null}
@@ -261,9 +259,7 @@ function AajFinish({
   const results = answers.map((a) => a?.correct === true);
   const right = results.filter(Boolean).length;
   const size = cards.length;
-  const pts = answers.every((a) => a?.confidence)
-    ? answers.reduce((s, a) => s + (callPoints(a?.confidence, a?.correct === true) ?? 0), 0)
-    : null;
+  const pts = answers.every(a => typeof a?.elapsedMs === 'number') ? answers.reduce((s, a) => s + answerXp(a?.correct === true, a?.elapsedMs), 0) : null;
   const xpNow = progression?.xp ?? 0;
   const s = standing(xpNow);
   const label = labelDisplay(s.band);
@@ -309,7 +305,7 @@ function AajFinish({
             {pts !== null ? (
               <>
                 <span aria-hidden="true"> · </span>
-                <span className="h-mono">{signed(pts)}</span> {t('pts', 'अंक')}
+                <span className="h-mono">{signed(pts)}</span> {t('answer XP', 'जवाब XP')}
               </>
             ) : null}
           </p>

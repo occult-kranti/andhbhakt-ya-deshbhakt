@@ -67,6 +67,7 @@ export function createDuelController({
     locked,
     countdownMs: countdownMs(),
     remainingMs: remainingMs(),
+    elapsedMs: startMark ? (pending?.roundId === startMark.roundId ? pending.elapsedMs : Math.max(0, perfNow() - startMark.at)) : null,
   });
   const changed = () => {
     if (!disposed) onChange(snapshot());
@@ -293,6 +294,7 @@ export function createDuelController({
     /** Lock an answer (0–3). Ignored before `markShown()`, after the clock, or once locked. */
     async answer(choice) {
       const rd = room?.round;
+      if (!Number.isInteger(choice) || choice < 0 || choice > 3) return false;
       if (!rd || rd.result || locked || !startMark || startMark.roundId !== rd.id) return false;
       if (rd.answerLocked?.[room.seat]) return false;
       const elapsedMs = perfNow() - startMark.at;

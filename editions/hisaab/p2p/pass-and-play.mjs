@@ -56,7 +56,7 @@ export function reducePassAndPlay(state, action) {
     if (!Number.isInteger(choice) || choice < 0 || choice > 3) return state;
     const q = state.deck[state.roundIndex];
     const answers = state.answers.map((a, i) =>
-      i === state.turn ? { choice, correct: choice === q.correctIndex, elapsedMs: 0 } : a,
+      i === state.turn ? { choice, correct: choice === q.correctIndex, elapsedMs: 0, ...(Number.isFinite(action.answerTimeMs) && action.answerTimeMs >= 0 ? { answerTimeMs: action.answerTimeMs } : {}) } : a,
     );
     if (state.turn === 0) return { ...state, answers, turn: 1, phase: 'pass' };
     // Both in: the engine's verdict with equal (untimed) screen times.

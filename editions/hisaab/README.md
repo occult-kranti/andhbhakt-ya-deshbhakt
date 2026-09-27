@@ -1,14 +1,35 @@
 # HISAAB DO
 
+**Current edition update (27 September 2026):** stopwatch answer XP, friends/family circles with a
+nickname per circle, and a newspaper-inspired interface. Work stays on
+`claude/loving-pasteur-s8xwtf`; **do not merge into `main`**.
+
+| Change | Behavior |
+|---|---|
+| Stopwatch answer XP | Correct below 8s: 30 XP; 8–<15s: 20 XP; 15s+: 10 XP; wrong: 0. Other progression bonuses are labeled separately. |
+| Daily and files | No answer deadline; existing replay/first-answer guards prevent repeated awards. |
+| Duels | All three formats retained; 30-second question window. Casual P2P remains unranked. |
+| Circles | Friends/family invite links, nickname per circle, saved local membership, optional live peer presence and self-reported XP. |
+| Editorial interface | Cream paper, ink rules, original masthead, violet actions, mobile navigation, light/dark and Hindi retained. |
+| Advertising readiness | Manual home-footer placement, off by default. Real publisher configuration, site approval, and consent adapter required to activate. |
+
+Circles do not require a separate backend, but are not cloud accounts: clearing browser storage
+removes local membership; the invite can rejoin the circle. Live connections depend on WebRTC
+and public signaling availability. No private contact list is uploaded.
+
+The design rationale and verification reports live in `docs/hisaab/review/`; the custom-domain and
+AdSense handoff is `docs/hisaab/LAUNCH-AND-ADS.md`. The older release history below describes the initial
+edition and is superseded by this update where scoring or appearance differs.
+
 *हिसाब दो — "Show us the accounts."* A quiz-duel game about Indian public money: government schemes
 and benefits, where the Union's and the states' money went, the scams and the institutions meant to
 catch them, who owns the news, election money, the viral forwards, and the money handed out directly
 between 2000 and 2026. Every question carries its source, a dated legal status where people are
 named, and the other side's reply.
 
-It is the second edition of the Jaanta Hai Kya (JHK) engine in this repo. It runs JHK's duel service,
-verdict rules, progression, journal and routes **unchanged**, over its own civics bank and with its own
-design (LAL FEETA: a sarkari file reprinted as a pop poster). It is a static site with no server: bot
+It is the second edition of the Jaanta Hai Kya (JHK) engine in this repo. It shares JHK's duel service, verdict rules, progression, journal and routes, with edition-only
+scoring and duration policies over its own civics bank. Its LAL FEETA file-and-receipt identity now
+uses an original newspaper/magazine composition. It is a static site with no server: bot
 duels, routes, the daily file and the Vault run in the browser, friend duels are peer-to-peer (WebRTC),
 and everything a player has is stored on their device.
 

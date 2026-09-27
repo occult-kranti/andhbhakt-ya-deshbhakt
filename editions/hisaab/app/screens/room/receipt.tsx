@@ -280,16 +280,16 @@ export function RoundReceipt({
               {audit > 1 ? (
                 <Chip kind="kind" icon={<Sparkles size={14} strokeWidth={2.4} />} className="h-audit">
                   {t(
-                    `Surprise Audit ×${audit} · this round's XP`,
-                    `सरप्राइज़ ऑडिट ×${audit} · इस राउंड का XP`,
+                    `Surprise Audit ×${audit} · base answer + separate bonus`,
+                    `सरप्राइज़ ऑडिट ×${audit} · जवाब XP + अलग बोनस`,
                   )}
                 </Chip>
               ) : null}
               {nextAudit > 1 ? (
                 <Chip kind="kind" icon={<Sparkles size={14} strokeWidth={2.4} />} className="h-audit">
                   {t(
-                    `Next round: Surprise Audit ×${nextAudit} XP`,
-                    `अगला राउंड: सरप्राइज़ ऑडिट ×${nextAudit} XP`,
+                    `Next round: Surprise Audit ×${nextAudit} · separate bonus`,
+                    `अगला राउंड: सरप्राइज़ ऑडिट ×${nextAudit} · अलग बोनस`,
                   )}
                 </Chip>
               ) : null}

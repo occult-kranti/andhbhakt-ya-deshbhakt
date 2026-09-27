@@ -4,8 +4,8 @@
  *
  *   <PlayHeader …/>      the manila file strip: F.No. · n of N, the segment bar, × (saves and exits),
  *                        and on the first card of a sealed file the red tape that snaps on the lock
- *   <QuestionCard …/>    kicker (sector · state · year, spoiler-safe) → stem → confidence switch →
- *                        four h-opt → "No timer — take your time. First answer locks." A forwarded
+ *   <QuestionCard …/>    kicker (sector · state · year, spoiler-safe) → stem → stopwatch →
+ *                        four h-opt → "No deadline. First answer locks." A forwarded
  *                        claim (item kind 'forward', bible §11.6) sits in a paper chat bubble tagged
  *                        "↪ Forwarded many times" above its question.
  *   <CardResult …/>      after the lock only: stamp → receipt (prints) → noting → Open source / Forward
@@ -15,15 +15,16 @@
  * — no entrance, no tape, no stamp, no toast (the screens hold toasts while a card is up). Fixed option
  * order: the engine's deal is rendered as dealt.
  */
-import { forwardRef, useEffect, useId, useRef, type ReactNode } from 'react';
+import { forwardRef, useEffect, useLayoutEffect, useMemo, useId, useRef, type ReactNode } from 'react';
 import { CornerUpRight, ExternalLink, Forward, Scale, X } from 'lucide-react';
 import { useJuice } from '@/components/fx';
 import type { Card } from '../../../edition';
-import { itemForCard, type BankItem, type ConfidenceId } from '../../data';
+import { itemForCard, type BankItem } from '../../data';
 import { shareReceipt, SHARE_CTA, type ReceiptShareVariant } from '../../share';
 import { Button, IconButton } from '../../ui/button';
 import { Chip } from '../../ui/chip';
-import { ConfidenceSwitch } from '../../ui/confidence-switch';
+import { Stopwatch } from '../../ui/stopwatch';
+import { createStopwatch } from '../../../engine/scoring.mjs';
 import { cx } from '../../ui/cx';
 import { useLang } from '../../ui/lang';
 import { NotingSheet } from '../../ui/noting-sheet';
@@ -32,7 +33,7 @@ import { Receipt } from '../../ui/receipt';
 import { Stamp } from '../../ui/stamp';
 import { Tape } from '../../ui/tape';
 import { Kicker } from '../../ui/text';
-import { callPoints, confidenceName, otherSideOf, shareWords, signed, useShareState, type XpLine } from './lib';
+import { otherSideOf, shareWords, signed, useShareState, type XpLine } from './lib';
 import './card.css';
 
 // ---- the file strip ---------------------------------------------------------------------------------
@@ -107,7 +108,7 @@ export function PlayHeader({
           {typeof score === 'number' ? (
             <p className="h-playhead__score">
               <span className="h-mono">{signed(score)}</span>
-              <span className="h-playhead__pts">{t('pts', 'अंक')}</span>
+              <span className="h-playhead__pts">{t('right', 'सही')}</span>
             </p>
           ) : null}
           {onClose ? (
@@ -207,19 +208,29 @@ export type QuestionCardProps = {
   chosen: number | null;
   /** Show the key: only once the answer is locked (it is, the moment it is chosen). */
   revealed: boolean;
-  onChoose?: (i: number) => void;
-  /** The confidence call (routes and the daily). Omit for the taster. */
-  confidence?: ConfidenceId;
-  onConfidence?: (c: ConfidenceId) => void;
+  onChoose?: (i: number, elapsedMs: number) => void;
+  elapsedMs?: number | null;
   busy?: boolean;
   stemId?: string;
 };
 
-export function QuestionCard({ card, kicker, chosen, revealed, onChoose, confidence, onConfidence, busy, stemId }: QuestionCardProps) {
+export function QuestionCard({ card, kicker, chosen, revealed, onChoose, elapsedMs, busy, stemId }: QuestionCardProps) {
   const { t, isHi } = useLang();
   const auto = useId();
   const id = stemId ?? `${auto}-stem`;
   const locked = chosen !== null;
+  const clock = useMemo(() => createStopwatch(), [card.factId, card.question]);
+  const attempt = useMemo<{ choice: number | null }>(() => ({ choice: null }), [clock]);
+  useLayoutEffect(() => {
+    let b = 0;
+    const a = requestAnimationFrame(() => { b = requestAnimationFrame(() => clock.start()); });
+    return () => { cancelAnimationFrame(a); cancelAnimationFrame(b); };
+  }, [clock]);
+  const choose = (i: number) => {
+    if (locked || busy || clock.locked) return;
+    const ms = clock.lock();
+    if (ms !== null) { attempt.choice = i; onChoose?.(i, ms); }
+  };
   const forward = itemForCard(card)?.kind === 'forward';
   return (
     <section className={cx('h-qcard', forward && 'h-qcard--fwd')} aria-labelledby={id}>
@@ -235,21 +246,23 @@ export function QuestionCard({ card, kicker, chosen, revealed, onChoose, confide
           {card.question}
         </h2>
       )}
-      {confidence && onConfidence ? (
-        <ConfidenceSwitch value={confidence} onChange={onConfidence} disabled={locked || busy} className="h-qcard__conf" />
-      ) : null}
+      {!locked || typeof elapsedMs === 'number' ? <Stopwatch clock={clock} lockedMs={elapsedMs} /> : null}
       <OptionList
         options={card.options}
         chosen={chosen}
         correctIndex={revealed ? card.correctIndex : null}
-        onChoose={locked || busy ? undefined : onChoose}
-        disabled={locked || busy}
-        keys={!locked}
+        onChoose={locked || busy || clock.locked ? undefined : choose}
+        disabled={locked || busy || clock.locked}
+        keys={!locked && !clock.locked}
         label={t('Answers', 'जवाब')}
         className="h-qcard__opts"
       />
-      {!locked ? (
-        <p className="h-qcard__hint">{t('No timer — take your time. First answer locks.', 'कोई टाइमर नहीं — आराम से। पहला जवाब लॉक होगा।')}</p>
+      {!locked && clock.locked && !busy && attempt.choice !== null ? <div role="alert" className="h-qcard__hint">
+        <p>{t('Your answer is locked on this screen. Retry saving the same answer and time.', 'जवाब इस स्क्रीन पर लॉक है। वही जवाब और समय फिर से सेव करें।')}</p>
+        <Button variant="paper" onClick={() => { if (attempt.choice !== null) onChoose?.(attempt.choice, clock.elapsed()); }}>{t('Retry saving answer', 'जवाब फिर सेव करें')}</Button>
+      </div> : null}
+      {!locked && !clock.locked ? (
+        <p className="h-qcard__hint">{t('No deadline. Take your time — first-time correct answers earn XP. First answer locks.', 'कोई समय सीमा नहीं। आराम से पढ़ें — पहले सही जवाब पर XP। पहला जवाब लॉक होगा।')}</p>
       ) : null}
     </section>
   );
@@ -261,7 +274,7 @@ export type CardResultProps = {
   card: Pick<Card, 'factId' | 'options' | 'correctIndex' | 'explanation' | 'sourceUrl' | 'sourceLabel'>;
   item: BankItem | null;
   choice: number;
-  confidence?: ConfidenceId | null;
+  elapsedMs?: number | null;
   /** Answered in this visit: the stamp slams and the receipt prints (once). */
   fresh: boolean;
   receiptNo?: number | null;
@@ -273,12 +286,12 @@ export type CardResultProps = {
 };
 
 export const CardResult = forwardRef<HTMLElement, CardResultProps>(function CardResult(
-  { card, item, choice, confidence, fresh, receiptNo, xp, share, children },
+  { card, item, choice, elapsedMs, fresh, receiptNo, xp, share, children },
   ref,
 ) {
   const { t, isHi } = useLang();
   const right = choice === card.correctIndex;
-  const pts = callPoints(confidence, right);
+  const pts = xp?.answerXp;
   const headId = useId();
   const sharer = useShareState();
   const otherSide = otherSideOf(item);
@@ -297,16 +310,10 @@ export const CardResult = forwardRef<HTMLElement, CardResultProps>(function Card
             {card.options[card.correctIndex]}
           </span>
         </p>
-        {confidence && pts !== null ? (
-          <p className="h-cardres__call">
-            <span className="h-cardres__k">{t('YOUR CALL', 'कितना पक्का')}</span>
-            <span className="h-cardres__v">
-              <span lang={isHi ? 'hi' : undefined}>{confidenceName(confidence, isHi)}</span>
-              <span aria-hidden="true"> · </span>
-              <span className="h-mono">{signed(pts)}</span> {t('pts', 'अंक')}
-            </span>
-          </p>
-        ) : null}
+        {pts !== undefined ? <p className="h-cardres__call">
+          <span className="h-cardres__k">{t('ANSWER XP', 'जवाब XP')}</span>
+          <span className="h-cardres__v"><span className="h-mono">{signed(pts)} XP</span>{typeof elapsedMs === 'number' ? ` · ${(Math.floor(elapsedMs / 100) / 10).toFixed(1)} s` : ''}</span>
+        </p> : null}
       </div>
       <Receipt
         item={item}

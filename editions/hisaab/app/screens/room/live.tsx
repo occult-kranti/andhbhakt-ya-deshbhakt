@@ -23,6 +23,7 @@ import { OptionList } from '../../ui/option';
 import { formatNameHi, formatOf, roundOf, sectorName } from '../duel/lib';
 import { other, type Room } from './lib';
 import './live.css';
+import '../../ui/stopwatch.css';
 
 // ---- the round header (replaces the top bar in a room) -------------------------------------------------
 
@@ -166,6 +167,7 @@ export function LiveQuestion({
   const q = rd.question!;
   const card = useRef<HTMLElement>(null);
   const bar = useRef<HTMLDivElement>(null);
+  const stopwatch = useRef<HTMLOutputElement>(null);
   const said = useRef<HTMLParagraphElement>(null);
   const [chosen, setChosen] = useState<number | null>(null);
   const shown = snapshot.shownRoundId === rd.id;
@@ -211,6 +213,7 @@ export function LiveQuestion({
       const snap = controller.snapshot();
       const started = snap.shownRoundId === rd.id;
       const left = started ? (snap.remainingMs ?? 0) : total;
+      if (stopwatch.current) stopwatch.current.textContent = `${(Math.floor((snap.elapsedMs ?? 0) / 100) / 10).toFixed(1)} s`;
       if (bar.current) bar.current.style.transform = `scaleX(${Math.max(0, Math.min(1, left / total))})`;
       if (started && said.current) {
         if (!at5 && left <= 5000) {
@@ -264,6 +267,11 @@ export function LiveQuestion({
           </h1>
         </div>
         <div className="h-live__bottom">
+          <div className="h-stopwatch">
+            <span className="h-stopwatch__label">{t('STOPWATCH', 'स्टॉपवॉच')}</span>
+            <output ref={stopwatch} className="h-stopwatch__time" aria-live="off" aria-label={t('Elapsed answer time', 'जवाब का समय')}>0.0 s</output>
+            <span className="h-stopwatch__bands">{t('Correct: <8s 30 XP · <15s 20 XP · 15s+ 10 XP', 'सही: <8s 30 XP · <15s 20 XP · 15s+ 10 XP')}</span>
+          </div>
           <div className="h-live__timer" aria-hidden="true">
             <div className="h-live__bar" ref={bar} />
           </div>

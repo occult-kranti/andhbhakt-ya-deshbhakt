@@ -96,7 +96,7 @@ test('host and guest pair, and the guest takes seat 1 of a free friend room', as
   assert.deepEqual(ctx.joined.room.players.map((p) => p.name), ['Asha', 'Bilal']);
   assert.equal(ctx.joined.room.config.opponent, 'friend');
   assert.equal(ctx.joined.room.config.stake, 0);
-  assert.equal(ctx.joined.room.config.duration, 10, 'Quick Draw opens on its own 10 s clock');
+  assert.equal(ctx.joined.room.config.duration, 30, 'the 30 s HISAAB clock makes every stopwatch XP band reachable');
   const clock = await ctx.guest.request({ action: 'clock' });
   assert.equal(clock.serverNow, ctx.clock.t, 'the guest calibrates against the host clock');
   await ctx.host.close();

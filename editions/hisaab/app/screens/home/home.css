@@ -738,3 +738,87 @@
   gap: var(--h-s-3);
   min-width: 0;
 }
+
+/* DAILY EDITION — a lead story, a reader's column, then the complete index. */
+.h-home__sectionline {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--h-s-3);
+  padding-bottom: var(--h-s-2);
+  margin-bottom: var(--h-s-4);
+  border-bottom: 1px solid var(--h-line);
+  font-family: var(--h-font-mono);
+  font-size: var(--h-fs-2xs);
+  font-weight: 700;
+  color: var(--h-ink-2);
+}
+.h-home__headline {
+  font-family: var(--h-font-editorial);
+  font-size: clamp(30px, 4.1vw, 54px);
+  font-weight: 700;
+  letter-spacing: -.045em;
+  line-height: 1.05;
+  max-width: 15ch;
+  margin-bottom: var(--h-s-3);
+}
+.h-home__standfirst { max-width: 50ch; font-size: var(--h-fs-m); color: var(--h-ink-2); }
+.h-home__today .h-file { margin-top: var(--h-s-10); }
+.h-home__ready { font-size: var(--h-fs-xs); line-height: 1.6; }
+.h-home__who { gap: 0; }
+.h-home__who .h-labelcard { border: 0; box-shadow: none; padding: 0; background: transparent; }
+.h-home__who .h-labelcard__en { font-size: var(--h-fs-2xl); }
+.h-home__panel { box-shadow: none; border: 1px solid var(--h-line); }
+.h-home__circles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--h-s-4);
+  min-width: 0;
+  padding: var(--h-s-5) 0;
+  border-block: 4px double var(--h-line);
+}
+.h-home__circlemark { display: grid; place-items: center; width: 56px; height: 56px; border: 1px solid var(--h-line); border-radius: 50%; background: var(--h-ground-2); flex: none; }
+.h-home__circlecopy { flex: 1 1 240px; min-width: 0; }
+.h-home__circlecopy h2 { font-family: var(--h-font-editorial); font-size: var(--h-fs-xl); line-height: 1.2; letter-spacing: -.02em; margin: var(--h-s-1) 0; }
+.h-home__circlecopy > p:last-child { font-size: var(--h-fs-s); color: var(--h-ink-2); }
+.h-home__circles > .h-btn { flex: 1 1 auto; }
+.h-home__h2en { font-family: var(--h-font-editorial); font-size: var(--h-fs-xl); letter-spacing: -.025em; line-height: 1.15; text-transform: none; }
+.h-home__h3en { font-family: var(--h-font-editorial); font-size: var(--h-fs-xl); letter-spacing: -.025em; text-transform: none; }
+.h-home__grouphead { border-block: 1px solid var(--h-line); padding-block: var(--h-s-1); }
+.h-mini__link { background: var(--h-paper); box-shadow: none; border-width: 1px; min-height: 154px; }
+.h-mini__tab { left: -1px; border-width: 1px; background: var(--h-ground-2); }
+.h-mini__title { font-family: var(--h-font-editorial); font-size: var(--h-fs-l); text-transform: none; letter-spacing: -.025em; line-height: 1.1; }
+.h-trail { background: var(--h-ground-2); box-shadow: none; border-width: 1px; }
+.h-trail__tab { left: -1px; border-width: 1px; background: var(--h-paper); }
+.h-trail__row { border-width: 1px; box-shadow: none; }
+.h-home__duel { margin-top: 0; }
+:root[lang='hi'] :is(.h-home__headline, .h-home__circlecopy h2, .h-home__sectionline, .h-home__h3en) { font-family: var(--h-font-ui); letter-spacing: 0; line-height: 1.4; }
+@media (min-width: 600px) {
+  .h-home__circles > .h-btn { flex: none; }
+}
+@media (min-width: 900px) {
+  .h-home__root, .h-home--noresume .h-home__root {
+    grid-template-areas:
+      'today today today today today today today today who who who who'
+      'circles circles circles circles circles circles circles circles circles circles circles circles'
+      'files files files files files files files files tijori tijori tijori tijori'
+      'files files files files files files files files quests quests quests quests'
+      'resume resume resume resume resume resume duel duel duel duel duel duel';
+  }
+  .h-home--noresume .h-home__root {
+    grid-template-areas:
+      'today today today today today today today today who who who who'
+      'circles circles circles circles circles circles circles circles circles circles circles circles'
+      'files files files files files files files files tijori tijori tijori tijori'
+      'files files files files files files files files quests quests quests quests'
+      'duel duel duel duel duel duel duel duel duel duel duel duel';
+  }
+  .h-home__today { align-self: start; padding-right: var(--h-s-6); border-right: 1px solid var(--h-hair); }
+  .h-home__circles { grid-area: circles; }
+  .h-home__who { align-self: start; }
+  .h-home__duel { margin-top: 0; }
+}
+@media (min-width: 1200px) {
+  .h-mini-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.h-home__who .h-labelcard::before { display: none; }

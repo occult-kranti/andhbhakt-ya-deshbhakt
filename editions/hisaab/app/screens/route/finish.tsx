@@ -24,8 +24,6 @@ import { useLang } from '../../ui/lang';
 import { Page, ScreenHeader } from '../../ui/page';
 import { ReceiptStrip, type MiniEntry } from './receipt-strip';
 import {
-  calibrationLine,
-  callPoints,
   CEREMONY_KINDS,
   fileNo,
   hubHref,
@@ -35,7 +33,6 @@ import {
   roundsById,
   routeTitleHi,
   signed,
-  tallyOf,
   xpAt,
   xpForRound,
   type Journal,
@@ -64,9 +61,8 @@ export function RouteFinish({ route, record, run, journeys, journal, progression
 
   const results: FileResult[] = run.cards.map((c, i) => (run.answers[i]?.choice === c.correctIndex ? 'pass' : 'fail'));
   const correct = results.filter((r) => r === 'pass').length;
-  const score = run.answers.reduce((s, a, i) => s + (callPoints(a.confidence, a.choice === run.cards[i]?.correctIndex) ?? 0), 0);
-  const tally = tallyOf(run.cards, run.answers);
-  const best = record.bestScore ?? score;
+  const score = run.answers.reduce((s, a, i) => s + Number(a.choice === run.cards[i]?.correctIndex), 0);
+  const best = record.best?.correct ?? score;
 
   // XP: every log line written by this run's six answers and its finish. Shown only when the log still
   // holds all of it (it keeps the last 40 lines) — never a partial sum.
@@ -112,7 +108,7 @@ export function RouteFinish({ route, record, run, journeys, journal, progression
     item: itemForCard(card),
     right: run.answers[i] ? run.answers[i].choice === card.correctIndex : null,
   }));
-  const calib = calibrationLine(tally, isHi);
+  const calib = t('Accuracy is your file score. Stopwatch XP is awarded separately; a correct answer always counts.', 'सही जवाब फ़ाइल स्कोर है। स्टॉपवॉच XP अलग मिलता है; हर सही जवाब गिना जाता है।');
 
   return (
     <Page screen="route-finish" className="h-finish">
@@ -135,7 +131,7 @@ export function RouteFinish({ route, record, run, journeys, journal, progression
               </dd>
             </div>
             <div className="h-finish__fact">
-              <dt>{t('File score', 'फ़ाइल स्कोर')}</dt>
+              <dt>{t('Correct answers', 'सही जवाब')}</dt>
               <dd className="h-mono">
                 {signed(score)}
                 <span className="h-finish__of">/{MAX_RUN_SCORE}</span>

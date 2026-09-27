@@ -44,7 +44,9 @@ const JHK_HISTORICAL = Object.freeze({
 
 test('JHK storage names are byte-identical to the ones that shipped', () => {
   assert.deepEqual(STORAGE_NS, { long: 'fact-duel', short: 'fd' });
-  assert.deepEqual({ ...STORAGE }, JHK_HISTORICAL);
+  assert.deepEqual(Object.fromEntries(Object.keys(JHK_HISTORICAL).map(key => [key, STORAGE[key]])), JHK_HISTORICAL);
+  assert.equal(STORAGE.circles, 'fact-duel-circles-v1');
+  assert.equal(STORAGE.circleChannel, 'fact-duel-circle-');
 });
 
 test('the edition namespace differs from JHK on every name, and no edition name can collide', () => {

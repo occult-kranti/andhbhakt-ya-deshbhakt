@@ -45,15 +45,16 @@ export type ScreenHeaderProps = {
   /** Heading id, e.g. for aria-labelledby. */
   id?: string;
   /**
-   * Language of `title`. Default: 'en' for a string with no Devanagari in it (so a Latin title keeps
-   * its caps and tracking in the Hindi locale), else inherited. Pass 'hi' for a Devanagari node.
+   * Language of `title`. Strings with Devanagari use 'hi'; other strings use 'en'.
+   * Nodes inherit unless the caller supplies a language.
    */
   titleLang?: 'en' | 'hi';
 };
 
 const DEVANAGARI = /[\u0900-\u097F]/;
-/** 'en' for a Latin string title; undefined (inherit the page's lang) otherwise. */
-const autoTitleLang = (title: ReactNode): 'en' | undefined => (typeof title === 'string' && !DEVANAGARI.test(title) ? 'en' : undefined);
+/** Detect script before selecting editorial type so user names retain readable Hindi glyphs. */
+const autoTitleLang = (title: ReactNode): 'en' | 'hi' | undefined =>
+  typeof title === 'string' ? (DEVANAGARI.test(title) ? 'hi' : 'en') : undefined;
 
 export function ScreenHeader({ kicker, titleHi, title, lead, aside, id, titleLang }: ScreenHeaderProps) {
   return (

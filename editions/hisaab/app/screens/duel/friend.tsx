@@ -20,6 +20,8 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Copy, Link2, MessageCircle, Share2, Wifi, WifiOff } from 'lucide-react';
 import * as p2p from '../../../p2p/index.mjs';
+import { getCircleStore } from '../../../circles/store.mjs';
+import type { Circle } from '../../../circles/types';
 import { useDuel } from '../../use-duel';
 import { ANONYMOUS, BOT_NAME, seatName } from '../../data';
 import { absoluteUrl, href, navigate, type AppRoute } from '../../router';
@@ -66,6 +68,7 @@ type Host = ReturnType<typeof p2p.createP2PHost>;
 type Guest = ReturnType<typeof p2p.createP2PGuest>;
 type Via = 'net' | 'tab';
 type Session = {
+  circleId?: string;
   role: 'host' | 'guest';
   /** This room's code (a rematch derives a new one from `first`). */
   code: string;
@@ -102,8 +105,8 @@ async function closeTransport(transport: Transport) {
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 /** The invite link for a code; test links (two tabs) carry `via=tab`. */
-function inviteLink(code: string, via: Via) {
-  return absoluteUrl(`${href.friend(code)}${via === 'tab' ? '&via=tab' : ''}`);
+function inviteLink(code: string, via: Via, circleId?: string) {
+  return absoluteUrl(`${href.friend(code)}${via === 'tab' ? '&via=tab' : ''}${circleId ? `&circle=${circleId}` : ''}`);
 }
 
 export function FriendLobby({ route }: { route: AppRoute }) {
@@ -111,13 +114,14 @@ export function FriendLobby({ route }: { route: AppRoute }) {
   const player = useAppPlayer();
   useScreenTitle(t('Duel a friend', 'दोस्त से मुक़ाबला'));
   const [intent] = useState(() => takeHostIntent());
+  const [circle] = useState(() => (getCircleStore().getSnapshot().circles as Circle[]).find(c => c.id === route.query.circle));
   const via: Via = intent?.via ?? (route.query.via === 'tab' ? 'tab' : 'net');
   const [tab, setTab] = useState<'join' | 'host'>(
     intent || (route.query.host === '1' && !route.query.code) ? 'host' : 'join',
   );
   const [mode, setMode] = useState<DuelMode>(intent?.config.mode ?? parseMode(route.query.mode));
   const topic = intent?.config.topic ?? parseTopic(route.query.topic, mode);
-  const [name, setName] = useState(() => intent?.name ?? readName());
+  const [name, setName] = useState(() => circle?.nickname ?? intent?.name ?? readName());
   const [codeText, setCodeText] = useState(route.query.code ?? '');
   const [stage, setStage] = useState<Stage>(intent ? 'opening' : 'form');
   const [error, setError] = useState<P2PError>(null);
@@ -196,7 +200,7 @@ export function FriendLobby({ route }: { route: AppRoute }) {
           await Promise.resolve(api.close()).catch(() => {});
           return void (await closeAll());
         }
-        setSession({ role: 'host', code, first: code, n: 0, api, created, config, auto: false });
+        setSession({ role: 'host', code, first: code, n: 0, api, created, config, auto: false, circleId: circle?.id });
         setStage('session');
       } catch (e) {
         await closeAll();
@@ -222,7 +226,7 @@ export function FriendLobby({ route }: { route: AppRoute }) {
       setError({ code: 'invalid_code' });
       return;
     }
-    if (name.trim()) saveName(name);
+    if (name.trim() && !circle) saveName(name);
     setStage('joining');
     setError(null);
     try {
@@ -253,6 +257,7 @@ export function FriendLobby({ route }: { route: AppRoute }) {
         created,
         config: created.room.config as DuelConfig,
         auto: false,
+        circleId: circle?.id,
       });
       setStage('session');
     } catch (e) {
@@ -263,13 +268,13 @@ export function FriendLobby({ route }: { route: AppRoute }) {
   };
 
   const createFromForm = () => {
-    if (name.trim()) saveName(name);
+    if (name.trim() && !circle) saveName(name);
     void host(configFor(mode, topic), name);
   };
 
   const leave = async () => {
     await closeAll();
-    navigate(href.duel({ vs: 'friend' }));
+    navigate(circle ? href.circles(circle.id) : href.duel({ vs: 'friend' }));
   };
 
   /** Rematch n+1: tell the other side, then open (host) or join (guest) the next derived room. */
@@ -354,6 +359,7 @@ export function FriendLobby({ route }: { route: AppRoute }) {
   const f = formatOf(mode);
   return (
     <Page screen="duel-friend" width="read" className="h-friend">
+      {circle && <Button variant="ghost" href={href.circles(circle.id)}>{t('Back to circle', 'मंडली में वापस')}</Button>}
       <ScreenHeader
         kicker="F.No. P2P/—"
         titleHi="दोस्त से मुक़ाबला"
@@ -366,6 +372,8 @@ export function FriendLobby({ route }: { route: AppRoute }) {
           )
         }
       />
+
+      {circle && <InlineNote>{t(`Playing from ${circle.name} as ${circle.nickname}. Your profile name is unchanged.`, `${circle.name} में ${circle.nickname} के नाम से खेल रहे हैं। प्रोफ़ाइल नाम नहीं बदलेगा।`)}</InlineNote>}
 
       {stage === 'opening' || stage === 'joining' ? (
         <div className="h-friend__card" aria-busy="true">
@@ -816,7 +824,7 @@ function RoomLobby({
   const meReady = !!room.players[me]?.ready;
   const theyReady = !!room.players[them]?.ready;
   const code = session.first;
-  const invite = inviteLink(code, via);
+  const invite = inviteLink(code, via, session.circleId);
   // No one has arrived for 30 s over the network: say what may be happening (never a fake status).
   const [slow, setSlow] = useState(false);
   useEffect(() => {
@@ -828,7 +836,7 @@ function RoomLobby({
     return () => clearTimeout(id);
   }, [seated, peer, via]);
   const text =
-    via === 'tab'
+    via === 'tab' || session.circleId
       ? `Muqabla? ${f.name} on HISAAB DO. Room ${code}: ${invite}`
       : inviteText(code, { format: f.name });
 
@@ -860,7 +868,7 @@ function RoomLobby({
     }
   };
   const share = async () =>
-    setShared(via === 'tab' ? await shareText(text) : await shareInvite(code, { format: f.name }));
+    setShared(via === 'tab' || session.circleId ? await shareText(text) : await shareInvite(code, { format: f.name }));
 
   const primary = meReady
     ? t(`Waiting for ${friend}`, `${friend} का इंतज़ार`)

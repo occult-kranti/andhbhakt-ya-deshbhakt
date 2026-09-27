@@ -110,3 +110,7 @@
 .h-note--wait {
   background: var(--h-wait-soft);
 }
+
+/* Section heads read like a newspaper deck; body and questions stay in the legible UI face. */
+.h-screenhead { padding-bottom: var(--h-s-5); border-bottom: 4px double var(--h-line); }
+.h-title__en:lang(en) { font-family: var(--h-font-editorial); letter-spacing: -.04em; line-height: 1.1; text-transform: none; }

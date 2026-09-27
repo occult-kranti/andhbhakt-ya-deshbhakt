@@ -56,6 +56,12 @@ export function laneCounts(): Array<{ lane: string; name: string; count: number 
 export const CHANGELOG: readonly ChangeEntry[] = Object.freeze([
   {
     date: '2026-09-26',
+    title: 'Stopwatch answer rewards',
+    detail:
+      'The three confidence choices have been replaced by a stopwatch. Correct answers earn 30 XP before 8 seconds, 20 XP from 8 to under 15 seconds, and 10 XP from 15 seconds onward; wrong answers earn 0 answer XP. Daily cards and files have no deadline; duels allow 30 seconds. First-receipt, first-file, match, streak and quest bonuses remain separately recorded. File replays do not award the same answer or completion XP twice. The profile now shows recorded duel accuracy and fastest correct answer.',
+  },
+  {
+    date: '2026-09-26',
     title: 'Streak days need play',
     detail:
       'Opening HISAAB DO no longer counts as a streak day. A day counts when you answer a question, open a receipt in the Vault for the first time, or keep a copy of one. Section 7 of this page said "a day counts when you play" while opening the app still counted; it now states the rule as the game applies it.',

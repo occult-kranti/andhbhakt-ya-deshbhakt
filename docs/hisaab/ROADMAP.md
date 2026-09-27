@@ -10,6 +10,21 @@ ledger, and five review lenses plus a balance audit and an independent fact audi
 Release (Phase 4) waits only on the `RELEASE` marker and a live check. How to run, test and deploy
 the edition: `editions/hisaab/README.md`. The engine API: `ENGINE.md`.
 
+## Current update — newspaper, stopwatch, circles
+
+The owner's current instruction is to push to `claude/loving-pasteur-s8xwtf` without merging `main`.
+The historical phase entries below remain a release history; older confidence and appearance
+specifications are superseded by the current amendment in `CHARTER.md`.
+
+Implementation lanes: stopwatch/progression; circles/peer connections; responsive editorial design;
+profile/rules cleanup; advertising/launch configuration; independent QA. Current executable
+contracts live in the edition modules and focused tests. Final validation is recorded in
+`review/release-qa.md` and `review/release-summary.md` after execution.
+
+The initial `RELEASE` marker already exists and the original edition was observed live. The current
+update will use the same isolated `gh-pages/hisaab/` publishing workflow. A HISAAB-only custom domain
+must use a separate static deployment; changing this repository's Pages CNAME would affect both games.
+
 ## Phase 0 — Charter (lead) ✅
 
 Delivered in `6ffffbe`, `d6fa315`, `b70c99f`:
@@ -80,7 +95,7 @@ the bank valid.
   full suite and the bank validator, and publishes into `gh-pages/hisaab/` without touching the JHK
   files around it (plain push, rebase-and-retry, shared `pages` concurrency group).
 - [x] `pages.yml` keeps `hisaab/` when it republishes JHK from `main`.
-- [ ] Commit `editions/hisaab/RELEASE`. Until it exists the workflow's preflight exits green and
+- [x] Commit `editions/hisaab/RELEASE` (present on the recovered source branch). Until it exists the workflow's preflight exits green and
   publishes nothing, so a half-built app is never live.
 - [ ] Live check of `https://occult-kranti.github.io/fact-duel/hisaab/`: the walker against the live
   URL (`node scripts/hisaab-screens.mjs <outDir> https://occult-kranti.github.io/fact-duel/hisaab/`),
