@@ -6,7 +6,15 @@ Reviewed 27 September 2026. This edition has its own static deployment; the sour
 
 The current game is a browser application. Daily questions, state and sector files, money trails and ledger downloads, solo practice, Babu bot duels, pass-and-play, receipts, progression, certificates, settings, friend duels and circles ship in the same build. Moving that build to independent HTTPS hosting makes it an ordinary playable website; visitors do not need GitHub accounts.
 
-The separate hosting registration has reserved `https://hisaab-do.whatswrong-inc.chatgpt.site`. Registration alone is not proof of publication: the release report must record the completed deployment, with browser checks tied to the same production artifact. The existing Pages release can stay online in parallel.
+The standalone game is published at **https://hisaab-do.whatswrong-inc.chatgpt.site**. The hosting
+service reported a successful public deployment on **27 September 2026, 01:03:51 UTC**. Browser
+checks were performed against the corresponding production artifacts; the existing Pages release
+stays online in parallel. Real Internet WebRTC connectivity remains unverified as described below.
+
+Publication identity: `appgprj_6ab86670b86c8191b6f997fe9ef5aa90`, version 1,
+deployment `appgdep_6ab86b6cb9388191901bb56e6e5ad367`.
+Application source: `fc0cf4b0044b9927311f394fa00a2cfbd62438e9`.
+Publication source: `e1d229dbefd27a7008121dc2e9c73b39d7437be1`.
 
 | Service | Needed for this release? | Current implementation / owner input |
 | --- | --- | --- |

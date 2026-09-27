@@ -59,6 +59,8 @@ it. It reuses JHK's engine (duel service, practice bot, rounds and verdict rules
 streaks, quests, journal/vault, expeditions) and ships a **completely new design**.
 
 It deploys as its own GitHub Pages site next to JHK: `https://occult-kranti.github.io/fact-duel/hisaab/`.
+Its independent public address is `https://hisaab-do.whatswrong-inc.chatgpt.site`. The original
+FACT//DUEL Site and its root hosting manifest belong to the other game and must remain separate.
 
 ### The joke that carries the product
 

@@ -24,6 +24,8 @@ on:
       - 'hooks/**'
       - 'static/**'
       - 'vite.config.hisaab.ts'
+      - 'scripts/hisaab-publication-theme.mjs'
+      - 'scripts/hisaab-verify-artifact.mjs'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'tests/**'
@@ -82,6 +84,7 @@ jobs:
           pnpm exec tsc --noEmit
           node --test tests/*.test.mjs
           node scripts/hisaab-validate.mjs
+          node scripts/hisaab-publication-theme.mjs --check
 
       - name: Build the edition
         env:
@@ -89,6 +92,7 @@ jobs:
         run: |
           pnpm build:hisaab
           test -f dist-hisaab/index.html
+          node scripts/hisaab-verify-artifact.mjs dist-hisaab --base="$HISAAB_BASE"
           touch dist-hisaab/.nojekyll
           du -sh dist-hisaab
 

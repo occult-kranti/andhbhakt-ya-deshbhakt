@@ -6,6 +6,14 @@ person sees changed. Brand sheet: `docs/brand.md`.
 A private sports and science knowledge club for friends or random practice bots.
 All coins are free, per-room simulations with no monetary value.
 
+## HISAAB DO — separate public-money edition
+
+Play **[HISAAB DO](https://hisaab-do.whatswrong-inc.chatgpt.site)** on its independent public site.
+The [GitHub Pages edition](https://occult-kranti.github.io/fact-duel/hisaab/) remains available.
+HISAAB development stays on `claude/loving-pasteur-s8xwtf`; its deployment does not replace JHK.
+See [standalone launch and services](docs/hisaab/STANDALONE-LAUNCH.md) and the
+[six-round panel and verification record](docs/hisaab/review/night-edition-panels.md).
+
 ## Play
 
 **Events** carries a curated calendar of real sports and science events — just finished, on right

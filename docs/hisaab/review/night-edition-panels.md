@@ -102,3 +102,8 @@ preferences across public pages, a 320px Hindi round header/menu and OS fallback
 
 All three loops contain two distinct discussion rounds, and each later loop reviewed the previous
 implementation. The authorized release remains the HISAAB branch only, without a merge to main.
+
+The standalone public deployment succeeded at 2026-09-27 01:03:51 UTC:
+**https://hisaab-do.whatswrong-inc.chatgpt.site**. Application commit `fc0cf4b` is recorded in the
+separate publication source, alongside checksums of all 195 static files. The original FACT//DUEL
+hosting identity and the repository's root hosting manifest were not changed.

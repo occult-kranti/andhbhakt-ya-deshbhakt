@@ -12,6 +12,24 @@ the edition: `editions/hisaab/README.md`. The engine API: `ENGINE.md`.
 
 ## Current update — newspaper, stopwatch, circles
 
+### Standalone Night edition release — 27 September 2026
+
+Public site: **https://hisaab-do.whatswrong-inc.chatgpt.site**. Three implementation/review loops,
+each with two panel discussion rounds, are complete. Bot rounds now settle on the player's answer;
+human players get private immediate feedback, with a shared verdict after the other answer or
+deadline. Match settings, deliberate quit, cancellable connection attempts and Night edition brand
+consistency are implemented. Light colors are preserved. Source stays on this branch, not main.
+
+Evidence: `review/night-edition-panels.md`, `review/session-qa.md`, `review/brand-panel.md`.
+888 tests, 27 browser checks, 84 page/layout cells and 198 contrast pairs passed. Independent
+Internet WebRTC validation did not pass: external signaling relays were unreachable from the
+release environment. Local peer tests are not a substitute for that check.
+
+Optional next service decisions are in `STANDALONE-LAUNCH.md`: an owned domain, reliable signaling/
+TURN, active Supabase plus real Auth/RLS and durable membership, transactional email, monitoring,
+and AdSense/CMP if monetizing. These integrations are not silently marked complete. Existing
+browser-local progress does not migrate automatically between origins.
+
 The owner's current instruction is to push to `claude/loving-pasteur-s8xwtf` without merging `main`.
 The historical phase entries below remain a release history; older confidence and appearance
 specifications are superseded by the current amendment in `CHARTER.md`.
