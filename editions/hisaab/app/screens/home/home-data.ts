@@ -18,7 +18,6 @@ import {
   type MoneyTag,
   type Route,
 } from '../../../edition';
-import { SECTOR_NAMES_HI } from '../../data';
 import { href } from '../../router';
 
 // ---- receipts (the tijori) ---------------------------------------------------------------------
@@ -149,19 +148,11 @@ const QUEST_WORDS: Readonly<Record<string, { en: string; hi: string }>> = Object
   'open-2': { en: 'Open 2 unopened receipts in the Vault', hi: 'वॉल्ट में 2 बिना खुली रसीदें खोलो' },
   'save-2': { en: 'Keep a copy of 2 receipts', hi: '2 रसीदों की कॉपी रखो' },
   'discovery-1': { en: 'Answer one untimed card', hi: 'एक बिना टाइमर वाला कार्ड करो' },
-  'play-1': { en: 'Play any duel', hi: 'कोई भी मुक़ाबला खेलो' },
   'expedition-cards-2': { en: 'Answer 2 file cards', hi: 'फ़ाइल के 2 कार्ड करो' },
-  'win-2': { en: 'Win 2 duels', hi: '2 मुक़ाबले जीतो' },
-  'combo-3': { en: 'Get 3 right in a row in one duel', hi: 'एक मुक़ाबले में लगातार 3 सही' },
   'expedition-finish-1': { en: 'Clear a file (all 6 cards)', hi: 'एक फ़ाइल पूरी करो (6 कार्ड)' },
   'correct-6': { en: 'Answer 6 correctly', hi: '6 सही जवाब दो' },
   'review-5': { en: 'Re-check 5 due receipts', hi: '5 रसीदें दोबारा जाँचो' },
-  'win-gauntlet': { en: 'Win The Gauntlet', hi: 'The Gauntlet जीतो' },
-  'win-3': { en: 'Win 3 duels', hi: '3 मुक़ाबले जीतो' },
-  'speed-2': { en: 'Answer 2 correctly under 3 seconds', hi: '3 सेकंड के अंदर 2 सही' },
   'bold-4': { en: 'Answer 4 file cards correctly', hi: 'फ़ाइल के 4 कार्ड सही करो' },
-  'human-1': { en: 'Duel a friend', hi: 'दोस्त से मुक़ाबला करो' },
-  'perfect-trilogy': { en: 'Win Triple Threat 2–0', hi: 'Triple Threat 2–0 से जीतो' },
 });
 
 /** Where a quest is done (a link from its row). */
@@ -170,51 +161,21 @@ const QUEST_HREF: Readonly<Record<string, string>> = Object.freeze({
   'open-2': href.receipts(),
   'save-2': href.receipts(),
   'discovery-1': href.aaj(),
-  'play-1': href.duel(),
   'expedition-cards-2': href.files(),
-  'win-2': href.duel(),
-  'topic-play': href.duel(),
-  'mode-play': href.duel(),
-  'combo-3': href.duel(),
   'expedition-finish-1': href.files(),
-  'correct-6': href.aaj(),
+  'correct-6': href.files(),
   'review-5': href.receipts(),
-  'win-gauntlet': href.duel(),
-  'win-3': href.duel(),
-  'speed-2': href.duel(),
   'bold-4': href.files(),
-  'human-1': href.friend(),
-  'perfect-trilogy': href.duel(),
 });
 
 /** The template id of an engine quest item (`<day>:<template>` when `template` is absent). */
 export const questTemplate = (q: QuestItem) => q.template ?? q.id.split(':').pop() ?? q.id;
 
-const MODE_WORDS: Readonly<Record<string, string>> = Object.freeze({
-  quick: 'Quick Draw',
-  trilogy: 'Triple Threat',
-  gauntlet: 'The Gauntlet',
-});
-
-/**
- * Display words (EN / HI) and destination for one quest. A topic quest names one of the 13 sectors
- * ("Play a Health duel"); a mode quest names a duel format. Unknown templates keep the engine's words.
- */
+/** Words and destination for supported local practice/Vault missions only. */
 export function questView(q: QuestItem): { en: string; hi: string; to: string } {
   const template = questTemplate(q);
-  const to = QUEST_HREF[template] ?? href.files();
-  // The two quests that name a sector or a format open the duel setup with it already picked (the
-  // setup reads ?topic= / ?mode=; a sector too small for the format falls back to Mixed there).
-  if (template === 'topic-play' && q.topic) {
-    const hi = SECTOR_NAMES_HI[q.topic] ?? q.topic;
-    return { en: `Play a ${q.topic} duel`, hi: `${hi} पर एक मुक़ाबला खेलो`, to: href.duel({ vs: 'bot', topic: q.topic }) };
-  }
-  if (template === 'mode-play' && q.mode && MODE_WORDS[q.mode]) {
-    const mode = MODE_WORDS[q.mode];
-    return { en: `Play ${mode}`, hi: `${mode} खेलो`, to: href.duel({ vs: 'bot', mode: q.mode }) };
-  }
   const words = QUEST_WORDS[template];
-  return { en: words?.en ?? q.label, hi: words?.hi ?? q.label, to };
+  return { en: words?.en ?? 'Explore practice files', hi: words?.hi ?? 'अभ्यास की फ़ाइलें खोलें', to: QUEST_HREF[template] ?? href.files() };
 }
 
 // ---- the entry points ------------------------------------------------------------------------------

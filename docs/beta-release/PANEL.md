@@ -169,7 +169,7 @@ The reviewed integration is ready for the live-service/evidence round. This is n
 Pages publication or JHK live play yet. Root owns deployment and merge; the remaining evidence
 must show the actual built URL and backend behavior, not a second copy of source assertions.
 
-## Loop 3, round 5 — executed evidence review (in progress)
+## Loop 3, round 5 — executed evidence review (performed)
 
 The advisor read the redacted live AYD report at `/tmp/ayd-live-beta-smoke.json`, which ran against
 the real `hisaab-game` Edge endpoint from 03:17:08 to 03:19:00 UTC on 27 September. It contains six
@@ -212,11 +212,125 @@ Chromium service request also encountered an execution-environment transport pro
 relay browser evidence must be labelled as such, while actual CORS/preflight and published URLs
 are checked separately. A relay is not evidence of a browser-native WAN connection.
 
-The corrected public entry, final browser/build gates and fetched Pages versions remain
-outstanding for this round. Advertising remains disabled because publisher/CMP/H5 approval is
-absent.
+The advisor's final source pass found and relayed a remaining direct `setTab('arena')` path from
+collections, which bypassed the first per-CTA guards. The flow lane corrected it and added the
+central public-build boundary: the legacy `PlayScreen` cannot render when the server is configured,
+residual arena routes render the human desk, and the predecessor `create()` returns to that desk.
+The advisor directly re-read those changes. Learning practice routes to expeditions.
 
-## Loop 3, round 6 — release verdict (pending)
+The completed `/tmp/jhk-live-ui/report.json` contains eleven passing checks and no page errors:
+two isolated browser guests share a real private room, complete five rounds, recover a locked
+answer after reload, receive settlement, retain online XP/coins, open the board, navigate learning
+to expeditions, return Play to the human desk and see the separate server record in Player. Both
+temporary guests were deleted. The advisor opened the 320px desk, question and result captures;
+the stake/reward distinction, readable answer/source receipt and voluntary share action are present.
+This test relayed exact endpoint requests through Node because Chromium's direct egress was blocked;
+responses and settlement came from the real deployed service, with no fabricated fixture answers.
+It is UI-to-real-service integration evidence under that stated transport boundary.
 
-The final verdict will name verified URLs/versions and distinguish the advertising prerequisite
-from the completed multiplayer release. No final two-game publication result is claimed yet.
+Root independently observed both deployed OPTIONS responses at HTTP 204, allowing the public
+origin and exact product session/header names, and opened AYD's published Home/duel controls in
+the cloud browser. The advisor independently fetched AYD Home and `release.json` with HTTP 200;
+the manifest identifies `848637cdcb0ebf20ebb133f02196bf49c60d8e79`, built at 03:27:34 UTC.
+Root reports its Pages workflow run `36291398575` succeeded for that commit. The first attempt to
+retrieve these URLs through the search renderer was unavailable; direct HTTP retrieval succeeded,
+so the renderer limitation was not misreported as a site outage.
+
+Root's final JHK source gate reports 950 Node tests passing, clean TypeScript and a successful
+production build after the public-entry corrections. The API/player cleanup and UI reports are
+kept distinct from these static gates. Advertising remains disabled because publisher/CMP/H5
+approval is absent.
+
+## Loop 3, round 6 — release critique and verdict (performed)
+
+**Approve the completed code and authorized JHK merge/publication; AYD is already published.**
+The first five rounds produced concrete architecture, scope, route, accessibility, migration and
+deployment corrections. The final critique checked the actual evidence against the release
+contract instead of adding new gamification or optional visual work:
+
+| Release claim | Evidence and boundary |
+| --- | --- |
+| AYD retains the requested game under its new public identity | Production artifact/metadata checks, narrow and certificate exports, inherited functional certificate gate, published Home and live human service. |
+| Both games have real server authority | Separate deployed namespaces/Edge functions, private role checks, actual HTTP matches, exactly-once wallet/XP tests and cross-game credential rejection. |
+| Public JHK duels are human-only | Central configured-build source guards and browser navigation gate; untimed learning remains available. |
+| Optional wagers do not exclude zero-balance play | Real AYD zero-balance completed duel, JHK zero-stake service gate, explicit Ready confirmation and visible stake/reward terms. |
+| The game can recover and settle | JHK browser reload/receipt/result gate, bounded deployed duplicate races, refund/forfeit assertions and successful cron invocation in both namespaces. |
+| Personal sharing is voluntary and honest | AYD current-grant/photo certificates preserved; JHK shares its actual completed result through an explicit button. No auto-post or measured virality claim. |
+| Public release can be reproduced | Main-branch workflows build the correct product/base/backend, use Pages artifact deployment and emit commit manifests; both initial published manifests were fetched successfully as recorded below. |
+
+At the close of round 6, the reviewed code was approved for the requested release, with JHK's Pages
+workflow still pending. Both initial publications were then verified below. The live followup
+found bounded inherited mission/copy defects; their corrections and final acceptance are recorded
+after the publication entries rather than silently erasing the original review boundary.
+
+Remaining product limits are explicit: guest profiles are not verified unique people or a
+cross-device account system; the finite match tests are not a load benchmark or geographic timing
+fairness guarantee; the public learning bank is not secret; paid video/display ads are off until
+real publisher/CMP/H5 configuration and approval exist. These limits do not conceal fake players,
+bot opponents, ad fill or adoption metrics. No ChatGPT Sites deployment was used.
+
+### Publication record
+
+- AYD: `https://occult-kranti.github.io/andhbhakt-ya-deshbhakt/`, initial release commit
+  `848637cdcb0ebf20ebb133f02196bf49c60d8e79`; Pages success and public manifest independently verified.
+- JHK: `https://occult-kranti.github.io/fact-duel/`, initial release commit
+  `b7c506e53e5bb48b94d1d57971169c6c4e0a22eb`, built at 03:31:34 UTC. The advisor independently
+  fetched Home and the matching manifest with HTTP 200; root opened the published Home and human
+  duel CTA in the cloud browser.
+
+### Post-publication correction — unsupported missions and stale copy (verified)
+
+After the six rounds and initial AYD publication, root's live browser check found that a Home
+mission labelled “Play Energy & Mining duel” generated an `online?topic=...` route unsupported by
+the backend's five file choices. The duel desk silently broadened that advertised topic. This is
+a real semantic defect discovered after the earlier gates, not a seventh panel round or optional
+scope expansion. The certificate/brand lane corrected the mission surface to honestly labelled
+local learning activities with their actual solo routes; no new backend topic was invented.
+The lane found that server results do not emit the predecessor
+local duel/mode/topic/speed quest events. The correction therefore filters all unsupported mission
+templates and removes any bonus promise requiring hidden tasks, while preserving actual practice,
+Vault and expedition events and their earned XP.
+
+Root's live JHK review found the same predecessor mission mismatch and reopened the same narrow
+correction there. The advisor also read a stale description in the successfully published JHK
+HTML, claiming a bot and no server despite the correct new manifest. Root/flow were asked to update
+that description and the inherited “Private playtest” label to the actual online beta. Both games'
+source acceptance was reopened only for these honest mission/copy corrections and their
+verification. Their already demonstrated server matches and published URLs remain valid.
+
+The same bounded copy review found a material JHK rule-route mismatch: footer Play rules still
+described the predecessor's 150ms/client-time comparison, 1,000-unit room grant, no public queue
+and blanket post-reveal refunds. The live authority uses 120ms/server time, a 100-unit guest grant,
+public human matching and the disclosed forfeit policy. Root/flow were asked to give the configured
+public rule routes the actual live contract and keep predecessor/local-wallet rules scoped to
+offline/device practice. This is required disclosure accuracy for the existing wager, not a new
+economy or a general rewrite of historical documentation.
+
+Correction verification is complete:
+
+- AYD Home now shows only nine supported practice/Vault template types, labelled Practice
+  missions, with the actual visible count and a useful empty-day practice link. Unsupported
+  online/topic/mode/win/speed tasks and unreachable all-three bonus promises are absent. The
+  six-correct task opens files rather than a five-card daily set. The advisor re-read the actual
+  label/route/filter source; the lane passed two focused tests against real quest templates and
+  accepted local event paths, plus TypeScript. Root's final production build passed.
+- JHK's configured Home uses the equivalent supported learning routes, visible counts and local
+  XP wording. Legacy competitive rank/wake prompts are absent from that Home, while practice
+  medals/XP/stamps remain. Its live chrome says Online beta and omits the broken research link.
+- JHK `RulesScreen` now returns the live rules component before any predecessor rules, coin,
+  trust or timing branch. The advisor inspected this exact guard and its actual five-round/
+  thirty-second, 120ms, 100-unit starter, 10-unit completion, zero-wager and forfeit contract.
+  All three public footer routes reach that guarded contract.
+- The advisor read `/tmp/jhk-followup-ui/report.json`: four scoped Home/rules checks passed at
+  320px and 1280px, with no errors or overflow. The lane reports 11 focused tests and clean
+  TypeScript. No synthetic guest was needed or created by this presentation-only followup.
+- Root's final JHK production build and emitted description/canonical/Open Graph/asset checks
+  passed. The production description now advertises actual human sports/science duels rather
+  than the predecessor's no-server preview. Backend code and authority were unchanged, so the
+  earlier real match/economy/cleanup evidence remains applicable.
+
+**Final source verdict: approved; no open defect in this review's beta scope.** Freeze the panel
+and publish these verified corrections. The release owner must verify the final correction deployments against their public `release.json`
+manifests and report the live URLs. `VERIFICATION.md` retains the initial versions as evidence
+for when the followup defects were discovered; each published manifest identifies its own build. Do not add
+optional rounds, broad tests or design changes to this completed review.

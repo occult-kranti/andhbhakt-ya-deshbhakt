@@ -411,7 +411,7 @@ export default function RulesScreen({ route }: ScreenProps) {
               </li>
               <li>Every 7 days of streak earns one CL (casual leave), up to 2 in hand. A missed day uses one automatically. We never remind you about a streak.</li>
               <li>
-                Three small daily quests pay {listOr(QUEST_XP)} XP each, and {xpNum('questBonus')} more when all three are done.
+                Home shows optional practice and Vault missions that can be completed on this device, paying {listOr(QUEST_XP)} XP each. Online duel results do not advance these missions.
               </li>
               <li>
                 Dobara Jaanch (in the Vault) plays cards your memory is due to see again: {xpNum('reviewCorrect')} XP right, {xpNum('review')} otherwise, only on

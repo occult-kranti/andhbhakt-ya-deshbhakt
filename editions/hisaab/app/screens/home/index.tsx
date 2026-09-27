@@ -46,6 +46,7 @@ import {
   type ResumeRun,
 } from './home-data';
 import { usePressCue } from './press-cue';
+import { practiceMissions } from './practice-missions.mjs';
 import './home.css';
 
 
@@ -486,17 +487,18 @@ function TijoriPanel({ count, today }: { count: number; today: number }) {
 
 // ---- Aaj ke 3 kaam -----------------------------------------------------------------------------------
 
-function Quests({ items }: { items: QuestItem[] }) {
+function Quests({ items: allItems }: { items: QuestItem[] }) {
   const { t, isHi } = useLang();
+  const items = practiceMissions(allItems) as QuestItem[];
   const done = items.filter((q) => q.done).length;
   return (
     <div className="h-home__panel">
       <div className="h-home__panelhead">
         <h2 className="h-home__h2" id="h-home-quests">
           <span className="h-home__h2hi" lang="hi">
-            आज के 3 काम
+            अभ्यास के काम
           </span>
-          <span className="h-home__h2en">Aaj ke 3 kaam</span>
+          <span className="h-home__h2en">Practice missions</span>
         </h2>
         {/* A span takes no aria-label (and '1/3' would be read as "one third"): words for screen readers. */}
         <span className="h-home__questcount h-mono">
@@ -553,13 +555,13 @@ function Quests({ items }: { items: QuestItem[] }) {
         </ol>
       ) : (
         <p className="h-home__empty">
-          {t('Quests arrive with your first answer today.', 'आज के पहले जवाब के साथ काम आएँगे।')}
+          {t('No practice missions today. You can still explore a file.', 'आज अभ्यास का कोई काम नहीं। फिर भी फ़ाइल खोलकर सीखें।')} <a href={href.files()}>{t('Explore practice files', 'अभ्यास की फ़ाइलें खोलें')}</a>
         </p>
       )}
       <p className="h-meta h-home__questnote">
         {t(
-          'Quests are optional. They reset at midnight; nothing is lost.',
-          'काम ज़रूरी नहीं हैं। आधी रात को नए आते हैं।',
+          'Optional practice and Vault missions, tracked on this device. Online duel results do not count here. Missions reset at midnight.',
+          'वैकल्पिक अभ्यास और वॉल्ट के काम, इसी डिवाइस पर दर्ज। ऑनलाइन मुक़ाबले यहाँ नहीं गिने जाते। आधी रात को काम बदलते हैं।',
         )}
       </p>
     </div>
