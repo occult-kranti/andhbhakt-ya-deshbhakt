@@ -51,4 +51,19 @@ bank is public. Ads remain disabled. Broad anonymous promotion should follow
 abuse controls, monitored support, alerts and a measured capacity target.
 
 See [SERVER-LAUNCH.md](SERVER-LAUNCH.md) for the services and operating rules.
-The publication IDs and exact source revision are recorded after deployment.
+## Publication
+
+The standalone hosting service reported **succeeded** on 27 September 2026 at
+02:23:04 UTC. Open https://hisaab-do.whatswrong-inc.chatgpt.site/#/online for the
+server beta. The previous browser modes remain available.
+
+- Application source: `f9d73b38893ff5f7cc812fbbaa325da4da6f588f`.
+- Site source: `f5ea2dfaeaadad5b7c216a739f92f15e8298c31d`.
+- Site: `appgprj_6ab86670b86c8191b6f997fe9ef5aa90`, saved version 2.
+- Deployment: `appgdep_6ab87dfd4f6881919ec21e9654a6c147`.
+- All 207 intended build files match their published archive bytes, including
+  the entry document and configured online bundle.
+
+The investor deck remains the prepared introductory draft; its build-stage
+labels predate this publication. This release record is authoritative for
+availability. Financing details, traction and marketing outcomes remain unset.
