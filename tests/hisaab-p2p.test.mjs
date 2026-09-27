@@ -161,6 +161,50 @@ test('the engine’s timing check still applies: a forged-short time outside the
   await guest.close();
 });
 
+test('wire projections keep first-answer feedback private in both seating orders and immediately publish the second', async () => {
+  for (const firstSeat of [0, 1]) {
+    const ctx = await pair({ mode: 'quick' });
+    const { clock, host, guest } = ctx;
+    await host.request({ action: 'ready', roundId: null });
+    await guest.request({ action: 'ready', roundId: null });
+    const state = (await host.request({ action: 'state' })).room;
+    clock.t = state.round.scheduledAt;
+    await host.request({ action: 'reveal', roundId: state.round.id });
+    await guest.request({ action: 'reveal', roundId: state.round.id });
+    const key = guest.expectedDeck(state.config)[0].correctIndex;
+    const sessions = [host, guest];
+    clock.t += 600;
+    const answered = (await sessions[firstSeat].request({ action: 'answer', roundId: state.round.id,
+      attemptId: 'first-wire-attempt-00001', elapsedMs: 600, choice: key })).room;
+    assert.equal(answered.round.personalReceipt.correct, true);
+    const unanswered = (await sessions[1 - firstSeat].request({ action: 'state' })).room;
+    assert.equal(unanswered.round.personalReceipt, null);
+    assert.equal(unanswered.round.receipts, null);
+    assert.equal(unanswered.round.result, null);
+    for (const k of ['correctIndex', 'choice', 'correct', 'explanation', 'sourceUrl', 'sourceLabel'])
+      assert.ok(!JSON.stringify(unanswered).includes(`"${k}":`), `seat ${1 - firstSeat} has no ${k}`);
+    clock.t += 400;
+    const final = (await sessions[1 - firstSeat].request({ action: 'answer', roundId: state.round.id,
+      attemptId: 'second-wire-attempt-0001', elapsedMs: 1000, choice: key })).room;
+    assert.equal(final.phase, 'complete', 'answer response itself carries the shared final result');
+    assert.equal(final.winner, firstSeat);
+    assert.equal(final.round.personalReceipt, null);
+    await host.close();
+    await guest.close();
+  }
+});
+
+test('protocol 3 refuses version 2 clients that cannot present private answer feedback', async () => {
+  assert.equal(p2p.P2P_PROTOCOL, 'hisaab-duel/3');
+  const [a, b] = p2p.createMemoryPair();
+  const host = p2p.createP2PHost({ transport: a, code: 'ABCD-EFGH', name: 'Asha' });
+  await host.start();
+  const failed = new Promise((resolve) => host.onError(resolve));
+  b.send({ t: 'hello', protocol: 'hisaab-duel/2', bank: p2p.bankFingerprint(), role: 'guest' });
+  assert.equal((await failed).code, 'p2p_mismatch');
+  await host.close();
+});
+
 test('the guest checks the deal: a question that is not the seeded card fails verify()', async () => {
   const ctx = await pair({ mode: 'quick' });
   const room = structuredClone(ctx.joined.room);

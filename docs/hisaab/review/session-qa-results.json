@@ -1,0 +1,1870 @@
+{
+  "browserRuns": [
+    {
+      "artifact": "/tmp/hisaab-loop1-production",
+      "report": {
+        "startedAt": "2026-09-27T00:47:25.525Z",
+        "base": "http://127.0.0.1:4174/",
+        "checks": [
+          {
+            "name": "brand 320 light en",
+            "ok": true,
+            "ms": 9421,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 320 light hi",
+            "ok": true,
+            "ms": 8364,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 320 dark en",
+            "ok": true,
+            "ms": 7795,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 320 dark hi",
+            "ok": true,
+            "ms": 7952,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 390 light en",
+            "ok": true,
+            "ms": 8620,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 390 light hi",
+            "ok": true,
+            "ms": 7724,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 390 dark en",
+            "ok": true,
+            "ms": 8563,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 390 dark hi",
+            "ok": true,
+            "ms": 8029,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 1440 light en",
+            "ok": true,
+            "ms": 10821,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 1440 light hi",
+            "ok": true,
+            "ms": 10686,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 1440 dark en",
+            "ok": true,
+            "ms": 10156,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "brand 1440 dark hi",
+            "ok": true,
+            "ms": 10317,
+            "evidence": "7 page audits; no overflow, undersized checked targets, tiny text inputs or crash screens"
+          },
+          {
+            "name": "bot immediate receipt all three formats and first-tap burst",
+            "ok": true,
+            "ms": 14387,
+            "evidence": [
+              {
+                "mode": "quick",
+                "latencyMs": 39,
+                "optionStates": [
+                  "wrong-chosen",
+                  "other",
+                  "other",
+                  "correct-unchosen"
+                ]
+              },
+              {
+                "mode": "trilogy",
+                "latencyMs": 31,
+                "optionStates": [
+                  "correct",
+                  "other",
+                  "other",
+                  "other"
+                ]
+              },
+              {
+                "mode": "gauntlet",
+                "latencyMs": 42,
+                "optionStates": [
+                  "wrong-chosen",
+                  "other",
+                  "correct-unchosen",
+                  "other"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "friend host answers first: private receipt, no early XP or peer leak",
+            "ok": true,
+            "ms": 6324,
+            "evidence": {
+              "firstSeat": "host",
+              "latencyMs": 52,
+              "guestProjectionsChecked": 10,
+              "noPrematureXp": true,
+              "secondAnsweredWithKeyboard": true,
+              "bothSettled": true
+            }
+          },
+          {
+            "name": "friend guest answers first: private receipt, no early XP or peer leak",
+            "ok": true,
+            "ms": 6230,
+            "evidence": {
+              "firstSeat": "guest",
+              "latencyMs": 63,
+              "guestProjectionsChecked": 11,
+              "noPrematureXp": true,
+              "secondAnsweredWithKeyboard": true,
+              "bothSettled": true
+            }
+          },
+          {
+            "name": "game settings en: focus, keyboard shielding, timer, quit, reload recovery",
+            "ok": false,
+            "ms": 35319,
+            "error": "page.waitForSelector: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-screen=\"duel\"]') to be visible\u001b[22m\n\n    at /workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:273:20\n    at async check (/workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:28:78)\n    at async file:///workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:239:5"
+          },
+          {
+            "name": "game settings hi: focus, keyboard shielding, timer, quit, reload recovery",
+            "ok": false,
+            "ms": 35281,
+            "error": "page.waitForSelector: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-screen=\"duel\"]') to be visible\u001b[22m\n\n    at /workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:273:20\n    at async check (/workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:28:78)\n    at async file:///workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:239:5"
+          }
+        ],
+        "screens": [
+          {
+            "name": "320-light-en-home",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "320-light-en-files",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "320-light-en-ledger",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "320-light-en-circles",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "320-light-en-duel",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "320-light-en-settings",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "320-light-en-rules",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "320-light-hi-home",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "320-light-hi-files",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "320-light-hi-ledger",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "320-light-hi-circles",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "320-light-hi-duel",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "320-light-hi-settings",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "320-light-hi-rules",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "320-dark-en-home",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-files",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-ledger",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-circles",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-duel",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-settings",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-rules",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-hi-home",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-dark-hi-files",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-dark-hi-ledger",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-dark-hi-circles",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-dark-hi-duel",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-dark-hi-settings",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-dark-hi-rules",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "390-light-en-home",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "390-light-en-files",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "390-light-en-ledger",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "390-light-en-circles",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "390-light-en-duel",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "390-light-en-settings",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "390-light-en-rules",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "390-light-hi-home",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "390-light-hi-files",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "390-light-hi-ledger",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "390-light-hi-circles",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "390-light-hi-duel",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "390-light-hi-settings",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "390-light-hi-rules",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "390-dark-en-home",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "390-dark-en-files",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "390-dark-en-ledger",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "390-dark-en-circles",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "390-dark-en-duel",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "390-dark-en-settings",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "390-dark-en-rules",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "390-dark-hi-home",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "390-dark-hi-files",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "390-dark-hi-ledger",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "390-dark-hi-circles",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "390-dark-hi-duel",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "390-dark-hi-settings",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "390-dark-hi-rules",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-light-en-home",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "1440-light-en-files",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "1440-light-en-ledger",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "1440-light-en-circles",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "1440-light-en-duel",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "1440-light-en-settings",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "1440-light-en-rules",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "en"
+          },
+          {
+            "name": "1440-light-hi-home",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-light-hi-files",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-light-hi-ledger",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-light-hi-circles",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-light-hi-duel",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-light-hi-settings",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-light-hi-rules",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "light",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-dark-en-home",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-dark-en-files",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-dark-en-ledger",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-dark-en-circles",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-dark-en-duel",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-dark-en-settings",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-dark-en-rules",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-dark-hi-home",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-dark-hi-files",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-dark-hi-ledger",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-dark-hi-circles",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-dark-hi-duel",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-dark-hi-settings",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-dark-hi-rules",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "bot-quick-immediate-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "bot-trilogy-immediate-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "bot-gauntlet-immediate-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-host-private-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-host-final-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-guest-private-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-guest-final-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-game-settings",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-quit-confirm",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-hi-game-settings",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-dark-hi-quit-confirm",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          }
+        ],
+        "errors": [],
+        "completedAt": "2026-09-27T00:50:51.658Z",
+        "summary": {
+          "passed": 15,
+          "failed": 2,
+          "screens": 95,
+          "errors": 0
+        }
+      }
+    },
+    {
+      "artifact": "/tmp/hisaab-online-final",
+      "report": {
+        "startedAt": "2026-09-27T00:55:53.936Z",
+        "base": "http://127.0.0.1:4174/",
+        "checks": [
+          {
+            "name": "bot immediate receipt all three formats and first-tap burst",
+            "ok": true,
+            "ms": 14506,
+            "evidence": [
+              {
+                "mode": "quick",
+                "latencyMs": 33,
+                "optionStates": [
+                  "wrong-chosen",
+                  "other",
+                  "correct-unchosen",
+                  "other"
+                ]
+              },
+              {
+                "mode": "trilogy",
+                "latencyMs": 31,
+                "optionStates": [
+                  "correct",
+                  "other",
+                  "other",
+                  "other"
+                ]
+              },
+              {
+                "mode": "gauntlet",
+                "latencyMs": 34,
+                "optionStates": [
+                  "wrong-chosen",
+                  "other",
+                  "correct-unchosen",
+                  "other"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "friend host answers first: private receipt, no early XP or peer leak",
+            "ok": true,
+            "ms": 6343,
+            "evidence": {
+              "firstSeat": "host",
+              "latencyMs": 64,
+              "guestProjectionsChecked": 10,
+              "noPrematureXp": true,
+              "secondAnsweredWithKeyboard": true,
+              "bothSettled": true
+            }
+          },
+          {
+            "name": "friend guest answers first: private receipt, no early XP or peer leak",
+            "ok": true,
+            "ms": 6363,
+            "evidence": {
+              "firstSeat": "guest",
+              "latencyMs": 71,
+              "guestProjectionsChecked": 10,
+              "noPrematureXp": true,
+              "secondAnsweredWithKeyboard": true,
+              "bothSettled": true
+            }
+          },
+          {
+            "name": "game settings en: focus, keyboard shielding, timer, quit, reload recovery",
+            "ok": true,
+            "ms": 10479,
+            "evidence": {
+              "dialogKeysShielded": true,
+              "clockContinues": true,
+              "safeFocus": true,
+              "escapeTwoStages": true,
+              "quitClean": true,
+              "reloadHonest": true
+            }
+          },
+          {
+            "name": "game settings hi: focus, keyboard shielding, timer, quit, reload recovery",
+            "ok": true,
+            "ms": 10522,
+            "evidence": {
+              "dialogKeysShielded": true,
+              "clockContinues": true,
+              "safeFocus": true,
+              "escapeTwoStages": true,
+              "quitClean": true,
+              "reloadHonest": true
+            }
+          },
+          {
+            "name": "round header 320 en: long names friend and pass",
+            "ok": false,
+            "ms": 5660,
+            "error": "AssertionError [ERR_ASSERTION]: Overflow: {\"width\":320,\"scrollWidth\":341,\"smallTargets\":[],\"smallInputs\":[],\"theme\":\"dark\",\"lang\":\"en\"}\n    at audit (file:///workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:100:10)\n    at async file:///workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:322:9\n    at async check (file:///workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:28:78)\n    at async file:///workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:307:5"
+          },
+          {
+            "name": "round header 320 hi: long names friend and pass",
+            "ok": true,
+            "ms": 5771,
+            "evidence": {
+              "nameLength": 24,
+              "friendHeader": true,
+              "passHandoverAndPlay": true,
+              "passSettings": true
+            }
+          },
+          {
+            "name": "round header 1440 en: long names friend and pass",
+            "ok": true,
+            "ms": 5883,
+            "evidence": {
+              "nameLength": 24,
+              "friendHeader": true,
+              "passHandoverAndPlay": true,
+              "passSettings": true
+            }
+          },
+          {
+            "name": "round header 1440 hi: long names friend and pass",
+            "ok": true,
+            "ms": 5841,
+            "evidence": {
+              "nameLength": 24,
+              "friendHeader": true,
+              "passHandoverAndPlay": true,
+              "passSettings": true
+            }
+          },
+          {
+            "name": "friend host quits: other player leaves private feedback cleanly",
+            "ok": false,
+            "ms": 10281,
+            "error": "page.waitForSelector: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.h-arena[data-view=\"result\"]') to be visible\u001b[22m\n\n    at /workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:344:25\n    at async check (/workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:28:78)\n    at async file:///workspace/scratch/9f051017602a/fact-duel/scripts/hisaab-session-check.mjs:334:5"
+          },
+          {
+            "name": "friend guest quits: other player leaves private feedback cleanly",
+            "ok": true,
+            "ms": 6316,
+            "evidence": {
+              "leavingSeat": "guest",
+              "peerResultVisible": true,
+              "departedSessionGone": true
+            }
+          },
+          {
+            "name": "deadline settles under open quit confirmation without stealing focus",
+            "ok": true,
+            "ms": 35322,
+            "evidence": {
+              "realDeadlineObserved": true,
+              "dialogPreserved": true,
+              "confirmationRefreshed": true,
+              "focusRetained": true
+            }
+          }
+        ],
+        "screens": [
+          {
+            "name": "bot-quick-immediate-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "bot-trilogy-immediate-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "bot-gauntlet-immediate-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-host-private-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-host-final-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-guest-private-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-guest-final-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-bot-live",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-game-settings",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-en-quit-confirm",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-dark-hi-bot-live",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-dark-hi-game-settings",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-dark-hi-quit-confirm",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-en-long-name-friend-live",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-en-long-name-pass-handover",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-en-long-name-pass-live",
+            "width": 320,
+            "scrollWidth": 341,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-hi-long-name-friend-live",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-hi-long-name-pass-handover",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-hi-long-name-pass-live",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "320-hi-pass-settings",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-en-long-name-friend-live",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-en-long-name-pass-handover",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-en-long-name-pass-live",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-en-pass-settings",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "1440-hi-long-name-friend-live",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-hi-long-name-pass-handover",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-hi-long-name-pass-live",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "1440-hi-pass-settings",
+            "width": 1440,
+            "scrollWidth": 1440,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          },
+          {
+            "name": "friend-guest-quit-peer-result",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "deadline-settled-open-settings",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          }
+        ],
+        "errors": [],
+        "completedAt": "2026-09-27T00:57:57.392Z",
+        "summary": {
+          "passed": 10,
+          "failed": 2,
+          "screens": 30,
+          "errors": 0
+        }
+      }
+    },
+    {
+      "artifact": "/tmp/hisaab-online-release",
+      "report": {
+        "startedAt": "2026-09-27T00:58:40.756Z",
+        "base": "http://127.0.0.1:4174/",
+        "checks": [
+          {
+            "name": "friend host answers first: private receipt, no early XP or peer leak",
+            "ok": true,
+            "ms": 6673,
+            "evidence": {
+              "firstSeat": "host",
+              "latencyMs": 57,
+              "guestProjectionsChecked": 12,
+              "noPrematureXp": true,
+              "personalAnnouncement": "Your answer: incorrect. Anonymous Janta is still answering.",
+              "secondAnsweredWithKeyboard": true,
+              "bothSettled": true
+            }
+          },
+          {
+            "name": "friend host quits: other player leaves private feedback cleanly",
+            "ok": true,
+            "ms": 16683,
+            "evidence": {
+              "leavingSeat": "host",
+              "peerResultVisible": true,
+              "departedSessionGone": true
+            }
+          },
+          {
+            "name": "certificate exports current site host and a real PNG",
+            "ok": true,
+            "ms": 1237,
+            "evidence": {
+              "host": "127.0.0.1:4174",
+              "filename": "hisaab-do-certificate-andhbhakt.png",
+              "bytes": 134386
+            }
+          },
+          {
+            "name": "connection cancellation en: immediate exit survives late join timeout",
+            "ok": true,
+            "ms": 9402,
+            "evidence": {
+              "locale": "en",
+              "latencyMs": 62,
+              "waitedPastHelloTimeout": true,
+              "returnedSetupStable": true
+            }
+          },
+          {
+            "name": "connection cancellation hi: immediate exit survives late join timeout",
+            "ok": true,
+            "ms": 9459,
+            "evidence": {
+              "locale": "hi",
+              "latencyMs": 54,
+              "waitedPastHelloTimeout": true,
+              "returnedSetupStable": true
+            }
+          }
+        ],
+        "screens": [
+          {
+            "name": "friend-host-private-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-host-final-receipt",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-host-quit-peer-result",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "certificate-current-host",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-en-pending-join-cancel",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-hi-pending-join-cancel",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "hi"
+          }
+        ],
+        "errors": [],
+        "completedAt": "2026-09-27T00:59:24.346Z",
+        "summary": {
+          "passed": 5,
+          "failed": 0,
+          "screens": 6,
+          "errors": 0
+        }
+      }
+    },
+    {
+      "artifact": "/tmp/hisaab-online-publish",
+      "report": {
+        "startedAt": "2026-09-27T01:00:23.809Z",
+        "base": "http://127.0.0.1:4174/",
+        "checks": [
+          {
+            "name": "round header 320 en: long names friend and pass",
+            "ok": true,
+            "ms": 6119,
+            "evidence": {
+              "nameLength": 24,
+              "friendHeader": true,
+              "passHandoverAndPlay": true,
+              "passSettings": true
+            }
+          },
+          {
+            "name": "friend host quits: other player leaves private feedback cleanly",
+            "ok": true,
+            "ms": 16657,
+            "evidence": {
+              "leavingSeat": "host",
+              "peerResultVisible": true,
+              "departedSessionGone": true
+            }
+          }
+        ],
+        "screens": [
+          {
+            "name": "320-en-long-name-friend-live",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-en-long-name-pass-handover",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-en-long-name-pass-live",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "320-en-pass-settings",
+            "width": 320,
+            "scrollWidth": 320,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          },
+          {
+            "name": "friend-host-quit-peer-result",
+            "width": 390,
+            "scrollWidth": 390,
+            "smallTargets": [],
+            "smallInputs": [],
+            "theme": "dark",
+            "lang": "en"
+          }
+        ],
+        "errors": [],
+        "completedAt": "2026-09-27T01:00:46.652Z",
+        "summary": {
+          "passed": 2,
+          "failed": 0,
+          "screens": 5,
+          "errors": 0
+        }
+      }
+    }
+  ],
+  "realWebRTC": {
+    "startedAt": "2026-09-27T00:50:52.315Z",
+    "transport": "Trystero/WebRTC",
+    "independentContexts": true,
+    "timeoutMs": 30000,
+    "completedSteps": [
+      "host generated genuine WebRTC room"
+    ],
+    "messages": [
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://nostr.tegila.com.br/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://social.amanah.eblessing.co/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://relay02.lnfi.network/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://yabu.me/v2' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://basspistol.org/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://relay02.lnfi.network/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://social.amanah.eblessing.co/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://relay02.lnfi.network/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://social.amanah.eblessing.co/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://nostr.tegila.com.br/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://relay02.lnfi.network/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://yabu.me/v2' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://basspistol.org/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://nostr.tegila.com.br/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://yabu.me/v2' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://yabu.me/v2' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://yabu.me/v2' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://basspistol.org/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://basspistol.org/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://relay02.lnfi.network/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://social.amanah.eblessing.co/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://nostr.tegila.com.br/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://basspistol.org/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://relay02.lnfi.network/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://social.amanah.eblessing.co/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://social.amanah.eblessing.co/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://yabu.me/v2' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://nostr.tegila.com.br/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://relay02.lnfi.network/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://nostr.tegila.com.br/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://yabu.me/v2' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "host",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://social.amanah.eblessing.co/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://nostr.tegila.com.br/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      },
+      {
+        "label": "guest",
+        "kind": "error",
+        "text": "WebSocket connection to 'wss://basspistol.org/' failed: Error in connection establishment: net::ERR_EMPTY_RESPONSE"
+      }
+    ],
+    "failures": [],
+    "ok": false,
+    "error": "page.waitForSelector: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.h-lobby__big') to be visible\u001b[22m\n",
+    "hostText": "Skip to content\nहिसाब दो\nHISAAB DO.\nLV 1\n\nF.No. P2P/E9W2-RPYR\n\nदोस्त से मुक़ाबला\nDuel a friend\n\nCode bhejo, dost bulao.\n\nROOM CODE\n\nE9W2-RPYR\n\nE 9 W 2 - R P Y R\n\nWhatsApp\nCopy link\nShare\n\nQuick Draw · 1 question · 30 s · Mixed\n\nSEATS\nAnonymous Janta\nYou · host\nHere\nFriend\nguest\n…\nWaiting…\n\nCasual · trust-based. The host's browser runs the match and each browser reports its own reveal-to-answer time, so a modified browser could cheat. Fine between friends. No coins and no Babu rank: a friend duel pays XP on each device, and each device keeps its own record.\n\nBoth browsers find each other through public relays and public STUN servers (Google’s and Cloudflare’s), then talk directly and learn each other’s internet (IP) address, as in any video call. Some office and mobile networks block direct connections, and there is no relay server of ours to fall back on. The room code is the only key to the room. The public relays see a scrambled, stretched form of it that takes a lot of computing power to reverse, but someone who spends that could still work out a code later, and with it both players' internet (IP) addresses. Send the code only to your friend.\n\nSend the code. “I’m ready” opens once your friend joins.\n\nLeave\nI'm ready",
+    "guestText": "Skip to content\nहिसाब दो\nHISAAB DO.\nLV 1\n\nF.No. P2P/—\n\nदोस्त से मुक़ाबला\nDuel a friend\n\nCode bhejo, dost bulao. Direct connection — hamare paas kuch nahi jaata.\n\nF.No. ——\nConnecting directly……\n\nConnecting directly to your friend’s browser…\n\nCasual · trust-based. The host's browser runs the match and each browser reports its own reveal-to-answer time, so a modified browser could cheat. Fine between friends. No coins and no Babu rank: a friend duel pays XP on each device, and each device keeps its own record.\n\nBoth browsers find each other through public relays and public STUN servers (Google’s and Cloudflare’s), then talk directly and learn each other’s internet (IP) address, as in any video call. Some office and mobile networks block direct connections, and there is no relay server of ours to fall back on. The room code is the only key to the room. The public relays see a scrambled, stretched form of it that takes a lot of computing power to reverse, but someone who spends that could still work out a code later, and with it both players' internet (IP) addresses. Send the code only to your friend.",
+    "finishedAt": "2026-09-27T00:51:06.279Z"
+  }
+}

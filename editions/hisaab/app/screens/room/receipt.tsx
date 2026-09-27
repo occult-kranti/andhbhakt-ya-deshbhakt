@@ -107,7 +107,7 @@ export type RoundReceiptProps = {
   final: boolean;
   onNext: () => void;
   busy?: boolean;
-  onLeave?: () => void;
+  onSettings?: () => void;
   banner?: ReactNode;
   /**
    * Hands the round's one polite sentence (verdict, the answer, the score) to the arena's standing
@@ -124,7 +124,7 @@ export function RoundReceipt({
   final,
   onNext,
   busy,
-  onLeave,
+  onSettings,
   banner,
   onSay,
 }: RoundReceiptProps) {
@@ -209,7 +209,7 @@ export function RoundReceipt({
       <RoundHead
         room={room}
         names={names}
-        onLeave={final ? undefined : onLeave}
+        onSettings={onSettings}
         sub={t(`Round ${round.index + 1} · receipt`, `राउंड ${round.index + 1} · रसीद`)}
       />
       {banner}

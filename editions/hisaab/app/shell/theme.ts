@@ -1,5 +1,5 @@
 /**
- * shell/theme.ts — Light ("Office by day") / Dark ("File room at night") / Match phone.
+ * shell/theme.ts — Light ("Day edition") / Dark ("Night edition") / Match phone.
  *
  *   const { pref, resolved, setTheme } = useTheme();   // pref: 'light' | 'dark' | 'system'
  *

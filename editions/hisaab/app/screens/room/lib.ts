@@ -34,6 +34,7 @@ export type LiveRound = {
   answerLocked: boolean[];
   question: RoomQuestion | null;
   result: RoundResult | null;
+  personalReceipt?: { choice: number; correct: boolean; elapsedMs: number; question: RoomQuestion } | null;
   receipts?: SeatReceipt[];
 };
 export type DoneRound = {

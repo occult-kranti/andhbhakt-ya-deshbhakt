@@ -1,0 +1,48 @@
+.h-matchsettings-trigger {
+  flex: none;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: var(--h-tap);
+  min-height: var(--h-tap);
+  padding: var(--h-s-1) var(--h-s-2);
+  border: var(--h-bw) solid var(--h-line);
+  border-radius: var(--h-r-s);
+  background: var(--h-paper);
+  color: var(--h-ink);
+  font: 600 var(--h-fs-xs)/1.2 var(--h-font-ui);
+  cursor: pointer;
+}
+.h-matchsettings-trigger:hover { background: var(--h-ground-2); }
+.h-matchsettings-trigger:focus-visible,
+.h-matchsettings button:focus-visible,
+.h-matchsettings select:focus-visible { outline: 3px solid var(--h-syahi-text); outline-offset: 3px; }
+.h-matchsettings {
+  width: min(29rem, calc(100% - 2 * var(--h-gutter)));
+  max-width: none;
+  max-height: calc(100dvh - 2 * var(--h-gutter));
+  overflow-y: auto;
+  padding: var(--h-s-5);
+  border: var(--h-bw) solid var(--h-line);
+  border-radius: var(--h-r-l);
+  background: var(--h-paper);
+  color: var(--h-ink);
+  box-shadow: var(--h-shadow-float);
+}
+.h-matchsettings::backdrop { background: var(--h-scrim); }
+.h-matchsettings__head { display: flex; gap: var(--h-s-3); align-items: flex-start; justify-content: space-between; }
+.h-matchsettings__head h2 { font: 700 var(--h-fs-xl)/1.25 var(--h-font-ui); }
+.h-matchsettings__brand { font-size: 17px; line-height: 1.4; color: var(--h-ink); }
+.h-matchsettings__note { margin-block: var(--h-s-4); font-size: var(--h-fs-s); color: var(--h-ink-2); }
+.h-matchsettings__row { display: flex; align-items: center; justify-content: space-between; gap: var(--h-s-3); padding-block: var(--h-s-3); border-bottom: 1px solid var(--h-hair); }
+.h-matchsettings__row > span { display: inline-flex; gap: var(--h-s-2); align-items: center; font-weight: 600; }
+.h-matchsettings__row select,
+.h-matchsettings__row button { min-height: var(--h-tap); border: var(--h-bw) solid var(--h-line); border-radius: var(--h-r-s); background: var(--h-ground); color: var(--h-ink); padding: var(--h-s-1) var(--h-s-3); font: 600 16px var(--h-font-ui); }
+.h-matchsettings__row select { max-width: 65%; }
+.h-matchsettings__row button { min-width: 4rem; cursor: pointer; }
+.h-matchsettings__row button[aria-checked='true'] { background: var(--h-syahi-soft); color: var(--h-syahi-text); }
+.h-matchsettings__exit { padding-top: var(--h-s-3); margin-top: var(--h-s-3); }
+.h-matchsettings__actions { display: grid; gap: var(--h-s-3); }
+.h-matchsettings-toolbar { display: flex; justify-content: flex-end; padding: var(--h-s-2) var(--h-gutter); }

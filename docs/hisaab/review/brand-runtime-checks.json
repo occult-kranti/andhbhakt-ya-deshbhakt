@@ -1,0 +1,172 @@
+{
+  "checks": 15,
+  "rows": [
+    {
+      "screen": "about",
+      "theme": "light",
+      "os": "dark",
+      "actual": "light",
+      "ground": "rgb(242, 237, 223)",
+      "ink": "rgb(37, 34, 25)",
+      "overflow": 0,
+      "brand": "HISAAB DO."
+    },
+    {
+      "screen": "privacy",
+      "theme": "light",
+      "os": "dark",
+      "actual": "light",
+      "ground": "rgb(242, 237, 223)",
+      "ink": "rgb(37, 34, 25)",
+      "overflow": 0,
+      "brand": "HISAAB DO."
+    },
+    {
+      "screen": "contact",
+      "theme": "light",
+      "os": "dark",
+      "actual": "light",
+      "ground": "rgb(242, 237, 223)",
+      "ink": "rgb(37, 34, 25)",
+      "overflow": 0,
+      "brand": "HISAAB DO."
+    },
+    {
+      "screen": "roundheader",
+      "theme": "light",
+      "width": 320,
+      "geometry": {
+        "overflow": 0,
+        "brand": {
+          "left": 16,
+          "right": 156.203125,
+          "top": 9.625,
+          "bottom": 29.171875,
+          "width": 140.203125,
+          "height": 19.546875
+        },
+        "score": {
+          "left": 168.203125,
+          "right": 245,
+          "top": 8,
+          "bottom": 79,
+          "width": 76.796875,
+          "height": 71
+        },
+        "settings": {
+          "left": 257,
+          "right": 312,
+          "top": 18.09375,
+          "bottom": 68.890625,
+          "width": 55,
+          "height": 50.796875
+        }
+      }
+    },
+    {
+      "screen": "menu",
+      "theme": "light",
+      "width": 320,
+      "overflow": 0,
+      "dialogOverflow": 0,
+      "focus": "खेल पर वापस",
+      "brand": "HISAAB DO."
+    },
+    {
+      "screen": "home-hi",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "screen": "home-hi",
+      "theme": "light",
+      "width": 1440
+    },
+    {
+      "screen": "about",
+      "theme": "dark",
+      "os": "light",
+      "actual": "dark",
+      "ground": "rgb(20, 19, 27)",
+      "ink": "rgb(245, 239, 226)",
+      "overflow": 0,
+      "brand": "HISAAB DO."
+    },
+    {
+      "screen": "privacy",
+      "theme": "dark",
+      "os": "light",
+      "actual": "dark",
+      "ground": "rgb(20, 19, 27)",
+      "ink": "rgb(245, 239, 226)",
+      "overflow": 0,
+      "brand": "HISAAB DO."
+    },
+    {
+      "screen": "contact",
+      "theme": "dark",
+      "os": "light",
+      "actual": "dark",
+      "ground": "rgb(20, 19, 27)",
+      "ink": "rgb(245, 239, 226)",
+      "overflow": 0,
+      "brand": "HISAAB DO."
+    },
+    {
+      "screen": "roundheader",
+      "theme": "dark",
+      "width": 320,
+      "geometry": {
+        "overflow": 0,
+        "brand": {
+          "left": 16,
+          "right": 156.203125,
+          "top": 9.625,
+          "bottom": 29.171875,
+          "width": 140.203125,
+          "height": 19.546875
+        },
+        "score": {
+          "left": 168.203125,
+          "right": 245,
+          "top": 8,
+          "bottom": 79,
+          "width": 76.796875,
+          "height": 71
+        },
+        "settings": {
+          "left": 257,
+          "right": 312,
+          "top": 18.09375,
+          "bottom": 68.890625,
+          "width": 55,
+          "height": 50.796875
+        }
+      }
+    },
+    {
+      "screen": "menu",
+      "theme": "dark",
+      "width": 320,
+      "overflow": 0,
+      "dialogOverflow": 0,
+      "focus": "खेल पर वापस",
+      "brand": "HISAAB DO."
+    },
+    {
+      "screen": "home-hi",
+      "theme": "dark",
+      "width": 390
+    },
+    {
+      "screen": "home-hi",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "screen": "about",
+      "noJavaScript": true,
+      "theme": "device-dark"
+    }
+  ]
+}

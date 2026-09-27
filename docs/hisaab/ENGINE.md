@@ -192,11 +192,12 @@ Filters default to `'all'`. A filter that leaves fewer questions than the format
 
 | mode | name | rounds | clock | ends |
 |---|---|---|---|---|
-| `quick` | Quick Draw | 1 | 10 s | after the round |
-| `trilogy` | Triple Threat | up to 3 | 7 s | first to 2 round wins |
-| `gauntlet` | The Gauntlet | 5 | 5 s | after 5; most rounds wins |
+| `quick` | Quick Draw | 1 | 30 s maximum | after the round |
+| `trilogy` | Triple Threat | up to 3 | 30 s maximum | first to 2 round wins |
+| `gauntlet` | The Gauntlet | 5 | 30 s maximum | after 5; most rounds wins |
 
-`DUEL_FORMATS` in `edition.ts` has these, taken from the engine. Allowed durations are 5, 7 and 10 s.
+`DUEL_FORMATS` in `edition.ts` has these, taken from the edition rules. Legacy allowed durations are
+5, 7 and 10 s; all current HISAAB formats use 30 s. The original game retains its own defaults.
 Each round is scheduled 3 s after both seats are ready, and a seat must reveal within 12 s of that or
 the match is cancelled (`player-not-connected`). The bot readies itself between rounds; the human seat
 calls `ready` again.
@@ -211,6 +212,13 @@ The practice bot is **Lucky Guess · BOT**. Its pick is uniform over the four op
 uniform between 1 s and duration minus 0.5 s. It never sees the question, and the receipts mark it as
 `simulated` ("scheduled bot"). Always label it BOT.
 
+The HISAAB-only `IMMEDIATE_DUEL_FEEDBACK` rule resolves that precommitted bot turn as soon as the
+human's timing-valid answer is durably sealed. The sampled choice and duration do not change.
+The answer response performs revision-checked settlement after the durable receipt write, so it
+does not require an additional polling interval. Human rounds settle as soon as both answers are
+in; until then, only the answered seat receives a private `personalReceipt`. It contains the locked
+choice, correctness, elapsed time and sourced explanation. It is not a shared winner or an XP award.
+
 ### 6.3 The duel controller (use this instead of re-deriving the arena)
 
 ```ts
@@ -219,7 +227,7 @@ import { useDuel, useQuestionShown } from '@/editions/hisaab/app/use-duel';
 
 const { controller, snapshot } = useDuel(request);
 useQuestionShown(controller, snapshot); // starts the answer clock 2 animation frames after the question mounts
-await controller.createBot({ name, config: { mode: 'quick', duration: 10 } });
+await controller.createBot({ name, config: { mode: 'quick', duration: 30 } });
 // render snapshot.room; on a tap: controller.answer(i)
 ```
 
@@ -243,11 +251,13 @@ question surface quiet: no entrance animation, no layout shift, no renderer or c
 `room`: `{ id, revision, seat, phase ('waiting'|'scheduled'|'playing'|'between'|'complete'|'cancelled'),
 roundIndex, config, players[{ name, ready, kind: 'human'|'bot' }], scores[2], settled, winner (seat|null),
 reason, completedRounds[], round }`.
-`round`: `{ id, scheduledAt, issuedAt, answerLocked[2], question, result, receipts }`.
+`round`: `{ id, scheduledAt, issuedAt, answerLocked[2], question, personalReceipt, result, receipts }`.
 `question` is `{ id, topic, subtopic, difficulty, question, options }` once revealed. When `result` is set
 it also has `factId, domain, correctIndex, explanation, sourceUrl, sourceLabel`.
 `result` is `{ winner, reason, tieMs }`, and `receipts[seat]` is `{ choice, correct, elapsedMs, simulated, … }`.
 `completedRounds` holds the settled earlier rounds, which you need for the receipt screen.
+`personalReceipt` is null for an unanswered seat, an invalid timing receipt, and after settlement.
+No private feedback changes the opponent's question projection or permits early advancement.
 
 ### 6.5 Recording a duel to the profile
 
@@ -407,7 +417,7 @@ so the deck is `dealFromSeed(seed, config)`. The guest deals the same deck from 
 (`expectedDeck(config)`) and checks every revealed question, text and option order, against it
 (`verify(room)`).
 
-**The handshake.** A hello compares the protocol (`P2P_PROTOCOL`, `'hisaab-duel/1'`) and the bank's
+**The handshake.** A hello compares the protocol (`P2P_PROTOCOL`, `'hisaab-duel/3'`) and the bank's
 **content fingerprint** (`bankFingerprint()`: the item count plus an FNV-1a hash of every field of every
 item, as canonical JSON with sorted keys). An editorial fix under the same id therefore changes it, and
 two builds whose banks differ in any way refuse to pair (`p2p_mismatch`, "Both of you reload the page").

@@ -182,6 +182,8 @@
 }
 .h-pass__turn {
   align-self: flex-start;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   padding: 2px var(--h-s-3);
   border: var(--h-bw) solid var(--h-line);
   border-radius: var(--h-r-pill);

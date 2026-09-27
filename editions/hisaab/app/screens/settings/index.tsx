@@ -2,7 +2,7 @@
  * screens/settings/index.tsx — Settings (design bible §11.16; charter §7).
  *
  * Everything applies the moment it is touched and is stored on this device only. Language · Theme
- * (Office by day / File room at night / Match phone) · Sound + volume · Haptics · Effects (Full /
+ * (Day edition / Night edition / Match phone) · Sound + volume · Haptics · Effects (Full /
  * Reduced / Off) · Toasts · Quiet everything · Name · Data (export, delete with a Delete / Keep
  * confirm) · "We never send notifications." · Rules & Sources, Corrections, Report a problem.
  * The ONE violet action is Done. Confirmations are inline ("Exported ✓"), never toasts.
@@ -147,8 +147,8 @@ export default function SettingsScreen(_: ScreenProps) {
           value={theme.pref}
           onChange={(v) => theme.setTheme(v)}
           options={[
-            { id: 'light', label: t('Office by day', 'दिन का दफ़्तर'), sub: t('Light', 'हल्की'), icon: <Sun size={20} strokeWidth={2.4} /> },
-            { id: 'dark', label: t('File room at night', 'रात का फ़ाइल रूम'), sub: t('Dark', 'गहरी'), icon: <Moon size={20} strokeWidth={2.4} /> },
+            { id: 'light', label: t('Day edition', 'दिन का संस्करण'), sub: t('Light', 'हल्की'), icon: <Sun size={20} strokeWidth={2.4} /> },
+            { id: 'dark', label: t('Night edition', 'रात का संस्करण'), sub: t('Dark', 'गहरी'), icon: <Moon size={20} strokeWidth={2.4} /> },
             {
               id: 'system',
               label: t('Match phone', 'फ़ोन जैसी'),

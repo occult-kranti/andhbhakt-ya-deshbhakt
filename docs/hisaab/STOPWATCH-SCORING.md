@@ -16,7 +16,12 @@ The first answer locks its choice and elapsed time synchronously before asynchro
 
 Daily round identities reject duplicate writes. The latest claimed daily date and its five-bit mask also survive journal-row eviction; an older date cannot be reclaimed, and a newer date starts a new mask. One-card link rewards consult persistent discovery fact aggregates, so an old link cannot become a new reward when its journal row leaves the 200-row window. A fact already encountered in discovery or the daily earns no new discovery XP from its link. Files retain their fact-level replay guard and now pay zero answer XP on repeated cards and zero repeated completion XP. Existing once-only quests and achievements retain their own guards.
 
-Legacy stored confidence fields and historical internal file scores remain readable to preserve profiles; they are not available as player choices. Files present accuracy from the stored correct-answer count. JHK keeps its original confidence system, XP and 10/7/5-second default duel formats through `lib/edition-rules.mjs`; only the HISAAB alias supplies stopwatch rules. P2P protocol version 2 prevents a version-1 client from pairing silently across the timing-rule change.
+Legacy stored confidence fields and historical internal file scores remain readable to preserve profiles; they are not available as player choices. Files present accuracy from the stored correct-answer count. JHK keeps its original confidence system, XP and 10/7/5-second default duel formats through `lib/edition-rules.mjs`; only the HISAAB alias supplies stopwatch rules. P2P protocol version 3 prevents older clients from pairing silently across the timing and immediate-feedback changes.
+
+Bot rounds now resolve on the player's valid submission with the bot's precommitted choice/time.
+Human players see a private answer receipt immediately; the other seat still has its own answer
+window. Shared verdicts and XP follow shared settlement, with no unused clock wait once both answer.
+Opening the match Settings menu does not pause or reset the stopwatch.
 
 ## Verification
 

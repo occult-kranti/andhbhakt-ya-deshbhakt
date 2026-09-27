@@ -24,11 +24,13 @@
  * `preview:hisaab` reads the same variable, so `HISAAB_OUT=<dir> pnpm preview:hisaab` serves that build.
  */
 import path from 'node:path';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig, type Plugin } from 'vite';
 import { EDITION_ALIASES } from './editions/hisaab/aliases.mjs';
 import { adConfigFromEnv, adsTxt } from './editions/hisaab/app/ads/policy.mjs';
+import { publicationThemeSource } from './scripts/hisaab-publication-theme.mjs';
 
 const repoRoot = path.dirname(fileURLToPath(import.meta.url));
 const editionRoot = path.join(repoRoot, 'editions/hisaab');
@@ -74,6 +76,32 @@ function publicationAds(): Plugin {
   };
 }
 
+/** Static publication pages use the exact same palette as the app, including OS fallbacks. */
+function publicationTheme(): Plugin {
+  const assets = {
+    'publication-tokens.css': { type: 'text/css', source: () => readFileSync(path.join(editionRoot, 'theme/tokens.css'), 'utf8') },
+    'publication-theme.js': { type: 'text/javascript', source: () => publicationThemeSource },
+  };
+  return {
+    name: 'hisaab-publication-theme',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const pathname = new URL(req.url ?? '/', 'http://localhost').pathname;
+        const entry = Object.entries(assets).find(([name]) => pathname === `/${name}` || pathname === `${base}${name}`);
+        if (!entry) return next();
+        const asset = entry[1];
+        res.setHeader('Content-Type', `${asset.type}; charset=utf-8`);
+        res.setHeader('Cache-Control', 'no-cache');
+        res.end(req.method === 'HEAD' ? undefined : asset.source());
+      });
+    },
+    generateBundle() {
+      for (const [fileName, asset] of Object.entries(assets))
+        this.emitFile({ type: 'asset', fileName, source: asset.source() });
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => ({
   root: editionRoot,
   base,
@@ -91,7 +119,7 @@ export default defineConfig(({ mode }) => ({
       { find: /^@\//, replacement: `${repoRoot}/` },
     ],
   },
-  plugins: [editionAliases(), react(), publicationAds()],
+  plugins: [editionAliases(), react(), publicationAds(), publicationTheme()],
   server: { fs: { allow: [repoRoot] } },
   build: {
     outDir,

@@ -1,0 +1,6 @@
+.h-brand-name {
+  font-family: var(--h-font-editorial);
+  font-weight: 900;
+  white-space: nowrap;
+}
+.h-brand-name__dot { color: var(--h-syahi-text); }

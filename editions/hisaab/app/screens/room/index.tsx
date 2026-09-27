@@ -20,6 +20,7 @@ import { useLang } from '../../ui/lang';
 import { EmptyState, ErrorState, Page, ScreenHeader } from '../../ui/page';
 import { seatNameFor, takeBotIntent, type BotIntent } from '../duel/lib';
 import { Arena } from './arena';
+import { leaveMatch } from './leave-match';
 import { baselineOf, type Baseline } from './result';
 import type { Room } from './lib';
 
@@ -85,12 +86,7 @@ function BotRoom({ intent }: { intent: BotIntent }) {
         baseline={baseline}
         onRematch={() => void start()}
         onExit={() => navigate(setupHref(intent))}
-        onLeave={() => {
-          void controller
-            .leave()
-            .catch(() => {})
-            .finally(() => navigate(setupHref(intent)));
-        }}
+        onLeave={() => void leaveMatch(controller, () => navigate(setupHref(intent)))}
         countdownNote={
           <p>
             <strong>{BOT_NAME}</strong> — {t(BOT_LINE, BOT_LINE_HI)}

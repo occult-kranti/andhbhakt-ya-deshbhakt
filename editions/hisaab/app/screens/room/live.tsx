@@ -14,10 +14,11 @@
  *    share buttons (the arena holds the budget quiet from the countdown to the result).
  */
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
-import { Lock, X } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import { useJuice } from '@/components/fx';
 import { useQuestionShown, type DuelController, type DuelSnapshot } from '../../use-duel';
-import { IconButton } from '../../ui/button';
+import { MatchSettingsButton } from './match-settings';
+import { BrandName } from '../../ui/brand';
 import { useLang } from '../../ui/lang';
 import { OptionList } from '../../ui/option';
 import { formatNameHi, formatOf, roundOf, sectorName } from '../duel/lib';
@@ -30,13 +31,12 @@ import '../../ui/stopwatch.css';
 export type RoundHeadProps = {
   room: Room;
   names: readonly [string, string];
-  onLeave?: () => void;
-  leaveLabel?: string;
+  onSettings?: () => void;
   /** Override the round line (the result screen says "Final"). */
   sub?: ReactNode;
 };
 
-export function RoundHead({ room, names, onLeave, leaveLabel, sub }: RoundHeadProps) {
+export function RoundHead({ room, names, onSettings, sub }: RoundHeadProps) {
   const { t, isHi } = useLang();
   const f = formatOf(room.config.mode);
   const me = room.seat;
@@ -45,8 +45,9 @@ export function RoundHead({ room, names, onLeave, leaveLabel, sub }: RoundHeadPr
   const theirs = room.scores[them] ?? 0;
   return (
     // With no × (the match result, the last round's receipt) the score sits at the right gutter, not 8px.
-    <header className={onLeave ? 'h-roundhead' : 'h-roundhead h-roundhead--noleave'}>
+    <header className={onSettings ? 'h-roundhead' : 'h-roundhead h-roundhead--noleave'}>
       <div className="h-roundhead__ids">
+        <BrandName className="h-roundhead__brand" />
         <p className="h-roundhead__fmt">{isHi ? <span lang="hi">{formatNameHi(f.mode)}</span> : f.name}</p>
         <p className="h-roundhead__round">{sub ?? roundOf(f.mode, room.roundIndex, isHi)}</p>
       </div>
@@ -65,13 +66,8 @@ export function RoundHead({ room, names, onLeave, leaveLabel, sub }: RoundHeadPr
           {t('You', 'आप')} · {names[them]}
         </span>
       </p>
-      {onLeave ? (
-        <IconButton
-          label={leaveLabel ?? t('Leave the room', 'रूम छोड़ें')}
-          icon={<X size={22} strokeWidth={2.6} />}
-          onClick={onLeave}
-          className="h-roundhead__leave"
-        />
+      {onSettings ? (
+        <MatchSettingsButton onClick={onSettings} />
       ) : null}
     </header>
   );
@@ -141,7 +137,7 @@ export type LiveQuestionProps = {
   room: Room;
   names: readonly [string, string];
   kind: 'bot' | 'friend';
-  onLeave: () => void;
+  onSettings: () => void;
   /** A P2P connection banner (friend duels only). */
   banner?: ReactNode;
   /** The "Leave the room?" dialog is open: no taps or keys reach the answers behind it. */
@@ -155,7 +151,7 @@ export function LiveQuestion({
   room,
   names,
   kind,
-  onLeave,
+  onSettings,
   banner,
   paused = false,
 }: LiveQuestionProps) {
@@ -247,7 +243,7 @@ export function LiveQuestion({
     ? null
     : kind === 'friend' && !theirLock
       ? t(`Locked · waiting for ${names[them]}`, `लॉक · ${names[them]} का इंतज़ार`)
-      : t('Locked · waiting for the clock', 'लॉक · घड़ी का इंतज़ार');
+      : t('Answer sent · syncing result', 'जवाब भेजा · नतीजा आ रहा है');
   const kicker =
     q.topic && !q.options.some((o) => o.toLowerCase().includes(q.topic.toLowerCase()))
       ? sectorName(q.topic, isHi)
@@ -255,7 +251,7 @@ export function LiveQuestion({
 
   return (
     <div className="h-live">
-      <RoundHead room={room} names={names} onLeave={onLeave} />
+      <RoundHead room={room} names={names} onSettings={onSettings} />
       {/* A P2P drop mid-question ('Connection lost — waiting 10 s') lays over the round header instead of
           pushing the stem and options down under a tapping thumb (bible §11.10: no layout shift). */}
       {banner ? <div className="h-live__banner">{banner}</div> : null}

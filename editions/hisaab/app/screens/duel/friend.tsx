@@ -34,6 +34,7 @@ import { useLang } from '../../ui/lang';
 import { InlineNote, Page, ScreenHeader } from '../../ui/page';
 import { Skeleton } from '../../ui/skeleton';
 import { Arena, ConfirmLeave } from '../room/arena';
+import { leaveMatch } from '../room/leave-match';
 import { baselineOf, type Baseline } from '../room/result';
 import { other, type Room } from '../room/lib';
 import {
@@ -204,6 +205,7 @@ export function FriendLobby({ route }: { route: AppRoute }) {
         setStage('session');
       } catch (e) {
         await closeAll();
+        if (!alive.current) return;
         setError({ code: 'p2p_unavailable', message: (e as Error)?.message });
         setStage('failed');
       }
@@ -262,6 +264,7 @@ export function FriendLobby({ route }: { route: AppRoute }) {
       setStage('session');
     } catch (e) {
       await closeAll();
+      if (!alive.current) return;
       setError(e as P2PError);
       setStage('failed');
     }
@@ -274,6 +277,15 @@ export function FriendLobby({ route }: { route: AppRoute }) {
 
   const leave = async () => {
     await closeAll();
+    navigate(circle ? href.circles(circle.id) : href.duel({ vs: 'friend' }));
+  };
+
+  const cancelConnection = () => {
+    if (!alive.current) return;
+    // Invalidate the pending handshake before navigation. A late open/join closes its own
+    // transport via the existing alive guards; it cannot bring a cancelled lobby back.
+    alive.current = false;
+    void closeAll();
     navigate(circle ? href.circles(circle.id) : href.duel({ vs: 'friend' }));
   };
 
@@ -376,7 +388,7 @@ export function FriendLobby({ route }: { route: AppRoute }) {
       {circle && <InlineNote>{t(`Playing from ${circle.name} as ${circle.nickname}. Your profile name is unchanged.`, `${circle.name} में ${circle.nickname} के नाम से खेल रहे हैं। प्रोफ़ाइल नाम नहीं बदलेगा।`)}</InlineNote>}
 
       {stage === 'opening' || stage === 'joining' ? (
-        <div className="h-friend__card" aria-busy="true">
+        <div className="h-friend__card">
           <LobbyChrome />
           <Skeleton
             lines={3}
@@ -391,6 +403,9 @@ export function FriendLobby({ route }: { route: AppRoute }) {
               ? t('Opening a room on this phone…', 'इस फ़ोन पर रूम खुल रहा है…')
               : t('Connecting directly to your friend’s browser…', 'दोस्त के ब्राउज़र से सीधे जुड़ रहे हैं…')}
           </p>
+          <Button variant="paper" onClick={cancelConnection}>
+            {t('Cancel connection', 'कनेक्शन रद्द करें')}
+          </Button>
         </div>
       ) : stage === 'failed' ? (
         <div className="h-friend__card h-friend__card--fail" role="alert">
@@ -729,10 +744,7 @@ function FriendMatch({
             onStay={() => setAsking(false)}
             onLeave={() => {
               setAsking(false);
-              void controller
-                .leave()
-                .catch(() => {})
-                .finally(onLeave);
+              void leaveMatch(controller, onLeave);
             }}
           />
         ) : null}
@@ -772,12 +784,7 @@ function FriendMatch({
             : undefined,
       }}
       onExit={onLeave}
-      onLeave={() => {
-        void controller
-          .leave()
-          .catch(() => {})
-          .finally(onLeave);
-      }}
+      onLeave={() => void leaveMatch(controller, onLeave)}
       countdownNote={<p>{t('Peer-to-peer · casual · trust-based', 'पीयर-टू-पीयर · दोस्ताना · भरोसे पर')}</p>}
     />
   );

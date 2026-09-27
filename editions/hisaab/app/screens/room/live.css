@@ -26,6 +26,11 @@
   flex-direction: column;
   gap: 2px;
 }
+.h-roundhead__brand {
+  font-size: 17px;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
 .h-roundhead__fmt {
   font-family: var(--h-font-display);
   font-weight: var(--h-wght-display);
@@ -77,6 +82,9 @@
 }
 .h-roundhead__leave {
   flex: none;
+}
+@media (max-width: 399px) {
+  .h-roundhead__who { max-width: 24vw; }
 }
 
 /* ---- 3 · 2 · 1 --------------------------------------------------------------------------------------------- */

@@ -32,6 +32,24 @@ The evidence, privacy, bot-labeling, storage-isolation, and no-secrets requireme
 The question bank is preserved in this product update; its historical audits are not a fresh
 fact-check of every source.
 
+### Immediate feedback and standalone publication amendment
+
+- A valid bot answer submission resolves the round immediately using the bot's independently
+  precommitted choice and duration. Do not wait out unused clock time or reroll the opponent.
+- A human player's locked answer receives a private personal receipt immediately. The shared
+  verdict waits only for the other answer or deadline. Never disclose the key to an unanswered
+  seat or mark provisional feedback as a winner or earned XP. A private receipt is permitted
+  before `round.result`; the still-answering opponent's surface stays quiet and unrevealed.
+- A labeled Settings action remains available throughout duel/pass phases. Its modal may change
+  existing sound/theme preferences and offer a separate quit confirmation. Opening it does not
+  pause a multiplayer clock; it must suppress underlying answer shortcuts and preserve focus.
+- Preserve the approved light palette. Improve the dark palette as a warm charcoal-violet Night
+  edition with legible layered paper surfaces and consistent HISAAB DO identity on every page.
+- Publish HISAAB separately from the original FACT//DUEL Site. Keep the GitHub branch and Pages
+  edition available; do not overwrite the original hosting identity or merge to `main`.
+- Cloud accounts, cross-device progress and centrally stored circle rosters are not implied by
+  static hosting. Document any unavailable services and browser-origin data boundaries plainly.
+
 ## 1. What we are building
 
 A second edition of the Jaanta Hai Kya (JHK) quiz-duel engine, about the last 5–12 years of Indian

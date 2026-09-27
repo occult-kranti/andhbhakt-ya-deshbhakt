@@ -1,4 +1,5 @@
 import { useLang } from './lang';
+import { BrandName } from './brand';
 import './masthead.css';
 
 /** An original newspaper-inspired nameplate. The date is the local edition date, not a news claim. */
@@ -17,7 +18,7 @@ export function Masthead({ day }: { day: string }) {
       </div>
       <div className="h-masthead__name" role="img" aria-label="Hisaab Do">
         <span className="h-masthead__side" lang="hi" aria-hidden="true">जनता का पैसा।<br />जनता का सवाल।</span>
-        <span className="h-masthead__title" lang="en" aria-hidden="true">HISAAB DO<span className="h-masthead__dot">.</span></span>
+        <BrandName className="h-masthead__title" />
         <span className="h-masthead__seal" lang="hi" aria-hidden="true">हिसाब दो<br /><small>हर जवाब की रसीद</small></span>
       </div>
       <p className="h-masthead__strap">{t('A quiz on public money, power & the paper trail.', 'जनता के पैसे, सत्ता और दस्तावेज़ों पर एक क्विज़।')}</p>

@@ -7,6 +7,8 @@
  *
  * Usage (repo root):  node editions/hisaab/app/screens/ledger/make-downloads.mjs
  * Env:  PYTHON=python3            the interpreter that has openpyxl
+ *       HISAAB_PUBLIC_URL        optional absolute HTTPS site URL for the exported play links
+ *       HISAAB_DOWNLOADS_OUT     optional output directory, e.g. dist-hisaab-domain/downloads
  *       XLSX_RECALC=<recalc.py>   optional: a LibreOffice recalculation script, so the "By year" sheet's
  *                                 COUNTIFS formulas carry cached values for readers that do not compute
  *                                 (Excel, LibreOffice and Google Sheets compute them on open anyway)
@@ -25,7 +27,9 @@ import { asOfMonth, CSV_COLUMNS, CSV_HEADERS, csvRecord, ledgerCsv, LEDGER_URL, 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const EDITION = path.resolve(HERE, '../../..');
 const DATA = path.join(EDITION, 'data/money-ledger.json');
-const OUT = path.join(EDITION, 'public/downloads');
+const OUT = process.env.HISAAB_DOWNLOADS_OUT
+  ? path.resolve(process.env.HISAAB_DOWNLOADS_OUT)
+  : path.join(EDITION, 'public/downloads');
 const BASENAME = 'hisaab-money-ledger';
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

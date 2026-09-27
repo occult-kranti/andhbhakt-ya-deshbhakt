@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { register } from 'node:module';
 import { answerXp, createStopwatch, XP_BANDS } from '../editions/hisaab/engine/scoring.mjs';
-import { DUEL_MODE_DURATION as JHK_DURATIONS, TIMED_ANSWER_XP as JHK_XP } from '../lib/edition-rules.mjs';
+import { DUEL_MODE_DURATION as JHK_DURATIONS, TIMED_ANSWER_XP as JHK_XP, IMMEDIATE_DUEL_FEEDBACK as JHK_FEEDBACK } from '../lib/edition-rules.mjs';
 import { createDuelController } from '../editions/hisaab/engine/duel-controller.mjs';
 register('../editions/hisaab/node-aliases.mjs', import.meta.url);
 const { emptyProfile, reduceProfile, readProfile } = await import('../lib/passport.mjs');
@@ -41,6 +41,7 @@ test('stopwatch locks once, does not start before paint, and includes background
 test('edition config makes all bands reachable without changing JHK defaults', () => {
   assert.deepEqual(JHK_DURATIONS, {quick:10,trilogy:7,gauntlet:5});
   assert.equal(JHK_XP, null);
+  assert.equal(JHK_FEEDBACK, false, 'JHK retains scheduled bot playback and shared feedback');
   assert.deepEqual(MODE_DURATION, {quick:30,trilogy:30,gauntlet:30});
   for (const mode of Object.keys(MODE_DURATION)) assert.equal(normalizeConfig({mode,duration:30,stake:0,opponent:'bot'}, QUESTIONS).duration,30);
 });
@@ -115,6 +116,7 @@ test('live duel freezes displayed and submitted time at first input; resend cann
   assert.equal(calls[0].elapsedMs,15000);
   now=28100;
   assert.equal(controller.snapshot().elapsedMs,15000);
+  assert.equal(controller.snapshot().remainingMs,15000, 'the submitted player’s remaining clock is frozen too');
   await controller.resend();
   assert.equal(calls[1].elapsedMs,15000);
   assert.equal(calls[1].attemptId,calls[0].attemptId);

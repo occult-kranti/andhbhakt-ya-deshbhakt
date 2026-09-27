@@ -358,7 +358,17 @@ test('CSV: one record per measure, every column, the source URL in its own colum
   assert.equal(ladli[col('enacted_by')], 'Shivraj Singh Chouhan (Chief Minister, Madhya Pradesh, BJP)');
   assert.equal(ladli[col('state')], 'Madhya Pradesh');
   const ui = fs.readFileSync(path.join(ROOT, 'editions/hisaab/app/ui/certificate.tsx'), 'utf8');
-  assert.match(ui, new RegExp(`CERT_SITE = '${csv.SITE.replace(/^https:\/\//, '').replace(/\/$/, '')}'`), 'the CSV links the edition’s own address');
+  assert.match(ui, /CERT_SITE = absoluteUrl\('#\/'\)/, 'certificate exports follow the current deployment address');
+  assert.doesNotMatch(ui, /occult-kranti\.github\.io/, 'certificate exports must not promote another deployment');
+});
+
+test('downloads: standalone publication URLs are validated without changing source records', () => {
+  assert.equal(csv.publicationUrl(), csv.DEFAULT_SITE);
+  assert.equal(csv.publicationUrl('https://hisaab.example'), 'https://hisaab.example/');
+  assert.equal(csv.publicationUrl('https://hisaab.example/play'), 'https://hisaab.example/play/');
+  for (const url of ['http://hisaab.example/', 'javascript:alert(1)', 'https://user:password@hisaab.example/', 'https://hisaab.example/?q=x', 'https://hisaab.example/#/']) {
+    assert.throws(() => csv.publicationUrl(url), undefined, url);
+  }
 });
 
 test('downloads: the shipped CSV matches the data (regenerate with make-downloads.mjs)', () => {

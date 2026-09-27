@@ -208,6 +208,20 @@ test('duel controller: an answer reply that lands after reset() leaves the contr
   assert.equal(after, null);
 });
 
+test('duel controller: a leave response after reset cannot revive a quit match', async () => {
+  const { calls, request } = manualRequest();
+  const c = createDuelController({ request, perfNow: () => 0, pollMs: QUIET_POLLS });
+  c.adopt({ room: room() });
+  const leaving = c.leave();
+  assert.equal(calls[0].body.action, 'leave');
+  c.reset();
+  calls[0].resolve({ room: room({ phase: 'cancelled', settled: true, reason: 'player-left', revision: 9 }) });
+  await leaving;
+  assert.equal(c.room, null);
+  assert.equal(c.snapshot().error, '');
+  c.dispose();
+});
+
 test('duel controller: the ticker still re-renders the 3·2·1 before the reveal', async () => {
   const { request } = manualRequest();
   let changes = 0;

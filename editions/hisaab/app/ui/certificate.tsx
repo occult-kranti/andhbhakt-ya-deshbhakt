@@ -10,6 +10,7 @@
  */
 import { useEffect, useState } from 'react';
 import { certificateName, formatNumber, labelDisplay, LADDER_DISPLAY } from '../data';
+import { absoluteUrl } from '../router';
 import { loadHandFont } from './fonts';
 import { Stamp } from './stamp';
 import { cx } from './cx';
@@ -17,7 +18,8 @@ import './certificate.css';
 
 /** The footer: satire, not official, and the name is the player's own choice (not a finding about anyone). */
 export const CERT_FOOTER = 'Satire. Not a government document. Name as entered by the player. Every question sourced.';
-export const CERT_SITE = 'occult-kranti.github.io/fact-duel/hisaab';
+/** Current host + edition base; PNG exports must promote the site the player is actually using. */
+export const CERT_SITE = absoluteUrl('#/').replace(/^https?:\/\//, '').replace(/\/#\/$/, '') || 'HISAAB DO';
 
 export type CertificateProps = {
   /** The player's name as typed; the frame applies the certificate name rule itself. */

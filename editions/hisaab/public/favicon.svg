@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><!-- LAL FEETA mark: a manila file with a typed tab, red tape and a violet stamp. No emblem, no party or media marks, no map. --><rect width="64" height="64" rx="14" fill="#e8ece1"/><path d="M9 17h17l4 5h25v31a3 3 0 0 1-3 3H12a3 3 0 0 1-3-3z" fill="#e6c78c" stroke="#17131f" stroke-width="3" stroke-linejoin="round"/><rect x="9" y="40" width="46" height="6" fill="#cf2a1f"/><g transform="rotate(-8 34 30)"><rect x="21" y="24" width="26" height="11" rx="2" fill="none" stroke="#4a22d4" stroke-width="2.6"/><path d="M26 29.5h16" stroke="#4a22d4" stroke-width="2.6" stroke-linecap="round"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>HISAAB DO</title>
+  <!-- Original H + violet full stop; the same newsprint, carbon ink and rule used by the masthead. -->
+  <rect x="2" y="2" width="60" height="60" rx="5" fill="#fffaf0" stroke="#252219" stroke-width="2"/>
+  <path d="M10 10h44M10 14h44M10 50h44M10 54h44" stroke="#252219" stroke-width="1.5"/>
+  <path d="M14 20h13v3h-3v8h12v-8h-3v-3h13v3h-3v20h3v3H33v-3h3v-9H24v9h3v3H14v-3h3V23h-3z" fill="#252219"/>
+  <circle cx="51" cy="43" r="3.5" fill="#4a22d4"/>
+</svg>

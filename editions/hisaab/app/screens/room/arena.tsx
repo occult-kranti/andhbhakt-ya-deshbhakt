@@ -15,16 +15,18 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import type { DuelController, DuelSnapshot } from '../../use-duel';
 import { useHoldToasts, useQuietRound } from '../../budget';
 import { seatName } from '../../data';
-import { Button } from '../../ui/button';
 import { useLang } from '../../ui/lang';
 import { Skeleton } from '../../ui/skeleton';
-import { Countdown, LiveQuestion } from './live';
+import { Countdown, LiveQuestion, RoundHead } from './live';
+import { MatchSettings, MatchSettingsButton } from './match-settings';
+import { PersonalReceipt } from './personal-receipt';
+export { ConfirmLeave } from './match-settings';
 import { MatchResult, type Baseline, type MatchResultProps } from './result';
 import { RoundReceipt } from './receipt';
 import { settledRounds, type Room } from './lib';
 import './arena.css';
 
-export type ArenaView = 'loading' | 'waiting' | 'countdown' | 'live' | 'receipt' | 'result';
+export type ArenaView = 'loading' | 'waiting' | 'countdown' | 'live' | 'personal' | 'receipt' | 'result';
 
 export type ArenaProps = {
   controller: DuelController;
@@ -55,6 +57,7 @@ export function arenaView(room: Room | null, verdictOpen: boolean, endReason?: s
     const last = settledRounds(room).at(-1);
     return room.phase === 'complete' && last && !verdictOpen ? 'receipt' : 'result';
   }
+  if (rd?.personalReceipt && !rd.result) return 'personal';
   if (room.phase === 'between' && rd?.result) return 'receipt';
   if ((room.phase === 'scheduled' || room.phase === 'playing') && !rd?.result)
     return rd?.question ? 'live' : 'countdown';
@@ -117,7 +120,7 @@ export function Arena({
     const key = `${view}:${room?.round?.id ?? ''}`;
     if (lastView.current === key) return;
     lastView.current = key;
-    if (view !== 'receipt') {
+    if (view !== 'receipt' && view !== 'personal') {
       clearTimeout(sayTimer.current);
       // Not as a live round mounts: nothing may re-render the arena around the reveal marker.
       if (view !== 'live') setSaid('');
@@ -139,6 +142,8 @@ export function Arena({
   if (!room || view === 'loading')
     return (
       <div className="h-arena h-arena--pad">
+        <div className="h-matchsettings-toolbar"><MatchSettingsButton onClick={() => setAsking(true)} /></div>
+        {asking ? <MatchSettings onClose={() => setAsking(false)} onQuit={onLeave} running={false} /> : null}
         <Skeleton lines={4} label={t('Opening the file…', 'फ़ाइल खुल रही है…')} />
       </div>
     );
@@ -148,9 +153,9 @@ export function Arena({
 
   let body: ReactNode = null;
   if (view === 'waiting')
-    body = waiting ?? <Skeleton lines={3} label={t('Opening the file…', 'फ़ाइल खुल रही है…')} />;
+    body = <><RoundHead room={room} names={names} onSettings={ask} />{waiting ?? <Skeleton lines={3} label={t('Opening the file…', 'फ़ाइल खुल रही है…')} />}</>;
   else if (view === 'countdown')
-    body = <Countdown room={room} snapshot={snapshot!} names={names} note={countdownNote} />;
+    body = <><RoundHead room={room} names={names} onSettings={ask} /><Countdown room={room} snapshot={snapshot!} names={names} note={countdownNote} /></>;
   else if (view === 'live')
     body = (
       <LiveQuestion
@@ -160,11 +165,13 @@ export function Arena({
         room={room}
         names={names}
         kind={kind}
-        onLeave={ask}
+        onSettings={ask}
         banner={banner}
         paused={asking}
       />
     );
+  else if (view === 'personal')
+    body = <PersonalReceipt key={room.round!.id} room={room} names={names} onSettings={ask} banner={banner} onSay={say} />;
   else if (view === 'receipt') {
     const round = settledRounds(room).at(-1)!;
     const final = room.settled;
@@ -178,7 +185,7 @@ export function Arena({
         final={final}
         busy={!!snapshot?.busy}
         banner={banner}
-        onLeave={ask}
+        onSettings={ask}
         onSay={say}
         onNext={() => {
           if (final) setVerdictFor(room.id);
@@ -197,6 +204,7 @@ export function Arena({
         onRematch={onRematch}
         rematch={rematch}
         onExit={onExit}
+        onSettings={ask}
         endReason={endReason}
       />
     );
@@ -213,72 +221,14 @@ export function Arena({
         </p>
       ) : null}
       {asking ? (
-        <ConfirmLeave
-          onStay={() => setAsking(false)}
-          onLeave={() => {
-            setAsking(false);
-            onLeave();
-          }}
+        <MatchSettings
+          onClose={() => setAsking(false)}
+          onQuit={room.settled || endReason ? onExit : onLeave}
+          running={view === 'live' || view === 'countdown' || view === 'personal'}
+          settled={room.settled || !!endReason}
+          resultReady={view === 'receipt' || view === 'result'}
         />
       ) : null}
     </div>
-  );
-}
-
-/** "Leave the room?" — Leave / Stay. A native modal dialog: focus trapped, Esc = Stay. */
-export function ConfirmLeave({
-  onStay,
-  onLeave,
-  body,
-}: {
-  onStay: () => void;
-  onLeave: () => void;
-  body?: ReactNode;
-}) {
-  const { t } = useLang();
-  const ref = useRef<HTMLDialogElement>(null);
-  const stay = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    const d = ref.current;
-    if (!d) return;
-    const before = document.activeElement as HTMLElement | null;
-    if (!d.open) d.showModal();
-    // showModal() focuses the dialog's first focusable (Leave); the safe choice must hold focus, so
-    // Enter on ✕ then Enter again never ends a live match.
-    stay.current?.focus();
-    return () => {
-      if (d.open) d.close();
-      before?.focus?.();
-    };
-  }, []);
-  return (
-    <dialog
-      ref={ref}
-      className="h-leave"
-      aria-labelledby="h-leave-title"
-      onCancel={(e) => {
-        e.preventDefault();
-        onStay();
-      }}
-    >
-      <h2 className="h-leave__title" id="h-leave-title">
-        {t('Leave the room?', 'रूम छोड़ें?')}
-      </h2>
-      <p className="h-leave__body">
-        {body ??
-          t(
-            'The match stops here with no result. Nothing is recorded as a loss.',
-            'मैच यहीं रुकेगा, कोई नतीजा नहीं। हार दर्ज नहीं होगी।',
-          )}
-      </p>
-      <div className="h-leave__actions">
-        <Button variant="paper" onClick={onLeave}>
-          {t('Leave', 'छोड़ें')}
-        </Button>
-        <Button variant="primary" onClick={onStay} ref={stay} trailing={null}>
-          {t('Stay', 'रुकें')}
-        </Button>
-      </div>
-    </dialog>
   );
 }

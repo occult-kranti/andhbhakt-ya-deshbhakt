@@ -1,6 +1,6 @@
 .h-masthead {
   min-width: 0;
-  border-bottom: 4px double var(--h-line);
+  border-bottom: 4px double var(--h-rule);
 }
 .h-masthead__edition {
   display: flex;
@@ -8,7 +8,7 @@
   flex-wrap: wrap;
   gap: 4px 16px;
   padding-block: var(--h-s-2);
-  border-block: 1px solid var(--h-line);
+  border-block: 1px solid var(--h-rule);
   font-family: var(--h-font-mono);
   font-size: var(--h-fs-2xs);
   font-weight: 700;
@@ -31,7 +31,6 @@
   letter-spacing: -.065em;
   white-space: nowrap;
 }
-.h-masthead__dot { color: var(--h-syahi-text); }
 .h-masthead__side, .h-masthead__seal { display: none; }
 .h-masthead__strap {
   padding: 0 0 var(--h-s-3);

@@ -13,6 +13,8 @@ export function answerXp(correct, elapsedMs) {
 export const TIMED_ANSWER_XP = answerXp;
 export const DUEL_DURATIONS = Object.freeze([5, 7, 10, 30]);
 export const DUEL_MODE_DURATION = Object.freeze({ quick: 30, trilogy: 30, gauntlet: 30 });
+/** Answered players see their receipt now; a bot's precommitted turn can be resolved immediately. */
+export const IMMEDIATE_DUEL_FEEDBACK = true;
 
 /** The monotonic stopwatch continues in background tabs and locks once, before asynchronous work. */
 export function createStopwatch(now = () => globalThis.performance.now()) {

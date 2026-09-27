@@ -10,8 +10,8 @@
      icon/shape/word twin (bible §7).
    - `-text` variants are for words on paper/ground; `-ink` is the text
      colour ON a solid fill of that accent; `-soft` is a fill tint.
-   - Contrast: 47 current text/background pairs x 2 themes pass (>= 4.5:1 text);
-     results in bible §13 / review/editorial-redesign.md; re-check any change
+   - Contrast: 99 text/UI pairs x 2 themes pass (text >= 4.5:1, UI >= 3:1);
+     results in bible §3.4 / review/brand-contrast.json; re-check any change
      with the snippet in the skill.
    Theme switch: <html data-theme="light|dark">, or on any subtree. With no
    attribute the OS preference decides (the media block mirrors the dark one).
@@ -36,6 +36,7 @@
   --h-ink-2: #565044; /* secondary text (>= 4.5:1 on every light surface incl. manila) */
   --h-ink-3: #75717f; /* tertiary: placeholders, disabled glyphs, meta — UI-only (>= 3:1) */
   --h-line: #39352c; /* 2px object outline (files, buttons, options) */
+  --h-rule: var(--h-line); /* editorial rules; separate from control outlines at night */
   --h-hair: #c8c0af; /* decorative dividers, receipt leaders — never the only boundary */
   --h-shadow-ink: #17131f; /* hard offset shadow colour */
   --h-scrim: rgb(23 19 31 / 0.55); /* behind sheets and ceremonies */
@@ -184,66 +185,67 @@
 }
 
 /* ---------------------------------------------------------------------------
-   "File room at night" — dark
+   "Night edition" — ink-black stock, warm type, and a quieter violet stamp
    --------------------------------------------------------------------------- */
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --h-ground: #191813; /* carbon paper at night */
-  --h-ground-2: #25231d;
-  --h-paper: #292720;
-  --h-sheet: #18251e;
-  --h-receipt: #302d25;
-  --h-manila: #3d3223; /* lamp-lit file cover */
-  --h-manila-2: #5c4a2c;
-  --h-manila-ink: #f6ebd3;
+  --h-ground: #14131b; /* ink-black stock */
+  --h-ground-2: #1e1c27;
+  --h-paper: #24222e;
+  --h-sheet: #202b28;
+  --h-receipt: #2c2935;
+  --h-manila: #383039; /* warm file cover, distinct from neutral reading paper */
+  --h-manila-2: #4b3c40;
+  --h-manila-ink: #f5e8d5;
 
-  --h-ink: #f3f0e8;
-  --h-ink-2: #c9c2b3;
-  --h-ink-3: #8c8799;
-  --h-line: #9a9383; /* outlines stay >= 3:1 on ground, paper, receipt and manila */
-  --h-hair: #4b463b;
+  --h-ink: #f5efe2;
+  --h-ink-2: #c9c1ba;
+  --h-ink-3: #aa9fae;
+  --h-line: #958a9a; /* outlines stay >= 3:1 on ground, paper, receipt and manila */
+  --h-rule: #645b6c; /* decorative newspaper rules; controls keep --h-line */
+  --h-hair: #494251;
   --h-shadow-ink: #05040a;
   --h-scrim: rgb(5 4 10 / 0.7);
 
-  --h-syahi: #9e86ff;
-  --h-syahi-text: #b3a1ff;
-  --h-syahi-soft: #2b2352;
-  --h-syahi-ink: #120c2b;
+  --h-syahi: #b09af8;
+  --h-syahi-text: #c4b2ff;
+  --h-syahi-soft: #34294f;
+  --h-syahi-ink: #211632;
 
-  --h-tape: #ff5a4e;
+  --h-tape: #de7a6d;
   --h-tape-ink: #2a0603;
-  --h-marker: #5e4d00;
-  --h-brass: #f2c14e;
-  --h-brass-text: #f5cd6a;
+  --h-marker: #55440e;
+  --h-brass: #dcc07e;
+  --h-brass-text: #e0c58e;
   --h-brass-ink: #231800;
-  --h-margin-rule: rgb(255 90 78 / 0.4);
+  --h-margin-rule: rgb(222 122 109 / 0.4);
 
-  --h-pass: #3ed68e;
-  --h-pass-text: #5ee0a2;
-  --h-pass-soft: #173826;
-  --h-pass-ink: #06200f;
-  --h-fail: #ff6a5c;
-  --h-fail-text: #ff8a7f;
-  --h-fail-soft: #3d1a18;
+  --h-pass: #8dd0ac;
+  --h-pass-text: #a0dfbc;
+  --h-pass-soft: #20392f;
+  --h-pass-ink: #082a19;
+  --h-fail: #efa394;
+  --h-fail-text: #f3b3a8;
+  --h-fail-soft: #462725;
   --h-fail-ink: #2a0603;
-  --h-wait: #ffb547;
-  --h-wait-text: #ffc56e;
-  --h-wait-soft: #3a2a10;
-  --h-wait-ink: #2a1a00;
-  --h-legal: #2e2a3a;
-  --h-legal-ink: #e2deea;
+  --h-wait: #e9c480;
+  --h-wait-text: #efd397;
+  --h-wait-soft: #3b311f;
+  --h-wait-ink: #30200a;
+  --h-legal: #36313e;
+  --h-legal-ink: #e4dee8;
 
-  --h-slot-a: #2b2352;
-  --h-slot-b: #16303d;
-  --h-slot-c: #3a2f17;
-  --h-slot-d: #3a1b28;
+  --h-slot-a: #34294f;
+  --h-slot-b: #243b4a;
+  --h-slot-c: #493e28;
+  --h-slot-d: #482b3c;
 
-  --h-focus: #b3a1ff;
+  --h-focus: #c4b2ff;
 
-  --h-halftone: radial-gradient(circle at 1px 1px, rgb(243 240 232 / 0.1) 1px, transparent 1.6px) 0 0 / 7px 7px;
-  --h-ruled: repeating-linear-gradient(transparent 0 27px, rgb(243 240 232 / 0.06) 27px 28px);
-  --h-shadow-accent: #5a44c9;
+  --h-halftone: radial-gradient(circle at 1px 1px, rgb(245 239 226 / 0.08) 1px, transparent 1.6px) 0 0 / 7px 7px;
+  --h-ruled: repeating-linear-gradient(transparent 0 27px, rgb(245 239 226 / 0.06) 27px 28px);
+  --h-shadow-accent: #745998;
   --h-shadow-float: 0 18px 40px rgb(0 0 0 / 0.55);
 }
 
@@ -251,54 +253,55 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
-    --h-ground: #191813;
-    --h-ground-2: #25231d;
-    --h-paper: #292720;
-    --h-sheet: #18251e;
-    --h-receipt: #302d25;
-    --h-manila: #3d3223;
-    --h-manila-2: #5c4a2c;
-    --h-manila-ink: #f6ebd3;
-    --h-ink: #f3f0e8;
-    --h-ink-2: #c9c2b3;
-    --h-ink-3: #8c8799;
-    --h-line: #9a9383;
-    --h-hair: #4b463b;
+    --h-ground: #14131b;
+    --h-ground-2: #1e1c27;
+    --h-paper: #24222e;
+    --h-sheet: #202b28;
+    --h-receipt: #2c2935;
+    --h-manila: #383039;
+    --h-manila-2: #4b3c40;
+    --h-manila-ink: #f5e8d5;
+    --h-ink: #f5efe2;
+    --h-ink-2: #c9c1ba;
+    --h-ink-3: #aa9fae;
+    --h-line: #958a9a;
+    --h-rule: #645b6c;
+    --h-hair: #494251;
     --h-shadow-ink: #05040a;
     --h-scrim: rgb(5 4 10 / 0.7);
-    --h-syahi: #9e86ff;
-    --h-syahi-text: #b3a1ff;
-    --h-syahi-soft: #2b2352;
-    --h-syahi-ink: #120c2b;
-    --h-tape: #ff5a4e;
+    --h-syahi: #b09af8;
+    --h-syahi-text: #c4b2ff;
+    --h-syahi-soft: #34294f;
+    --h-syahi-ink: #211632;
+    --h-tape: #de7a6d;
     --h-tape-ink: #2a0603;
-    --h-marker: #5e4d00;
-    --h-brass: #f2c14e;
-    --h-brass-text: #f5cd6a;
+    --h-marker: #55440e;
+    --h-brass: #dcc07e;
+    --h-brass-text: #e0c58e;
     --h-brass-ink: #231800;
-    --h-margin-rule: rgb(255 90 78 / 0.4);
-    --h-pass: #3ed68e;
-    --h-pass-text: #5ee0a2;
-    --h-pass-soft: #173826;
-    --h-pass-ink: #06200f;
-    --h-fail: #ff6a5c;
-    --h-fail-text: #ff8a7f;
-    --h-fail-soft: #3d1a18;
+    --h-margin-rule: rgb(222 122 109 / 0.4);
+    --h-pass: #8dd0ac;
+    --h-pass-text: #a0dfbc;
+    --h-pass-soft: #20392f;
+    --h-pass-ink: #082a19;
+    --h-fail: #efa394;
+    --h-fail-text: #f3b3a8;
+    --h-fail-soft: #462725;
     --h-fail-ink: #2a0603;
-    --h-wait: #ffb547;
-    --h-wait-text: #ffc56e;
-    --h-wait-soft: #3a2a10;
-    --h-wait-ink: #2a1a00;
-    --h-legal: #2e2a3a;
-    --h-legal-ink: #e2deea;
-    --h-slot-a: #2b2352;
-    --h-slot-b: #16303d;
-    --h-slot-c: #3a2f17;
-    --h-slot-d: #3a1b28;
-    --h-focus: #b3a1ff;
-    --h-halftone: radial-gradient(circle at 1px 1px, rgb(243 240 232 / 0.1) 1px, transparent 1.6px) 0 0 / 7px 7px;
-    --h-ruled: repeating-linear-gradient(transparent 0 27px, rgb(243 240 232 / 0.06) 27px 28px);
-    --h-shadow-accent: #5a44c9;
+    --h-wait: #e9c480;
+    --h-wait-text: #efd397;
+    --h-wait-soft: #3b311f;
+    --h-wait-ink: #30200a;
+    --h-legal: #36313e;
+    --h-legal-ink: #e4dee8;
+    --h-slot-a: #34294f;
+    --h-slot-b: #243b4a;
+    --h-slot-c: #493e28;
+    --h-slot-d: #482b3c;
+    --h-focus: #c4b2ff;
+    --h-halftone: radial-gradient(circle at 1px 1px, rgb(245 239 226 / 0.08) 1px, transparent 1.6px) 0 0 / 7px 7px;
+    --h-ruled: repeating-linear-gradient(transparent 0 27px, rgb(245 239 226 / 0.06) 27px 28px);
+    --h-shadow-accent: #745998;
     --h-shadow-float: 0 18px 40px rgb(0 0 0 / 0.55);
   }
 }

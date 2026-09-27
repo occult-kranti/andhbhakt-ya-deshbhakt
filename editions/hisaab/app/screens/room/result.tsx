@@ -68,6 +68,7 @@ export type MatchResultProps = {
   /** The rematch button's state (a friend rematch waits for both taps). */
   rematch?: { busy?: boolean; disabled?: boolean; label?: string; note?: ReactNode };
   onExit: () => void;
+  onSettings?: () => void;
   /** A local stop the room could not record (the guest lost the host; the deal did not match). */
   endReason?: string | null;
 };
@@ -87,6 +88,7 @@ export function MatchResult({
   onRematch,
   rematch,
   onExit,
+  onSettings,
   endReason,
 }: MatchResultProps) {
   const { t, isHi } = useLang();
@@ -210,7 +212,7 @@ export function MatchResult({
 
   return (
     <div className="h-result">
-      <RoundHead room={room} names={names} sub={t('Final', 'अंतिम')} />
+      <RoundHead room={room} names={names} onSettings={onSettings} sub={t('Final', 'अंतिम')} />
       <div className="h-result__grid">
         <section className="h-result__verdict" aria-labelledby="h-result-word">
           <Kicker lang={isHi ? 'hi' : undefined}>

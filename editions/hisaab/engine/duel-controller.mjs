@@ -82,7 +82,8 @@ export function createDuelController({
   function remainingMs() {
     const rd = room?.round;
     if (!rd || !startMark || startMark.roundId !== rd.id || rd.result) return null;
-    return Math.max(0, room.config.duration * 1000 - (perfNow() - startMark.at));
+    const elapsedMs = pending?.roundId === rd.id ? pending.elapsedMs : perfNow() - startMark.at;
+    return Math.max(0, room.config.duration * 1000 - elapsedMs);
   }
 
   /**

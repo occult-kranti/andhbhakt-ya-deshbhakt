@@ -1,0 +1,1791 @@
+{
+  "date": "2026-09-27",
+  "method": "WCAG relative luminance, sRGB. Readable text 4.5:1; UI-only tertiary glyphs, control boundaries/focus and large verdict stamps 3:1. Decorative rule/hair excluded.",
+  "lightChanges": [],
+  "count": 198,
+  "failures": [],
+  "rows": [
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "ground",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#f2eddf",
+      "ratio": 13.5865,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "ground-2",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#e6decd",
+      "ratio": 11.8763,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "paper",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#fffaf0",
+      "ratio": 15.2738,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "sheet",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#e9eddf",
+      "ratio": 13.3513,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "receipt",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#fffdf7",
+      "ratio": 15.6224,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "manila",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#ede0bd",
+      "ratio": 12.1058,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-2",
+      "background": "ground",
+      "foregroundHex": "#565044",
+      "backgroundHex": "#f2eddf",
+      "ratio": 6.8356,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-2",
+      "background": "ground-2",
+      "foregroundHex": "#565044",
+      "backgroundHex": "#e6decd",
+      "ratio": 5.9752,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-2",
+      "background": "paper",
+      "foregroundHex": "#565044",
+      "backgroundHex": "#fffaf0",
+      "ratio": 7.6846,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-2",
+      "background": "sheet",
+      "foregroundHex": "#565044",
+      "backgroundHex": "#e9eddf",
+      "ratio": 6.7174,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-2",
+      "background": "receipt",
+      "foregroundHex": "#565044",
+      "backgroundHex": "#fffdf7",
+      "ratio": 7.86,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-2",
+      "background": "manila",
+      "foregroundHex": "#565044",
+      "backgroundHex": "#ede0bd",
+      "ratio": 6.0907,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi-text",
+      "background": "ground",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#f2eddf",
+      "ratio": 7.2671,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi-text",
+      "background": "ground-2",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#e6decd",
+      "ratio": 6.3524,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi-text",
+      "background": "paper",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#fffaf0",
+      "ratio": 8.1696,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi-text",
+      "background": "sheet",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#e9eddf",
+      "ratio": 7.1414,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi-text",
+      "background": "receipt",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#fffdf7",
+      "ratio": 8.3561,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi-text",
+      "background": "manila",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#ede0bd",
+      "ratio": 6.4752,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "brass-text",
+      "background": "ground",
+      "foregroundHex": "#7a5700",
+      "backgroundHex": "#f2eddf",
+      "ratio": 5.627,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "brass-text",
+      "background": "ground-2",
+      "foregroundHex": "#7a5700",
+      "backgroundHex": "#e6decd",
+      "ratio": 4.9187,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "brass-text",
+      "background": "paper",
+      "foregroundHex": "#7a5700",
+      "backgroundHex": "#fffaf0",
+      "ratio": 6.3259,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "brass-text",
+      "background": "sheet",
+      "foregroundHex": "#7a5700",
+      "backgroundHex": "#e9eddf",
+      "ratio": 5.5296,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "brass-text",
+      "background": "receipt",
+      "foregroundHex": "#7a5700",
+      "backgroundHex": "#fffdf7",
+      "ratio": 6.4702,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "brass-text",
+      "background": "manila",
+      "foregroundHex": "#7a5700",
+      "backgroundHex": "#ede0bd",
+      "ratio": 5.0138,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "pass-text",
+      "background": "ground",
+      "foregroundHex": "#0a6b3a",
+      "backgroundHex": "#f2eddf",
+      "ratio": 5.6513,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "pass-text",
+      "background": "ground-2",
+      "foregroundHex": "#0a6b3a",
+      "backgroundHex": "#e6decd",
+      "ratio": 4.94,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "pass-text",
+      "background": "paper",
+      "foregroundHex": "#0a6b3a",
+      "backgroundHex": "#fffaf0",
+      "ratio": 6.3532,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "pass-text",
+      "background": "sheet",
+      "foregroundHex": "#0a6b3a",
+      "backgroundHex": "#e9eddf",
+      "ratio": 5.5535,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "pass-text",
+      "background": "receipt",
+      "foregroundHex": "#0a6b3a",
+      "backgroundHex": "#fffdf7",
+      "ratio": 6.4982,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "pass-text",
+      "background": "manila",
+      "foregroundHex": "#0a6b3a",
+      "backgroundHex": "#ede0bd",
+      "ratio": 5.0354,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "fail-text",
+      "background": "ground",
+      "foregroundHex": "#a8231a",
+      "backgroundHex": "#f2eddf",
+      "ratio": 6.1482,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "fail-text",
+      "background": "ground-2",
+      "foregroundHex": "#a8231a",
+      "backgroundHex": "#e6decd",
+      "ratio": 5.3743,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "fail-text",
+      "background": "paper",
+      "foregroundHex": "#a8231a",
+      "backgroundHex": "#fffaf0",
+      "ratio": 6.9118,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "fail-text",
+      "background": "sheet",
+      "foregroundHex": "#a8231a",
+      "backgroundHex": "#e9eddf",
+      "ratio": 6.0418,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "fail-text",
+      "background": "receipt",
+      "foregroundHex": "#a8231a",
+      "backgroundHex": "#fffdf7",
+      "ratio": 7.0696,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "fail-text",
+      "background": "manila",
+      "foregroundHex": "#a8231a",
+      "backgroundHex": "#ede0bd",
+      "ratio": 5.4782,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "wait-text",
+      "background": "ground",
+      "foregroundHex": "#874600",
+      "backgroundHex": "#f2eddf",
+      "ratio": 6.178,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "wait-text",
+      "background": "ground-2",
+      "foregroundHex": "#874600",
+      "backgroundHex": "#e6decd",
+      "ratio": 5.4003,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "wait-text",
+      "background": "paper",
+      "foregroundHex": "#874600",
+      "backgroundHex": "#fffaf0",
+      "ratio": 6.9452,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "wait-text",
+      "background": "sheet",
+      "foregroundHex": "#874600",
+      "backgroundHex": "#e9eddf",
+      "ratio": 6.071,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "wait-text",
+      "background": "receipt",
+      "foregroundHex": "#874600",
+      "backgroundHex": "#fffdf7",
+      "ratio": 7.1037,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "wait-text",
+      "background": "manila",
+      "foregroundHex": "#874600",
+      "backgroundHex": "#ede0bd",
+      "ratio": 5.5047,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi-ink",
+      "background": "syahi",
+      "foregroundHex": "#ffffff",
+      "backgroundHex": "#4a22d4",
+      "ratio": 8.4997,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "pass-ink",
+      "background": "pass",
+      "foregroundHex": "#ffffff",
+      "backgroundHex": "#0b7a43",
+      "ratio": 5.4136,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "fail-ink",
+      "background": "fail",
+      "foregroundHex": "#ffffff",
+      "backgroundHex": "#c62a1f",
+      "ratio": 5.5968,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "wait-ink",
+      "background": "wait",
+      "foregroundHex": "#ffffff",
+      "backgroundHex": "#9a5800",
+      "ratio": 5.5704,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "tape-ink",
+      "background": "tape",
+      "foregroundHex": "#ffffff",
+      "backgroundHex": "#cf2a1f",
+      "ratio": 5.2447,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "brass-ink",
+      "background": "brass",
+      "foregroundHex": "#1f1600",
+      "backgroundHex": "#d4a12a",
+      "ratio": 7.6135,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "legal-ink",
+      "background": "legal",
+      "foregroundHex": "#2e2a38",
+      "backgroundHex": "#e4e2ea",
+      "ratio": 10.878,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "marker",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#ffe45c",
+      "ratio": 12.4887,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "slot-a",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#e4ddff",
+      "ratio": 12.172,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "slot-b",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#d7ecf7",
+      "ratio": 13.0386,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "slot-c",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#f6e3b8",
+      "ratio": 12.5601,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "slot-d",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#f9dce6",
+      "ratio": 12.416,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink",
+      "background": "syahi-soft",
+      "foregroundHex": "#252219",
+      "backgroundHex": "#e4ddff",
+      "ratio": 12.172,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "pass-text",
+      "background": "pass-soft",
+      "foregroundHex": "#0a6b3a",
+      "backgroundHex": "#d6efdf",
+      "ratio": 5.4362,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-2",
+      "background": "pass-soft",
+      "foregroundHex": "#565044",
+      "backgroundHex": "#d6efdf",
+      "ratio": 6.5755,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "fail-text",
+      "background": "fail-soft",
+      "foregroundHex": "#a8231a",
+      "backgroundHex": "#fbe0dc",
+      "ratio": 5.752,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-2",
+      "background": "fail-soft",
+      "foregroundHex": "#565044",
+      "backgroundHex": "#fbe0dc",
+      "ratio": 6.3951,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "wait-text",
+      "background": "wait-soft",
+      "foregroundHex": "#874600",
+      "backgroundHex": "#fcebcf",
+      "ratio": 6.1672,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-2",
+      "background": "wait-soft",
+      "foregroundHex": "#565044",
+      "backgroundHex": "#fcebcf",
+      "ratio": 6.8238,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi-text",
+      "background": "syahi-soft",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#e4ddff",
+      "ratio": 6.5105,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-2",
+      "background": "syahi-soft",
+      "foregroundHex": "#565044",
+      "backgroundHex": "#e4ddff",
+      "ratio": 6.124,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "manila-ink",
+      "background": "manila",
+      "foregroundHex": "#1f1608",
+      "backgroundHex": "#ede0bd",
+      "ratio": 13.5976,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "manila-ink",
+      "background": "manila-2",
+      "foregroundHex": "#1f1608",
+      "backgroundHex": "#dac79f",
+      "ratio": 10.7529,
+      "minimum": 4.5
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-3",
+      "background": "ground",
+      "foregroundHex": "#75717f",
+      "backgroundHex": "#f2eddf",
+      "ratio": 4.0576,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "ink-3",
+      "background": "paper",
+      "foregroundHex": "#75717f",
+      "backgroundHex": "#fffaf0",
+      "ratio": 4.5616,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "focus",
+      "background": "ground",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#f2eddf",
+      "ratio": 7.2671,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "line",
+      "background": "ground",
+      "foregroundHex": "#39352c",
+      "backgroundHex": "#f2eddf",
+      "ratio": 10.4413,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "focus",
+      "background": "ground-2",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#e6decd",
+      "ratio": 6.3524,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "line",
+      "background": "ground-2",
+      "foregroundHex": "#39352c",
+      "backgroundHex": "#e6decd",
+      "ratio": 9.127,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "focus",
+      "background": "paper",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#fffaf0",
+      "ratio": 8.1696,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "line",
+      "background": "paper",
+      "foregroundHex": "#39352c",
+      "backgroundHex": "#fffaf0",
+      "ratio": 11.738,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "focus",
+      "background": "sheet",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#e9eddf",
+      "ratio": 7.1414,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "line",
+      "background": "sheet",
+      "foregroundHex": "#39352c",
+      "backgroundHex": "#e9eddf",
+      "ratio": 10.2606,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "focus",
+      "background": "receipt",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#fffdf7",
+      "ratio": 8.3561,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "line",
+      "background": "receipt",
+      "foregroundHex": "#39352c",
+      "backgroundHex": "#fffdf7",
+      "ratio": 12.0059,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "focus",
+      "background": "manila",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#ede0bd",
+      "ratio": 6.4752,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "line",
+      "background": "manila",
+      "foregroundHex": "#39352c",
+      "backgroundHex": "#ede0bd",
+      "ratio": 9.3034,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi",
+      "background": "paper",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#fffaf0",
+      "ratio": 8.1696,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "pass",
+      "background": "paper",
+      "foregroundHex": "#0b7a43",
+      "backgroundHex": "#fffaf0",
+      "ratio": 5.2034,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "fail",
+      "background": "paper",
+      "foregroundHex": "#c62a1f",
+      "backgroundHex": "#fffaf0",
+      "ratio": 5.3795,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "wait",
+      "background": "paper",
+      "foregroundHex": "#9a5800",
+      "backgroundHex": "#fffaf0",
+      "ratio": 5.3541,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "tape",
+      "background": "paper",
+      "foregroundHex": "#cf2a1f",
+      "backgroundHex": "#fffaf0",
+      "ratio": 5.041,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi",
+      "background": "manila",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#ede0bd",
+      "ratio": 6.4752,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "pass",
+      "background": "manila",
+      "foregroundHex": "#0b7a43",
+      "backgroundHex": "#ede0bd",
+      "ratio": 4.1242,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "fail",
+      "background": "manila",
+      "foregroundHex": "#c62a1f",
+      "backgroundHex": "#ede0bd",
+      "ratio": 4.2637,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "wait",
+      "background": "manila",
+      "foregroundHex": "#9a5800",
+      "backgroundHex": "#ede0bd",
+      "ratio": 4.2436,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "tape",
+      "background": "manila",
+      "foregroundHex": "#cf2a1f",
+      "backgroundHex": "#ede0bd",
+      "ratio": 3.9955,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi",
+      "background": "receipt",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#fffdf7",
+      "ratio": 8.3561,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "pass",
+      "background": "receipt",
+      "foregroundHex": "#0b7a43",
+      "backgroundHex": "#fffdf7",
+      "ratio": 5.3222,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "fail",
+      "background": "receipt",
+      "foregroundHex": "#c62a1f",
+      "backgroundHex": "#fffdf7",
+      "ratio": 5.5023,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "wait",
+      "background": "receipt",
+      "foregroundHex": "#9a5800",
+      "backgroundHex": "#fffdf7",
+      "ratio": 5.4763,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "tape",
+      "background": "receipt",
+      "foregroundHex": "#cf2a1f",
+      "backgroundHex": "#fffdf7",
+      "ratio": 5.1561,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "syahi",
+      "background": "sheet",
+      "foregroundHex": "#4a22d4",
+      "backgroundHex": "#e9eddf",
+      "ratio": 7.1414,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "pass",
+      "background": "sheet",
+      "foregroundHex": "#0b7a43",
+      "backgroundHex": "#e9eddf",
+      "ratio": 4.5485,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "fail",
+      "background": "sheet",
+      "foregroundHex": "#c62a1f",
+      "backgroundHex": "#e9eddf",
+      "ratio": 4.7024,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "wait",
+      "background": "sheet",
+      "foregroundHex": "#9a5800",
+      "backgroundHex": "#e9eddf",
+      "ratio": 4.6802,
+      "minimum": 3
+    },
+    {
+      "theme": "light",
+      "foreground": "tape",
+      "background": "sheet",
+      "foregroundHex": "#cf2a1f",
+      "backgroundHex": "#e9eddf",
+      "ratio": 4.4065,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "ground",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#14131b",
+      "ratio": 16.0946,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "ground-2",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#1e1c27",
+      "ratio": 14.6548,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "paper",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#24222e",
+      "ratio": 13.6437,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "sheet",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#202b28",
+      "ratio": 12.7485,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "receipt",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#2c2935",
+      "ratio": 12.4196,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "manila",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#383039",
+      "ratio": 11.1074,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-2",
+      "background": "ground",
+      "foregroundHex": "#c9c1ba",
+      "backgroundHex": "#14131b",
+      "ratio": 10.3805,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-2",
+      "background": "ground-2",
+      "foregroundHex": "#c9c1ba",
+      "backgroundHex": "#1e1c27",
+      "ratio": 9.4519,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-2",
+      "background": "paper",
+      "foregroundHex": "#c9c1ba",
+      "backgroundHex": "#24222e",
+      "ratio": 8.7998,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-2",
+      "background": "sheet",
+      "foregroundHex": "#c9c1ba",
+      "backgroundHex": "#202b28",
+      "ratio": 8.2224,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-2",
+      "background": "receipt",
+      "foregroundHex": "#c9c1ba",
+      "backgroundHex": "#2c2935",
+      "ratio": 8.0102,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-2",
+      "background": "manila",
+      "foregroundHex": "#c9c1ba",
+      "backgroundHex": "#383039",
+      "ratio": 7.1639,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi-text",
+      "background": "ground",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#14131b",
+      "ratio": 9.7999,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi-text",
+      "background": "ground-2",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#1e1c27",
+      "ratio": 8.9232,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi-text",
+      "background": "paper",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#24222e",
+      "ratio": 8.3075,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi-text",
+      "background": "sheet",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#202b28",
+      "ratio": 7.7624,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi-text",
+      "background": "receipt",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#2c2935",
+      "ratio": 7.5622,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi-text",
+      "background": "manila",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#383039",
+      "ratio": 6.7632,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "brass-text",
+      "background": "ground",
+      "foregroundHex": "#e0c58e",
+      "backgroundHex": "#14131b",
+      "ratio": 11.0181,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "brass-text",
+      "background": "ground-2",
+      "foregroundHex": "#e0c58e",
+      "backgroundHex": "#1e1c27",
+      "ratio": 10.0324,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "brass-text",
+      "background": "paper",
+      "foregroundHex": "#e0c58e",
+      "backgroundHex": "#24222e",
+      "ratio": 9.3403,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "brass-text",
+      "background": "sheet",
+      "foregroundHex": "#e0c58e",
+      "backgroundHex": "#202b28",
+      "ratio": 8.7274,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "brass-text",
+      "background": "receipt",
+      "foregroundHex": "#e0c58e",
+      "backgroundHex": "#2c2935",
+      "ratio": 8.5022,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "brass-text",
+      "background": "manila",
+      "foregroundHex": "#e0c58e",
+      "backgroundHex": "#383039",
+      "ratio": 7.6039,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass-text",
+      "background": "ground",
+      "foregroundHex": "#a0dfbc",
+      "backgroundHex": "#14131b",
+      "ratio": 12.0978,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass-text",
+      "background": "ground-2",
+      "foregroundHex": "#a0dfbc",
+      "backgroundHex": "#1e1c27",
+      "ratio": 11.0155,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass-text",
+      "background": "paper",
+      "foregroundHex": "#a0dfbc",
+      "backgroundHex": "#24222e",
+      "ratio": 10.2555,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass-text",
+      "background": "sheet",
+      "foregroundHex": "#a0dfbc",
+      "backgroundHex": "#202b28",
+      "ratio": 9.5826,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass-text",
+      "background": "receipt",
+      "foregroundHex": "#a0dfbc",
+      "backgroundHex": "#2c2935",
+      "ratio": 9.3353,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass-text",
+      "background": "manila",
+      "foregroundHex": "#a0dfbc",
+      "backgroundHex": "#383039",
+      "ratio": 8.349,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail-text",
+      "background": "ground",
+      "foregroundHex": "#f3b3a8",
+      "backgroundHex": "#14131b",
+      "ratio": 10.3839,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail-text",
+      "background": "ground-2",
+      "foregroundHex": "#f3b3a8",
+      "backgroundHex": "#1e1c27",
+      "ratio": 9.455,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail-text",
+      "background": "paper",
+      "foregroundHex": "#f3b3a8",
+      "backgroundHex": "#24222e",
+      "ratio": 8.8027,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail-text",
+      "background": "sheet",
+      "foregroundHex": "#f3b3a8",
+      "backgroundHex": "#202b28",
+      "ratio": 8.2251,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail-text",
+      "background": "receipt",
+      "foregroundHex": "#f3b3a8",
+      "backgroundHex": "#2c2935",
+      "ratio": 8.0129,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail-text",
+      "background": "manila",
+      "foregroundHex": "#f3b3a8",
+      "backgroundHex": "#383039",
+      "ratio": 7.1663,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait-text",
+      "background": "ground",
+      "foregroundHex": "#efd397",
+      "backgroundHex": "#14131b",
+      "ratio": 12.6763,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait-text",
+      "background": "ground-2",
+      "foregroundHex": "#efd397",
+      "backgroundHex": "#1e1c27",
+      "ratio": 11.5422,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait-text",
+      "background": "paper",
+      "foregroundHex": "#efd397",
+      "backgroundHex": "#24222e",
+      "ratio": 10.7459,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait-text",
+      "background": "sheet",
+      "foregroundHex": "#efd397",
+      "backgroundHex": "#202b28",
+      "ratio": 10.0408,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait-text",
+      "background": "receipt",
+      "foregroundHex": "#efd397",
+      "backgroundHex": "#2c2935",
+      "ratio": 9.7818,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait-text",
+      "background": "manila",
+      "foregroundHex": "#efd397",
+      "backgroundHex": "#383039",
+      "ratio": 8.7482,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi-ink",
+      "background": "syahi",
+      "foregroundHex": "#211632",
+      "backgroundHex": "#b09af8",
+      "ratio": 7.2002,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass-ink",
+      "background": "pass",
+      "foregroundHex": "#082a19",
+      "backgroundHex": "#8dd0ac",
+      "ratio": 8.6685,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail-ink",
+      "background": "fail",
+      "foregroundHex": "#2a0603",
+      "backgroundHex": "#efa394",
+      "ratio": 9.1815,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait-ink",
+      "background": "wait",
+      "foregroundHex": "#30200a",
+      "backgroundHex": "#e9c480",
+      "ratio": 9.4806,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "tape-ink",
+      "background": "tape",
+      "foregroundHex": "#2a0603",
+      "backgroundHex": "#de7a6d",
+      "ratio": 6.3159,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "brass-ink",
+      "background": "brass",
+      "foregroundHex": "#231800",
+      "backgroundHex": "#dcc07e",
+      "ratio": 9.8861,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "legal-ink",
+      "background": "legal",
+      "foregroundHex": "#e4dee8",
+      "backgroundHex": "#36313e",
+      "ratio": 9.5528,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "marker",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#55440e",
+      "ratio": 8.2576,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "slot-a",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#34294f",
+      "ratio": 11.6283,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "slot-b",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#243b4a",
+      "ratio": 10.1848,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "slot-c",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#493e28",
+      "ratio": 9.15,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "slot-d",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#482b3c",
+      "ratio": 10.8681,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink",
+      "background": "syahi-soft",
+      "foregroundHex": "#f5efe2",
+      "backgroundHex": "#34294f",
+      "ratio": 11.6283,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass-text",
+      "background": "pass-soft",
+      "foregroundHex": "#a0dfbc",
+      "backgroundHex": "#20392f",
+      "ratio": 8.1625,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-2",
+      "background": "pass-soft",
+      "foregroundHex": "#c9c1ba",
+      "backgroundHex": "#20392f",
+      "ratio": 7.0039,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail-text",
+      "background": "fail-soft",
+      "foregroundHex": "#f3b3a8",
+      "backgroundHex": "#462725",
+      "ratio": 7.4964,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-2",
+      "background": "fail-soft",
+      "foregroundHex": "#c9c1ba",
+      "backgroundHex": "#462725",
+      "ratio": 7.494,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait-text",
+      "background": "wait-soft",
+      "foregroundHex": "#efd397",
+      "backgroundHex": "#3b311f",
+      "ratio": 8.7745,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-2",
+      "background": "wait-soft",
+      "foregroundHex": "#c9c1ba",
+      "backgroundHex": "#3b311f",
+      "ratio": 7.1854,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi-text",
+      "background": "syahi-soft",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#34294f",
+      "ratio": 7.0804,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-2",
+      "background": "syahi-soft",
+      "foregroundHex": "#c9c1ba",
+      "backgroundHex": "#34294f",
+      "ratio": 7.4999,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "manila-ink",
+      "background": "manila",
+      "foregroundHex": "#f5e8d5",
+      "backgroundHex": "#383039",
+      "ratio": 10.5369,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "manila-ink",
+      "background": "manila-2",
+      "foregroundHex": "#f5e8d5",
+      "backgroundHex": "#4b3c40",
+      "ratio": 8.6088,
+      "minimum": 4.5
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-3",
+      "background": "ground",
+      "foregroundHex": "#aa9fae",
+      "backgroundHex": "#14131b",
+      "ratio": 7.271,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "ink-3",
+      "background": "paper",
+      "foregroundHex": "#aa9fae",
+      "backgroundHex": "#24222e",
+      "ratio": 6.1638,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "focus",
+      "background": "ground",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#14131b",
+      "ratio": 9.7999,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "line",
+      "background": "ground",
+      "foregroundHex": "#958a9a",
+      "backgroundHex": "#14131b",
+      "ratio": 5.6027,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "focus",
+      "background": "ground-2",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#1e1c27",
+      "ratio": 8.9232,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "line",
+      "background": "ground-2",
+      "foregroundHex": "#958a9a",
+      "backgroundHex": "#1e1c27",
+      "ratio": 5.1015,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "focus",
+      "background": "paper",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#24222e",
+      "ratio": 8.3075,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "line",
+      "background": "paper",
+      "foregroundHex": "#958a9a",
+      "backgroundHex": "#24222e",
+      "ratio": 4.7495,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "focus",
+      "background": "sheet",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#202b28",
+      "ratio": 7.7624,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "line",
+      "background": "sheet",
+      "foregroundHex": "#958a9a",
+      "backgroundHex": "#202b28",
+      "ratio": 4.4379,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "focus",
+      "background": "receipt",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#2c2935",
+      "ratio": 7.5622,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "line",
+      "background": "receipt",
+      "foregroundHex": "#958a9a",
+      "backgroundHex": "#2c2935",
+      "ratio": 4.3234,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "focus",
+      "background": "manila",
+      "foregroundHex": "#c4b2ff",
+      "backgroundHex": "#383039",
+      "ratio": 6.7632,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "line",
+      "background": "manila",
+      "foregroundHex": "#958a9a",
+      "backgroundHex": "#383039",
+      "ratio": 3.8666,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi",
+      "background": "paper",
+      "foregroundHex": "#b09af8",
+      "backgroundHex": "#24222e",
+      "ratio": 6.5688,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass",
+      "background": "paper",
+      "foregroundHex": "#8dd0ac",
+      "backgroundHex": "#24222e",
+      "ratio": 8.7477,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail",
+      "background": "paper",
+      "foregroundHex": "#efa394",
+      "backgroundHex": "#24222e",
+      "ratio": 7.6951,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait",
+      "background": "paper",
+      "foregroundHex": "#e9c480",
+      "backgroundHex": "#24222e",
+      "ratio": 9.434,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "tape",
+      "background": "paper",
+      "foregroundHex": "#de7a6d",
+      "backgroundHex": "#24222e",
+      "ratio": 5.2934,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi",
+      "background": "manila",
+      "foregroundHex": "#b09af8",
+      "backgroundHex": "#383039",
+      "ratio": 5.3477,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass",
+      "background": "manila",
+      "foregroundHex": "#8dd0ac",
+      "backgroundHex": "#383039",
+      "ratio": 7.1215,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail",
+      "background": "manila",
+      "foregroundHex": "#efa394",
+      "backgroundHex": "#383039",
+      "ratio": 6.2646,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait",
+      "background": "manila",
+      "foregroundHex": "#e9c480",
+      "backgroundHex": "#383039",
+      "ratio": 7.6802,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "tape",
+      "background": "manila",
+      "foregroundHex": "#de7a6d",
+      "backgroundHex": "#383039",
+      "ratio": 4.3094,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi",
+      "background": "receipt",
+      "foregroundHex": "#b09af8",
+      "backgroundHex": "#2c2935",
+      "ratio": 5.9794,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass",
+      "background": "receipt",
+      "foregroundHex": "#8dd0ac",
+      "backgroundHex": "#2c2935",
+      "ratio": 7.9629,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail",
+      "background": "receipt",
+      "foregroundHex": "#efa394",
+      "backgroundHex": "#2c2935",
+      "ratio": 7.0047,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait",
+      "background": "receipt",
+      "foregroundHex": "#e9c480",
+      "backgroundHex": "#2c2935",
+      "ratio": 8.5875,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "tape",
+      "background": "receipt",
+      "foregroundHex": "#de7a6d",
+      "backgroundHex": "#2c2935",
+      "ratio": 4.8185,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "syahi",
+      "background": "sheet",
+      "foregroundHex": "#b09af8",
+      "backgroundHex": "#202b28",
+      "ratio": 6.1378,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "pass",
+      "background": "sheet",
+      "foregroundHex": "#8dd0ac",
+      "backgroundHex": "#202b28",
+      "ratio": 8.1737,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "fail",
+      "background": "sheet",
+      "foregroundHex": "#efa394",
+      "backgroundHex": "#202b28",
+      "ratio": 7.1902,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "wait",
+      "background": "sheet",
+      "foregroundHex": "#e9c480",
+      "backgroundHex": "#202b28",
+      "ratio": 8.8149,
+      "minimum": 3
+    },
+    {
+      "theme": "dark",
+      "foreground": "tape",
+      "background": "sheet",
+      "foregroundHex": "#de7a6d",
+      "backgroundHex": "#202b28",
+      "ratio": 4.9461,
+      "minimum": 3
+    }
+  ]
+}

@@ -15,7 +15,7 @@
  * Nothing is written to a profile: two people share one device (ENGINE §12).
  */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { ExternalLink, RotateCcw, X } from 'lucide-react';
+import { ExternalLink, RotateCcw } from 'lucide-react';
 import { useJuice } from '@/components/fx';
 import { passAndPlayView, reducePassAndPlay, startPassAndPlay } from '../../../p2p/pass-and-play.mjs';
 import { useHoldToasts, useQuietRound } from '../../budget';
@@ -24,7 +24,8 @@ import { href, navigate, type ScreenProps } from '../../router';
 import { useChrome, useScreenTitle } from '../../shell/chrome';
 import { sceneCapability } from '../../three/scene-host';
 import { Tarazu } from '../../three/tarazu';
-import { Button, IconButton } from '../../ui/button';
+import { Button } from '../../ui/button';
+import { BrandName } from '../../ui/brand';
 import { LegalStatus } from '../../ui/chip';
 import { cx } from '../../ui/cx';
 import { useLang } from '../../ui/lang';
@@ -36,7 +37,7 @@ import { ErrorState, Page, ScreenHeader } from '../../ui/page';
 import { Receipt } from '../../ui/receipt';
 import { Stamp } from '../../ui/stamp';
 import { Kicker } from '../../ui/text';
-import { ConfirmLeave } from '../room/arena';
+import { MatchSettings, MatchSettingsButton } from '../room/match-settings';
 import { PickMark } from '../room/receipt';
 import {
   FORMATS,
@@ -286,12 +287,13 @@ function PassGame({
 
   // The hand-over cover takes focus, so the next player's Enter reveals and nothing else is focused.
   useEffect(() => {
-    if (view.phase === 'pass') cover.current?.focus();
+    if (view.phase === 'pass' && !document.querySelector('dialog[open]')) cover.current?.focus();
   }, [view.phase, view.turn, view.roundIndex]);
 
   const head = (
     <header className="h-roundhead">
       <div className="h-roundhead__ids">
+        <BrandName className="h-roundhead__brand" />
         <p className="h-roundhead__fmt">{isHi ? <span lang="hi">{formatNameHi(view.mode)}</span> : f.name}</p>
         <p className="h-roundhead__round">
           {view.phase === 'complete' ? t('Final', 'अंतिम') : roundOf(view.mode, view.roundIndex, isHi)} ·{' '}
@@ -315,14 +317,7 @@ function PassGame({
           {view.names[0]} · {view.names[1]}
         </span>
       </p>
-      {view.phase !== 'complete' ? (
-        <IconButton
-          label={t('Stop the game', 'खेल रोकें')}
-          icon={<X size={22} strokeWidth={2.6} />}
-          onClick={() => setAsking(true)}
-          className="h-roundhead__leave"
-        />
-      ) : null}
+      <MatchSettingsButton onClick={() => setAsking(true)} />
     </header>
   );
 
@@ -371,6 +366,8 @@ function PassGame({
             juice.haptic('light');
             act({ type: 'answer', choice: i, answerTimeMs });
           }}
+          disabled={asking}
+          keys={!asking}
           label={t('Answers', 'जवाब')}
         />
         <p className="h-pass__muted">
@@ -389,13 +386,13 @@ function PassGame({
       {head}
       {body}
       {asking ? (
-        <ConfirmLeave
-          body={t('The game stops here. Nothing was recorded.', 'खेल यहीं रुकेगा। कुछ दर्ज नहीं हुआ।')}
-          onStay={() => setAsking(false)}
-          onLeave={() => {
-            setAsking(false);
-            navigate(href.duel({ vs: 'pass', mode: view.mode }));
-          }}
+        <MatchSettings
+          pass
+          running={view.phase === 'answer'}
+          settled={view.phase === 'complete'}
+          resultReady={view.phase === 'reveal' || view.phase === 'complete'}
+          onClose={() => setAsking(false)}
+          onQuit={() => navigate(href.duel({ vs: 'pass', mode: view.mode }))}
         />
       ) : null}
     </div>

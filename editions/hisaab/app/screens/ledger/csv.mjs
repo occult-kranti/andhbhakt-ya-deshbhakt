@@ -13,8 +13,17 @@
  */
 import { STATES } from '../../../bank/schema.mjs';
 
-/** The edition's public address (ui/certificate.tsx CERT_SITE, with the scheme). */
-export const SITE = 'https://occult-kranti.github.io/fact-duel/hisaab/';
+/** Default for checked-in Pages downloads; standalone builds may generate copies for their host. */
+export const DEFAULT_SITE = 'https://occult-kranti.github.io/fact-duel/hisaab/';
+export function publicationUrl(value = DEFAULT_SITE) {
+  const url = new URL(value);
+  if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash) {
+    throw new Error('HISAAB_PUBLIC_URL must be an HTTPS site URL without credentials, query, or fragment.');
+  }
+  url.pathname = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
+  return url.href;
+}
+export const SITE = publicationUrl(typeof process !== 'undefined' ? process.env.HISAAB_PUBLIC_URL : undefined);
 
 /** The ledger screen's address. */
 export const LEDGER_URL = `${SITE}#/money/ledger`;

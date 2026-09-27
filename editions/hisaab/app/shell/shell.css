@@ -38,9 +38,6 @@
   text-decoration: none;
   white-space: nowrap;
 }
-.h-wordmark span {
-  background: linear-gradient(var(--h-syahi-soft), var(--h-syahi-soft)) 0 82% / 100% 0.34em no-repeat;
-}
 .h-levelchip {
   display: inline-flex;
   align-items: center;
@@ -256,17 +253,18 @@
 }
 
 /* Daily Edition: light printed chrome, the original Hindi mark retained. */
-.h-top { background: var(--h-paper); border-bottom: 3px double var(--h-line); }
-.h-wordmark { gap: 8px; }
+.h-top { background: var(--h-paper); border-bottom: 3px double var(--h-rule); }
+.h-wordmark { flex-direction: column; justify-content: center; align-items: flex-start; gap: 0; }
 .h-wordmark > span { background: none; }
-.h-wordmark__en { display: none; font-family: var(--h-font-editorial); font-size: 17px; letter-spacing: -.04em; }
+.h-wordmark__en { display: block; font-family: var(--h-font-editorial); font-size: 10px; line-height: 1; letter-spacing: .035em; }
 .h-top__edition { display: none; font-family: var(--h-font-mono); font-size: var(--h-fs-2xs); color: var(--h-ink-2); }
 .h-levelchip__lv { border-radius: var(--h-r-xs); border-width: 1px; background: var(--h-ground); color: var(--h-ink); }
 .h-nav__list { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 .h-nav__item[aria-current='page'] { background: var(--h-syahi-soft); }
 .h-nav__item svg { width: 21px; height: 21px; stroke-width: 1.8; }
 @media (min-width: 600px) {
-  .h-wordmark__en { display: inline; padding-left: var(--h-s-3); border-left: 1px solid var(--h-hair); }
+  .h-wordmark { flex-direction: row; align-items: center; gap: 8px; }
+  .h-wordmark__en { display: inline; font-size: 17px; letter-spacing: -.04em; padding-left: var(--h-s-3); border-left: 1px solid var(--h-hair); }
 }
 @media (min-width: 900px) {
   .h-top { padding-inline: var(--h-s-6); }

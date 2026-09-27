@@ -13,6 +13,7 @@ import { standing } from '../../edition';
 import { labelDisplay } from '../data';
 import { href } from '../router';
 import { IconButton } from '../ui/button';
+import { BrandName } from '../ui/brand';
 import { useLang } from '../ui/lang';
 import { useAppPlayer } from './player';
 
@@ -42,7 +43,7 @@ export function TopBar({ inert }: { inert?: boolean }) {
         <span lang="hi" aria-hidden="true">
           हिसाब दो
         </span>
-        <span className="h-wordmark__en" lang="en" aria-hidden="true">HISAAB DO</span>
+        <BrandName className="h-wordmark__en" />
       </a>
       <span className="h-top__edition">{t('THE PEOPLE’S ACCOUNT', 'जनता का हिसाब')}</span>
       <span className="h-top__spacer" />

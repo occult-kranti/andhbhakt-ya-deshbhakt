@@ -118,27 +118,36 @@ receipts and status lines are plain and exact. **Nothing funny happens inside a 
 - **Legal status** uses **one neutral pair** (`--h-legal`) for every status — ALLEGED is not red, ACQUITTED
   is not green. Colour must never imply guilt (charter §2.2).
 
-### 3.2 Palette (light "Daftar by day" / dark "File room at night")
+### 3.2 Palette (Day edition / Night edition)
 
-| token | light | dark | use |
+| token | day | night | use |
 |---|---|---|---|
-| `--h-ground` | `#e8ece1` | `#121019` | page |
-| `--h-ground-2` | `#dce2d2` | `#1c1926` | wells, option tab, skeleton |
-| `--h-paper` | `#fbfbf6` | `#221e2d` | cards, options, sheets |
-| `--h-sheet` | `#e2efd8` | `#18251e` | noting sheet (explanations, rules) |
-| `--h-receipt` | `#ffffff` | `#2a2635` | receipts; certificate (always light when exported) |
-| `--h-manila` / `-2` / `-ink` | `#e6c78c` / `#d4ac62` / `#1f1608` | `#3d3223` / `#5c4a2c` / `#f6ebd3` | files |
-| `--h-ink` / `-2` / `-3` | `#17131f` / `#45414f` / `#75717f` | `#f3f0e8` / `#bcb7c8` / `#8c8799` | text; `-3` is UI-only |
-| `--h-line` | `#17131f` | `#8e88a0` | 2px object outlines |
-| `--h-syahi` / `-text` / `-soft` / `-ink` | `#4a22d4` / `#4a22d4` / `#e4ddff` / `#fff` | `#9e86ff` / `#b3a1ff` / `#2b2352` / `#120c2b` | the hot accent |
-| `--h-tape` | `#cf2a1f` | `#ff5a4e` | red tape |
-| `--h-marker` | `#ffe45c` | `#5e4d00` | highlighter behind ink text |
-| `--h-brass` / `-text` | `#d4a12a` / `#7a5700` | `#f2c14e` / `#f5cd6a` | coins, XP |
-| `--h-pass` | `#0b7a43` | `#3ed68e` | APPROVED / correct / won |
-| `--h-fail` | `#c62a1f` | `#ff6a5c` | OBJECTION / wrong / lost |
-| `--h-wait` | `#9a5800` | `#ffb547` | PENDING / timeout (ochre: a file gathering dust) |
-| `--h-legal` / `-ink` | `#e4e2ea` / `#2e2a38` | `#2e2a3a` / `#e2deea` | every legal-status chip |
-| `--h-slot-a…d` | violet / sky / manila / rose tints | deep tints | answer tab tint (third twin) |
+| `--h-ground` | `#f2eddf` | `#14131b` | page |
+| `--h-ground-2` | `#e6decd` | `#1e1c27` | wells, option tab, skeleton |
+| `--h-paper` | `#fffaf0` | `#24222e` | cards and options |
+| `--h-sheet` | `#e9eddf` | `#202b28` | explanations and rules |
+| `--h-receipt` | `#fffdf7` | `#2c2935` | receipts; certificate remains light |
+| `--h-manila` | `#ede0bd` | `#383039` | file covers |
+| `--h-manila-2` | `#dac79f` | `#4b3c40` | file tab and spine |
+| `--h-manila-ink` | `#1f1608` | `#f5e8d5` | text on files |
+| `--h-ink` | `#252219` | `#f5efe2` | primary text |
+| `--h-ink-2` | `#565044` | `#c9c1ba` | secondary text |
+| `--h-ink-3` | `#75717f` | `#aa9fae` | UI-only tertiary glyphs |
+| `--h-line` | `#39352c` | `#958a9a` | control outlines; 3:1 minimum |
+| `--h-rule` | `var(--h-line)` | `#645b6c` | decorative editorial rules |
+| `--h-syahi` | `#4a22d4` | `#b09af8` | primary action, selection, focus |
+| `--h-syahi-text` | `#4a22d4` | `#c4b2ff` | links and branded violet full stop |
+| `--h-syahi-soft` | `#e4ddff` | `#34294f` | selection tint |
+| `--h-syahi-ink` | `#ffffff` | `#211632` | text on primary fill |
+| `--h-tape` | `#cf2a1f` | `#de7a6d` | red tape prop |
+| `--h-brass` | `#d4a12a` | `#dcc07e` | XP prop |
+| `--h-brass-text` | `#7a5700` | `#e0c58e` | XP numbers |
+| `--h-pass` | `#0b7a43` | `#8dd0ac` | correct verdict with word/icon |
+| `--h-fail` | `#c62a1f` | `#efa394` | incorrect verdict with word/icon |
+| `--h-wait` | `#9a5800` | `#e9c480` | unanswered verdict with word/icon |
+| `--h-legal` | `#e4e2ea` | `#36313e` | all legal-status chips; neutral |
+
+Complete source: `editions/hisaab/theme/tokens.css`. The OS dark fallback mirrors Night edition. The light palette approved by the user is unchanged by the Night edition revision.
 
 **Why violet:** saffron, green, the tricolour, blue-yellow, BSP blue, red-green, CPI(M) red, BRS pink,
 DMK red-black and TMC green-blue are party codes; violet is none of them, and the stamp pad and the
@@ -149,32 +158,15 @@ Every colour has a non-colour twin: options = letter + shape + tint; verdicts = 
 pattern (wrong-chosen gets 135° hatching); tiles = fill + glyph; stamps are words.
 
 ### 3.4 Contrast report (WCAG 2.x, computed)
-A scratch node script parses `tokens.css`, applies the WCAG relative-luminance formula and fails below
-the floor: **66 pairs × 2 themes, 0 failures.** Floors: text 4.5:1; UI boundaries/focus 3:1; stamp words
-3:1 (large-text floor — stamps are always ≥ 20px bold).
 
-| foreground | on | floor | light (min–max) | dark (min–max) |
-|---|---|---|---|---|
-| `--h-ink` | ground, ground-2, paper, sheet, manila, receipt, marker, slot-a…d | text 4.5 | 11.23–18.27 | 7.27–16.56 |
-| `--h-ink-2` | ground, ground-2, paper, sheet, manila, receipt | text 4.5 | 6.08–9.90 | 6.40–9.65 |
-| `--h-ink-3` | paper, ground | UI 3.0 | 3.96–4.57 | 4.68–5.42 |
-| `--h-manila-ink` | manila, manila-2 | text 4.5 | 8.39–10.98 | 7.18–10.57 |
-| `--h-syahi-text` | paper, ground, manila, sheet, syahi-soft | text 4.5 | 5.23–8.19 | 5.63–8.49 |
-| `--h-syahi-ink` | syahi (button label) | text 4.5 | 8.50 | 6.56 |
-| `--h-syahi` | ground, paper, manila | UI 3.0 | 5.23–8.19 | 4.35–6.56 |
-| `--h-pass-text` / `-ink` | paper, pass-soft / pass | text 4.5 | 5.44–6.37 / 5.41 | 7.77–9.80 / 9.18 |
-| `--h-fail-text` / `-ink` | paper, fail-soft / fail | text 4.5 | 5.75–6.93 / 5.60 | 6.76–7.12 / 6.63 |
-| `--h-wait-text` / `-ink` | paper, wait-soft / wait | text 4.5 | 6.17–6.96 / 5.57 | 8.87–10.42 / 9.59 |
-| `--h-legal-ink` | legal | text 4.5 | 10.88 | 10.52 |
-| `--h-brass-text` / `-ink` | paper, ground / brass | text 4.5 | 5.49–6.34 / 7.61 | 10.70–12.41 / 10.41 |
-| `--h-tape-ink` | tape | text 4.5 | 5.24 | 6.06 |
-| `--h-tape` | manila, paper | UI 3.0 | 3.22–5.05 | 4.06–5.28 |
-| `--h-line` | ground, paper, manila, receipt, sheet | UI 3.0 | 11.23–18.27 | 3.68–5.55 |
-| `--h-focus` | ground, paper, manila | UI 3.0 | 5.23–8.19 | 5.63–8.49 |
-| `--h-pass` / `--h-fail` / `--h-wait` | paper, manila, receipt, sheet (stamps) | large 3.0 | 3.33–5.60 | 4.45–9.25 |
+The current Day/Night edition computation covers **99 pairs per theme / 198 total**, with **zero failures**. Normal readable text uses a 4.5:1 floor; tertiary UI-only glyphs, meaningful control/focus boundaries and large verdict stamps use 3:1. Decorative `--h-rule` and `--h-hair` are excluded and must never be the only control boundary.
 
-Consequences: `--h-ink-3` never carries words a player must read; stamps on **manila** are ≥ 24px bold
-(light-theme stamps on manila measure 3.3–3.4:1).
+| Check | Day minimum | Night minimum |
+|---|---:|---:|
+| All 65 readable-text pairs per theme | 4.9187:1 | 6.3159:1 |
+| Existing light color tokens vs preceding release | unchanged | n/a |
+
+The text set includes seven foreground roles on six reading surfaces, filled semantic labels, marker/answer-slot text, soft status/selection text and both file-cover surfaces. UI checks include secondary outlines, focus and large verdict stamps. See [the complete measured pair report](review/brand-contrast.json), including foreground/background hex values, measured ratios and thresholds. Every color still has a word, icon or shape twin. Stamps on manila remain at least 24px bold.
 
 ---
 
@@ -656,7 +648,7 @@ r6:  .   KL  TN  [ IN · CENTRE  ]
 
 ### 11.16 Settings (sheet on phone, panel on desktop)
 - **Primary:** Done (everything applies instantly).
-- **Controls:** Language (English / हिन्दी) · Theme (Office by day / File room at night / Match phone) · Sound
+- **Controls:** Language (English / हिन्दी) · Theme (Day edition / Night edition / Match phone) · Sound
   + volume · Haptics · Effects (Full / Reduced / Off — "Off: no 3D, no confetti") · **Quiet everything** ·
   Name · Data ("Everything is stored on this device"; Export JSON; Delete my progress → confirm "Delete /
   Keep") · static line "We never send notifications." · links: Rules & Sources, Corrections, Report a problem.
@@ -709,3 +701,12 @@ Ground: `#f2eddf`; paper: `#fffaf0`; primary ink: `#252219`; secondary ink: `#56
 The first-run page and home share an original masthead with a local edition date. Home leads with the daily file, then the reader's desk and circles, with all record files, money routes, quests, tijori and duel modes preserved. The six-item navigation adds Circles. Speed XP is disclosed as 30 under 8 seconds, 20 from 8 to under 15 seconds and 10 at 15 seconds or more for a correct answer. The confidence selector is retired for this edition.
 
 The independent color check covers 47 readable pairs per theme. All exceed 4.5:1: minimum light 4.9187, dark 5.4760. See `review/editorial-redesign.md` for the updated pair table, references, review scope and final runtime evidence. Previous §3.4 measurements describe the preceding palette and should not be used for the current ground colors.
+
+
+## 14. Night edition and recurring brand — 27 September 2026
+
+The light palette remains unchanged. Night edition uses ink-black stock (`#14131b`), slate reading paper (`#24222e`), warm text (`#f5efe2`), warmer file covers and a less saturated violet action. Decorative newspaper rules are independent from the contrast-tested control outlines. This is a contextual design choice, not a universal color-psychology claim.
+
+The original nameplate and violet full stop recur in the masthead, compact bilingual header, game settings and publication pages. The favicon is an original H/full-stop print mark. Reuse `BrandName` for new in-app lockups, with a surrounding accessible name when it represents navigation; it is decorative in named headings/dialogs. Do not turn it into another prominent control in a live round. Public About/Privacy/Contact load the exact shared token sheet and a namespace-derived preference bridge, so a selected theme follows the player across those pages. No new font, decorative image or tracking request is added.
+
+See [the six-discussion panel record](review/brand-panel.md) for source-led decisions, corrections and validation evidence. The §13 dark measurements describe the preceding release; §3.4 and the JSON pair report are current.

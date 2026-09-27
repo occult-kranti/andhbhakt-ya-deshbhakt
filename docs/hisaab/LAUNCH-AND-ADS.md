@@ -2,6 +2,8 @@
 
 Release scope: `claude/loving-pasteur-s8xwtf`, separate HISAAB edition. Updated 26 September 2026.
 
+For the independent hosted release, exact service requirements, Supabase status and the browser-data migration boundary, see [STANDALONE-LAUNCH.md](./STANDALONE-LAUNCH.md).
+
 ## Launch the game
 
 The current Pages workflow builds only the edition and replaces `gh-pages/hisaab/`. It leaves the JHK root in place. Keep that workflow and branch: do not merge this work into `main`, add a root `CNAME`, or change the existing repository's Pages domain. A repository Pages domain applies to its site, not only its `hisaab/` subfolder.
